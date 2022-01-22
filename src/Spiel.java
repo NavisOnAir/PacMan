@@ -1,7 +1,6 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.event.*;
 
 public class Spiel extends JFrame implements KeyListener {
 	private int width = 30;
@@ -9,12 +8,34 @@ public class Spiel extends JFrame implements KeyListener {
 	int[] startCords = {1, 10};
 	private int[][] spielfeld = new int[hight][width]; //0 = nothing, 1 = wall, 2 = point, 4 = pacman, 8 = ghost, 16 = power_pill
 	private PacMan pac = new PacMan(startCords);
+	private JTextField inputField = new JTextField();
+	private JButton drawButton = new JButton();
+
 
 	Spiel() {
+		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		setSize(width * 50, hight * 50);
 		setLayout(null);
 		setVisible(true);
 		addKeyListener(this);
+		// get widget container
+		Container cp = getContentPane();
+
+		// edit input field
+		inputField.setBounds(25, 25, 200, 25);
+
+		// edit draw button
+		drawButton.setBounds(250, 25, 100, 25);
+		drawButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                draw();
+            }
+        });
+
+		// edit container and add components
+		cp.setLayout(null);
+		cp.add(inputField);
+		cp.add(drawButton);
 		
 		for (int i = 0; i < hight; i++) {
 			for (int j = 0; j < width; j++) {
@@ -83,6 +104,16 @@ public class Spiel extends JFrame implements KeyListener {
 			}
 			System.out.println();
 		}
+	}
+
+	public void draw() {
+		utils util = new utils();
+		drawButton.setVisible(false);
+		inputField.setVisible(false);
+		String inputString = inputField.getText();
+		
+		this.spielfeld = util.stringTo2DArray(inputString);
+		displayGame();
 	}
 	
 	public static void main(String args[]) {
