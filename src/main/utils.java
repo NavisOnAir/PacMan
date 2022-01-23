@@ -1,3 +1,5 @@
+package main;
+
 public class utils {
     
     public int[][] stringTo2DArray(String input) {

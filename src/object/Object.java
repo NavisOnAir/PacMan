@@ -1,6 +1,9 @@
+package object;
+
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
+
+import main.Game;
 
 public class Object {
     
@@ -8,16 +11,14 @@ public class Object {
     public int speed;
 
     // rotation states
-	final int up = 0;
-	final int right = 1;
-	final int down = 2;
-	final int left = 3;
+	public final int up = 0;
+	public final int right = 1;
+	public final int down = 2;
+	public final int left = 3;
 
 	public int rotation;
 
-    public BufferedImage picStill, picUp, picDown, picLeft, picRight;
-
-    Game game;
+    public Game game;
 
     public Object(Game game) {
         this.game = game;
