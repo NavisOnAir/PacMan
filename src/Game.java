@@ -12,7 +12,7 @@ public class Game extends JPanel implements Runnable{
     final int origTileSize = 16;
     final int scale = 3;
 
-    final int tileSize = origTileSize * scale; // 48
+    public final int tileSize = origTileSize * scale; // 48
     int maxScreenCol;
     int maxScreenRow;
     int screenWidth;
@@ -140,18 +140,6 @@ public class Game extends JPanel implements Runnable{
 
     }
 
-    // drawing methods
-    public void drawTitleMenu(Graphics2D g2) {
-        float fontSize = 40f;
-        g2.setFont(g2.getFont().deriveFont(Font.BOLD, fontSize));
-
-        String text = "Start";
-        int x = getXForCenteredText(text, fontSize);
-        int y = tileSize * 3;
-
-        g2.drawString(text, x, y);
-    }
-
     // get methods
     public int getWidth() {
         return screenWidth;
@@ -159,10 +147,6 @@ public class Game extends JPanel implements Runnable{
 
     public int getHight() {
         return screenHight;
-    }
-
-    public int getXForCenteredText(String text, float size) {
-        return Math.round(getWidth() / 2) - Math.round((text.length() * size) / 2);
     }
     
 }

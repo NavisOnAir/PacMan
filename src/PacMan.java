@@ -1,12 +1,11 @@
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 
 public class PacMan extends Object {
-	// rotation states
-	final int up = 0;
-	final int right = 1;
-	final int down = 2;
-	final int left = 3;
-
-	int rotation;
 
 	boolean vunerability;
 
@@ -14,8 +13,9 @@ public class PacMan extends Object {
 
 	public PacMan(Game game) {
 		super(game);
-		
+
 		setDefaults();
+		getPlayerImage();
 	}
 
 	public void setDefaults() {
@@ -25,8 +25,22 @@ public class PacMan extends Object {
 		rotation = right;
 	}
 
+	public void getPlayerImage() {
+		// load sprites
+		try {
+			picDown = ImageIO.read(getClass().getResourceAsStream("/sprites/pacman/PacMan_open_down.png"));
+			picUp = ImageIO.read(getClass().getResourceAsStream("/sprites/pacman/PacMan_open_up.png"));
+			picRight = ImageIO.read(getClass().getResourceAsStream("/sprites/pacman/PacMan_open_right.png"));
+			picLeft = ImageIO.read(getClass().getResourceAsStream("/sprites/pacman/PacMan_open_left.png"));
+			picStill = ImageIO.read(getClass().getResourceAsStream("/sprites/pacman/PacMan_closed.png"));
+
+		} catch(IOException e) {
+			e.printStackTrace();
+		} 
+	}
+
 	public void move() {
-		switch(this.rotation) {
+		switch(rotation) {
 			case up:
 				this.y -= speed;
 				break;
@@ -43,6 +57,29 @@ public class PacMan extends Object {
 				break;
 		}
 	}
+
+	@Override
+	public void draw(Graphics2D g2) {
+        BufferedImage image = picRight;
+
+		switch(rotation) {
+			case up:
+				image = picUp;
+				break;
+			case right:
+				image = picRight;
+				break;
+			case down:
+				image = picDown;
+				break;
+			case left:
+				image = picLeft;
+				break;
+			default:
+				break;
+		}
+		g2.drawImage(image, x, y, game.tileSize, game.tileSize, null);
+    }
 	
 
 	public int getx() {
