@@ -5,10 +5,11 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import main.Game;
-import main.KeyHandler;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+
+import listener.KeyHandler;
 
 public class PacMan extends Object {
 
