@@ -11,6 +11,11 @@ import object.PacMan;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class Game extends JPanel implements Runnable{
 
@@ -31,26 +36,7 @@ public class Game extends JPanel implements Runnable{
     public final int pauseState = 2;
 
     // create game tile array
-    public int[][] gameTiles = {{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-    {1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 3, 3, 3, 3, 3, 3, 1, 3, 3, 3, 3, 3, 3, 3, 3, 1},
-    {1, 3, 1, 1, 1, 1, 3, 1, 3, 1, 1, 1, 3, 1, 3, 1, 1, 1, 1, 3, 1, 3, 1, 1, 1, 1, 1, 1, 3, 1},
-    {1, 3, 1, 1, 3, 3, 3, 1, 3, 1, 1, 1, 3, 1, 3, 1, 1, 1, 1, 3, 3, 3, 3, 3, 1, 0, 0, 1, 3, 1},
-    {1, 3, 1, 1, 3, 1, 1, 1, 3, 3, 3, 3, 3, 1, 3, 1, 1, 1, 1, 3, 1, 1, 1, 3, 1, 0, 0, 1, 3, 1},
-    {1, 3, 1, 3, 3, 3, 3, 3, 3, 1, 1, 3, 1, 1, 3, 3, 3, 3, 1, 3, 1, 1, 1, 3, 1, 5, 1, 1, 3, 1},
-    {1, 3, 1, 3, 1, 3, 1, 1, 1, 1, 1, 3, 3, 3, 3, 1, 1, 3, 3, 3, 1, 1, 1, 3, 3, 3, 3, 1, 3, 1},
-    {1, 3, 3, 3, 1, 3, 3, 3, 3, 3, 3, 3, 1, 1, 3, 1, 1, 1, 3, 1, 1, 1, 1, 3, 1, 1, 3, 1, 3, 1},
-    {1, 3, 1, 1, 1, 3, 1, 1, 1, 1, 3, 1, 1, 3, 3, 1, 1, 1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1},
-    {1, 3, 3, 3, 3, 3, 1, 1, 1, 1, 3, 3, 3, 3, 1, 1, 1, 1, 1, 3, 1, 1, 1, 1, 3, 1, 1, 1, 1, 1},
-    {1, 1, 1, 1, 1, 3, 1, 1, 1, 1, 3, 1, 1, 1, 1, 1, 3, 3, 3, 3, 1, 1, 1, 1, 3, 3, 3, 3, 3, 1},
-    {1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 3, 3, 1, 1, 3, 1, 1, 1, 1, 3, 1, 1, 1, 3, 1},
-    {1, 3, 1, 3, 1, 1, 3, 1, 1, 1, 1, 3, 1, 1, 1, 3, 1, 1, 3, 3, 3, 3, 3, 3, 3, 1, 3, 3, 3, 1},
-    {1, 3, 1, 3, 3, 3, 3, 1, 1, 1, 3, 3, 3, 1, 1, 3, 3, 3, 3, 1, 1, 1, 1, 1, 3, 1, 3, 1, 3, 1},
-    {1, 3, 1, 1, 5, 1, 3, 1, 1, 1, 3, 1, 3, 3, 3, 3, 1, 1, 3, 1, 1, 3, 3, 3, 3, 3, 3, 1, 3, 1},
-    {1, 3, 1, 0, 0, 1, 3, 1, 1, 1, 3, 1, 1, 1, 1, 3, 1, 3, 3, 3, 3, 3, 1, 1, 1, 3, 1, 1, 3, 1},
-    {1, 3, 1, 0, 0, 1, 3, 3, 3, 3, 3, 1, 1, 1, 1, 3, 1, 3, 1, 1, 1, 3, 1, 3, 3, 3, 1, 1, 3, 1},
-    {1, 3, 1, 1, 1, 1, 1, 1, 3, 1, 3, 1, 1, 1, 1, 3, 1, 3, 1, 1, 1, 3, 1, 3, 1, 1, 1, 1, 3, 1},
-    {1, 3, 3, 3, 3, 3, 3, 3, 3, 1, 3, 3, 3, 3, 3, 3, 1, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1},
-    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
+    public int[][] gameTiles;
 
     // tile decoding
     public int tileEmpty = 0;
@@ -68,12 +54,20 @@ public class Game extends JPanel implements Runnable{
 
     // instance creation
     public Ui ui = new Ui(this);
+    LevelData lvlDat = new LevelData();
+    Utils utils = new Utils();
 
+    // event listener
     KeyHandler keyHand = new KeyHandler();
     MouseHandler mouseHand = new MouseHandler(this);
 
+    // game thread
     Thread gameThread;
+
+    // moving objects
     PacMan pacMan = new PacMan(this, keyHand);
+
+
 
     public Game(int col, int row) {
         maxScreenCol = col; // 30
@@ -88,6 +82,31 @@ public class Game extends JPanel implements Runnable{
         this.addMouseListener(mouseHand);
 
         this.setFocusable(true);
+
+        // load first level
+        String filePath = "levels/level1.lvl";
+        try {
+            BufferedReader f = new BufferedReader(
+                new FileReader(filePath)); // lvl stands for level marking its a level file
+            String r = f.readLine();
+            f.close();
+            this.gameTiles = utils.stringTo2DArray(r);
+
+        } catch(IOException e) {
+            try {
+                String levelData = utils.getStringFrom2DArray(lvlDat.levelOne);
+            BufferedWriter h = new BufferedWriter(
+                new FileWriter(filePath));
+            h.write(levelData);
+
+            h.close();
+            this.gameTiles = lvlDat.levelOne;
+
+            } catch(IOException g) {
+                g.printStackTrace();
+            }
+            
+        }
 
         
     }

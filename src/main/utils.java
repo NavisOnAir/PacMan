@@ -4,10 +4,8 @@ import java.awt.geom.Rectangle2D;
 
 public class Utils {
     
+    // transforms a string that was converted in getStringFrom2DArray pattern to int[][]
     public int[][] stringTo2DArray(String input) {
-        /*{{},
-        {},
-        {}}*/
         // split input into an string array containing arrays as String so they had to be converted
         String[] stringAr = input.split("},");
         String[] countAr = stringAr[0].split(", ");
@@ -23,6 +21,23 @@ public class Utils {
         }
 
         return outputIntAr;
+    }
+
+    // transforms a int[][] into a String
+    public String getStringFrom2DArray(int[][] twoDArray) {
+        String output = "{";
+        for (int i = 0; i < twoDArray.length; i++) {
+            output += "{";
+            for (int j = 0; j < twoDArray[0].length - 1; j++) {
+                output += Integer.toString(twoDArray[i][j]) + ", ";
+            }
+            output += Integer.toString(twoDArray[i][twoDArray[i].length - 1]) + "}";
+            if (i != twoDArray.length - 1) {
+                output += ",";
+            }
+        }
+        output += "}";
+        return output;
     }
 
     // return true if x and y are in rectangle
