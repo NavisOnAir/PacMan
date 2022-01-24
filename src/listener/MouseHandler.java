@@ -28,6 +28,17 @@ public class MouseHandler implements MouseListener {
                 game.gameState = game.ingameState;
             }
         }
+        if (game.gameState == game.ingameState) {
+            if (utils.checkRectangle(e.getX(), e.getY(), ui.defaultFont.deriveFont(30f).getStringBounds("Stop", frc), ui.stopButtonX, ui.stopButtonY)) {
+                game.gameState = game.pauseState;
+            }
+        }
+
+        if (game.gameState == game.pauseState) {
+            if (utils.checkRectangle(e.getX(), e.getY(), ui.defaultFont.deriveFont(50f).getStringBounds("Start", frc), ui.startButtonX, ui.startButtonY)) {
+                game.gameState = game.ingameState;
+            }
+        }
           
     }  
     @Override

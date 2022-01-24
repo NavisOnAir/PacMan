@@ -180,6 +180,13 @@ public class Game extends JPanel implements Runnable{
             ui.drawTitle(g2);
         }
 
+        // pase screen
+        if (gameState == pauseState) {
+            ui.drawIngame(g2);
+            pacMan.draw(g2);
+            ui.drawPause(g2);
+        }
+
 
         g2.dispose();
 
@@ -187,11 +194,11 @@ public class Game extends JPanel implements Runnable{
 
     // get methods
     public int getWidth() {
-        return screenWidth;
+        return screenWidth + 6; // adjusting width to fit better
     }
 
     public int getHight() {
-        return screenHight;
+        return screenHight + 29; // adjusting hight to fit better
     }
 
     public int getTile(int width, int hight) {

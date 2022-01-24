@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.font.FontRenderContext;
 import java.awt.Graphics2D;
-import javax.swing.JButton;
 
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
@@ -13,12 +12,16 @@ import javax.imageio.ImageIO;
 
 public class Ui {
     
+    // instances
     Game game;
-    JButton startButton = new JButton();
-    JButton stopButton = new JButton();
 
+    // start button cords
     public int startButtonX;
     public int startButtonY;
+
+    // stop button cords
+    public int stopButtonX;
+    public int stopButtonY;
 
     // tile images
     public BufferedImage sprEmpty, sprWall, sprCoin, sprDoor;
@@ -69,6 +72,19 @@ public class Ui {
 
         g2.drawString("FPS:" + Integer.toString(game.currentFPS), 10, 55);
 
+        // stop button
+        String str = "Stop";
+        float fontSize = 30f; // changing this needs to change it in mousehandler too
+        int sX = getXForCenteredText(defaultFont.deriveFont(fontSize), str);
+        int sY = game.getHight();
+
+        this.stopButtonX = sX;
+        this.stopButtonY = sY;
+
+        g2.setColor(Color.white);
+        g2.setFont(defaultFont.deriveFont(fontSize));
+        g2.drawString(str, sX, sY);
+
 
     }
 
@@ -77,18 +93,33 @@ public class Ui {
 
         // Start text
         String str = "Start";
-        int sX = getXForCenteredText(defaultFont.deriveFont(40f), str);
+        float fontSize = 40f; // changing this needs to change it in mousehandler too
+        int sX = getXForCenteredText(defaultFont.deriveFont(fontSize), str);
         int sY = Math.round(game.screenHight - game.screenHight * 0.7f);
 
         this.startButtonX = sX;
         this.startButtonY = sY;
 
         g2.setColor(Color.white);
-        g2.setFont(defaultFont.deriveFont(40f));
+        g2.setFont(defaultFont.deriveFont(fontSize));
         g2.drawString(str, sX, sY);
-        this.startButton.setVisible(true);
-        this.stopButton.setVisible(true);
 
+    }
+
+    // pause screen
+    public void drawPause(Graphics2D g2) {
+        // start button
+        String str = "Start";
+        float fontSize = 50f; // changing this needs to change it in mousehandler too
+        int sX = getXForCenteredText(defaultFont.deriveFont(fontSize), str);
+        int sY = Math.round(game.screenHight - game.screenHight * 0.3f);
+
+        this.startButtonX = sX;
+        this.startButtonY = sY;
+
+        g2.setColor(Color.white);
+        g2.setFont(defaultFont.deriveFont(fontSize));
+        g2.drawString(str, sX, sY);
     }
 
     public int getXForCenteredText(Font font, String str) {

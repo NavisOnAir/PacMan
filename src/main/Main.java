@@ -17,7 +17,7 @@ public class Main {
         game.setupGame();
 
         final int width = game.getWidth();
-        final int hight = game.getHight();
+        final int hight = game.getHight() + 75; // +75 Hotbar
 
         // add components to window
         window.add(game);
