@@ -20,6 +20,7 @@ public class Object {
 	public final int left = 3;
 
 	public int rotation;
+    public int nextRotation;
 
     public Game game;
 

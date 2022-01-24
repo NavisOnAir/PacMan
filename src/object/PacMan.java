@@ -27,9 +27,9 @@ public class PacMan extends Object {
 	}
 
 	public void setDefaults() {
-		x = 100;
-		y = 100;
-		speed = 3; // 3 * 60 per second
+		x = 48;
+		y = 48;
+		speed = 2; // 2 * 60 per second
 		rotation = right;
 	}
 
@@ -48,6 +48,7 @@ public class PacMan extends Object {
 	}
 
 	public void move() {
+		/*
 		if (keyHand.arrowUp) {
             this.setRotation(this.up);
         } else if (keyHand.arrowRight) {
@@ -56,7 +57,20 @@ public class PacMan extends Object {
             this.setRotation(this.down);
         } else if (keyHand.arrowLeft) {
             this.setRotation(this.left);
+        } */
+		if (keyHand.arrowUp) {
+            this.nextRotation = this.up;
+        } else if (keyHand.arrowRight) {
+            this.nextRotation = this.right;
+        } else if (keyHand.arrowDown) {
+            this.nextRotation = this.down;
+        } else if (keyHand.arrowLeft) {
+            this.nextRotation = this.left;
         }
+
+		if (this.x % game.tileSize == 0 && this.y % game.tileSize == 0) {
+			this.setRotation(this.nextRotation);
+		}
 
 		switch(this.rotation) {
 			case up:
@@ -126,7 +140,7 @@ public class PacMan extends Object {
 			default:
 				break;
 		}
-		g2.drawImage(image, x, y,game.tileSize, game.tileSize, null);
+		g2.drawImage(image, x, y, game.tileSize, game.tileSize, null);
     }
 	
 
