@@ -22,6 +22,8 @@ public class PacMan extends Object {
 		super(game);
 		this.keyHand = keyHand2;
 
+		this.nextTile = -1;
+
 		setDefaults();
 		getPlayerImage();
 	}
@@ -48,16 +50,8 @@ public class PacMan extends Object {
 	}
 
 	public void move() {
-		/*
-		if (keyHand.arrowUp) {
-            this.setRotation(this.up);
-        } else if (keyHand.arrowRight) {
-            this.setRotation(this.right);
-        } else if (keyHand.arrowDown) {
-            this.setRotation(this.down);
-        } else if (keyHand.arrowLeft) {
-            this.setRotation(this.left);
-        } */
+
+		// key handling
 		if (keyHand.arrowUp) {
             this.nextRotation = this.up;
         } else if (keyHand.arrowRight) {
@@ -68,27 +62,71 @@ public class PacMan extends Object {
             this.nextRotation = this.left;
         }
 
+		// passable tile
 		if (this.x % game.tileSize == 0 && this.y % game.tileSize == 0) {
-			this.setRotation(this.nextRotation);
+
+			// get next tile
+			int indexWidth = x / game.tileSize;
+			int indexHight = y / game.tileSize;
+			if (nextRotation == up) {
+				this.nextTile = game.getTile(indexWidth, indexHight - 1);
+			}
+			if (nextRotation == right) {
+				this.nextTile = game.getTile(indexWidth + 1, indexHight);
+			}
+			if (nextRotation == down) {
+				this.nextTile = game.getTile(indexWidth, indexHight + 1);
+			}
+			if (nextRotation == left) {
+				this.nextTile = game.getTile(indexWidth - 1, indexHight);
+			}
+
+			// tile specific operations
+			if (this.nextTile == game.tileEmpty || this.nextTile == game.tileCoin) {
+				this.setRotation(this.nextRotation);
+			}
+			
 		}
 
-		switch(this.rotation) {
-			case up:
-				this.y -= speed;
-				break;
-			case right:
-				this.x += speed;
-				break;
-			case down:
-				this.y += speed;
-				break;
-			case left:
-				this.x -= speed;
-				break;
-			default:
-				break;
+		// movement
+		if (this.x % game.tileSize == 0 && this.y % game.tileSize == 0) {
+			int indexWidth = x / game.tileSize;
+			int indexHight = y / game.tileSize;
+
+			if (rotation == up) {
+				this.nextTile = game.getTile(indexWidth, indexHight - 1);
+			}
+			if (rotation == right) {
+				this.nextTile = game.getTile(indexWidth + 1, indexHight);
+			}
+			if (rotation == down) {
+				this.nextTile = game.getTile(indexWidth, indexHight + 1);
+			}
+			if (rotation == left) {
+				this.nextTile = game.getTile(indexWidth - 1, indexHight);
+			}
+		}
+
+		if (this.nextTile == game.tileEmpty || this.nextTile == game.tileCoin) {
+			switch(this.rotation) {
+				case up:
+					this.y -= speed;
+					break;
+				case right:
+					this.x += speed;
+					break;
+				case down:
+					this.y += speed;
+					break;
+				case left:
+					this.x -= speed;
+					break;
+				default:
+					break;
+			}
 		}
 		
+		// animation
 		spriteCounter++;
 		if (spriteCounter >= 20) {
 			if (spriteNumber == 0) {

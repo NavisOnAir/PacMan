@@ -22,7 +22,7 @@ public class MouseHandler implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        // title state
+        // title screen start button listener
         if (game.gameState == game.titelState) {
             if (utils.checkRectangle(e.getX(), e.getY(), ui.defaultFont.deriveFont(40f).getStringBounds("Start", frc), ui.startButtonX, ui.startButtonY)) {
                 game.gameState = game.ingameState;

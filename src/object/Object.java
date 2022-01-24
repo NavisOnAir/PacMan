@@ -7,9 +7,12 @@ import main.Game;
 
 public class Object {
     
+    // stearing, positioning
     public int x, y;
     public int speed;
+    public int nextTile;
 
+    // animation
     public int spriteNumber = 0;
     public int spriteCounter = 0;
 
@@ -19,9 +22,11 @@ public class Object {
 	public final int down = 2;
 	public final int left = 3;
 
+    // rotations
 	public int rotation;
     public int nextRotation;
 
+    // instances
     public Game game;
 
     public Object(Game game) {

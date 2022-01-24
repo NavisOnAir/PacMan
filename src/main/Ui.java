@@ -30,6 +30,7 @@ public class Ui {
         this.game = game;
     }
 
+    // drawing ingame ui with tiles and palyer
     public void drawIngame(Graphics2D g2) {
 
         // tiles drawing
@@ -61,7 +62,7 @@ public class Ui {
             }
         }
 
-        // overlay ui drawing
+        // interface drawing
         g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 20));
         g2.setColor(Color.white);
         g2.drawString("TPS:" + Integer.toString(game.currentTPS), 10, 30);
@@ -71,6 +72,7 @@ public class Ui {
 
     }
 
+    // title screen
     public void drawTitle(Graphics2D g2) {
 
         // Start text

@@ -28,6 +28,7 @@ public class Game extends JPanel implements Runnable{
     public int gameState;
     public final int titelState = 0;
     public final int ingameState = 1;
+    public final int pauseState = 2;
 
     // create game tile array
     public int[][] gameTiles = {{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
@@ -191,6 +192,10 @@ public class Game extends JPanel implements Runnable{
 
     public int getHight() {
         return screenHight;
+    }
+
+    public int getTile(int width, int hight) {
+        return gameTiles[hight][width];
     }
     
 }
