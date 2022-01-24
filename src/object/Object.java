@@ -10,6 +10,9 @@ public class Object {
     public int x, y;
     public int speed;
 
+    public int spriteNumber = 0;
+    public int spriteCounter = 0;
+
     // rotation states
 	public final int up = 0;
 	public final int right = 1;

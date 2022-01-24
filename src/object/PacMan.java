@@ -36,11 +36,11 @@ public class PacMan extends Object {
 	public void getPlayerImage() {
 		// load sprites
 		try { 
-			picDown = ImageIO.read(getClass().getResourceAsStream("/pacman/PacMan_open_down.png"));
-			picUp = ImageIO.read(getClass().getResourceAsStream("/pacman/PacMan_open_up.png"));
-			picRight = ImageIO.read(getClass().getResourceAsStream("/pacman/PacMan_open_right.png"));
-			picLeft = ImageIO.read(getClass().getResourceAsStream("/pacman/PacMan_open_left.png"));
-			picStill = ImageIO.read(getClass().getResourceAsStream("/pacman/PacMan_closed.png"));
+			picDown = ImageIO.read(getClass().getResourceAsStream("/sprites/pacman/PacMan_open_down.png"));
+			picUp = ImageIO.read(getClass().getResourceAsStream("/sprites/pacman/PacMan_open_up.png"));
+			picRight = ImageIO.read(getClass().getResourceAsStream("/sprites/pacman/PacMan_open_right.png"));
+			picLeft = ImageIO.read(getClass().getResourceAsStream("/sprites/pacman/PacMan_open_left.png"));
+			picStill = ImageIO.read(getClass().getResourceAsStream("/sprites/pacman/PacMan_closed.png"));
 
 		} catch(IOException e) {
 			e.printStackTrace();
@@ -74,6 +74,17 @@ public class PacMan extends Object {
 			default:
 				break;
 		}
+		
+		spriteCounter++;
+		if (spriteCounter >= 20) {
+			if (spriteNumber == 0) {
+				spriteNumber = 1;
+			} else if (spriteNumber == 1) {
+				spriteNumber = 0;
+			}
+			spriteCounter = 0;
+		}
+
 	}
 
 	public void draw(Graphics2D g2) {
@@ -81,16 +92,36 @@ public class PacMan extends Object {
 
 		switch(rotation) {
 			case up:
-				image = picUp;
+				if (spriteNumber == 0) {
+					image = picUp;
+				}
+				if (spriteNumber == 1) {
+					image = picStill;
+				}
 				break;
 			case right:
-				image = picRight;
+				if (spriteNumber == 0) {
+					image = picRight;
+				}
+				if (spriteNumber == 1) {
+					image = picStill;
+				}
 				break;
 			case down:
-				image = picDown;
+				if (spriteNumber == 0) {
+					image = picDown;
+				}
+				if (spriteNumber == 1) {
+					image = picStill;
+				}
 				break;
 			case left:
-				image = picLeft;
+				if (spriteNumber == 0) {
+					image = picLeft;
+				}
+				if (spriteNumber == 1) {
+					image = picStill;
+				}
 				break;
 			default:
 				break;
