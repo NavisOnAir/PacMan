@@ -2,11 +2,11 @@ package main;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.font.FontRenderContext;
 import java.awt.Graphics2D;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import javax.swing.JButton;
+
+import java.awt.geom.Rectangle2D;
 
 public class Ui {
     
@@ -14,32 +14,17 @@ public class Ui {
     JButton startButton = new JButton();
     JButton stopButton = new JButton();
 
+    public int startButtonX;
+    public int startButtonY;
+
+    // standard font
+    public Font defaultFont = new Font("Courier", Font.PLAIN, 20);
+
     public Ui(Game game) {
         this.game = game;
-
-        // edit start button
-        this.startButton.setText("Start");
-        this.startButton.setBounds(game.screenWidth - 200, game.screenHight - 150, 150, 50);
-        this.startButton.setVisible(false);
-        this.startButton.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // TODO Auto-generated method stub
-                
-            }
-            
-        });
-        game.add(startButton);
-
-        // edit stop button
-        this.stopButton.setText("Stop");
-        this.stopButton.setBounds(50, game.screenHight + 150, 150, 50);
-        this.stopButton.setVisible(false);
-        game.add(stopButton);
     }
 
-    public void draw(Graphics2D g2) {
+    public void drawIngame(Graphics2D g2) {
 
         g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 20));
         g2.setColor(Color.white);
@@ -47,11 +32,34 @@ public class Ui {
 
         g2.drawString("FPS:" + Integer.toString(game.currentFPS), 10, 55);
 
-        // draw text for button
-        g2.drawString("Start", game.screenWidth - 200, game.screenHight - 150);
+    }
+
+    public void drawTitle(Graphics2D g2) {
+
+        // Start text
+        String str = "Start";
+        int sX = getXForCenteredText(defaultFont.deriveFont(40f), str);
+        int sY = Math.round(game.screenHight - game.screenHight * 0.7f);
+
+        this.startButtonX = sX;
+        this.startButtonY = sY;
+
+        g2.setColor(Color.white);
+        g2.setFont(defaultFont.deriveFont(40f));
+        g2.drawString(str, sX, sY);
         this.startButton.setVisible(true);
         this.stopButton.setVisible(true);
 
+    }
+
+    public int getXForCenteredText(Font font, String str) {
+        FontRenderContext frc = new FontRenderContext(null, true, true);
+        Rectangle2D r2D = font.getStringBounds(str, frc);
+        int rWidth = (int) Math.round(r2D.getWidth());
+        int rX = (int) Math.round(r2D.getX());
+        int x = (game.screenWidth / 2) - (rWidth / 2) - rX;
+        
+        return x;
     }
     
 }

@@ -1,6 +1,8 @@
 package main;
 
-public class utils {
+import java.awt.geom.Rectangle2D;
+
+public class Utils {
     
     public int[][] stringTo2DArray(String input) {
         /*{{},
@@ -21,5 +23,25 @@ public class utils {
         }
 
         return outputIntAr;
+    }
+
+    // return true if x and y are in rectangle
+    public boolean checkRectangle(int x, int y, Rectangle2D reg2D, int regX, int regY) {
+        int rWidth = (int) Math.round(reg2D.getWidth());
+        int rHight = (int) Math.round(reg2D.getHeight());
+
+        // comparing logic
+        boolean boolX = true;
+        boolean boolY = true;
+        if (y > regY) boolY = false;
+        if (y < regY - rHight) boolY = false;
+        if (x < regX) boolX = false;
+        if (x > regX + rWidth) boolX = false;
+
+        if (boolX && boolY) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

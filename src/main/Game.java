@@ -5,6 +5,8 @@ import java.awt.Dimension;
 
 import javax.swing.JPanel;
 
+import listener.MouseHandler;
+import listener.KeyHandler;
 import object.PacMan;
 
 import java.awt.Graphics;
@@ -36,10 +38,13 @@ public class Game extends JPanel implements Runnable{
     int currentFPS = 0;
 
     // instance creation
+    public Ui ui = new Ui(this);
+
     KeyHandler keyHand = new KeyHandler();
+    MouseHandler mouseHand = new MouseHandler(this);
+
     Thread gameThread;
     PacMan pacMan = new PacMan(this, keyHand);
-    public Ui ui = new Ui(this);
 
     public Game(int col, int row) {
         maxScreenCol = col; // 30
@@ -49,14 +54,17 @@ public class Game extends JPanel implements Runnable{
 
         this.setPreferredSize(new Dimension(screenWidth, screenHight));
         this.setBackground(Color.black);
+
         this.addKeyListener(keyHand);
+        this.addMouseListener(mouseHand);
+
         this.setFocusable(true);
 
         
     }
 
     public void setupGame() {
-        gameState = ingameState;
+        gameState = titelState;
 
         // load field array
     }
@@ -124,11 +132,22 @@ public class Game extends JPanel implements Runnable{
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
 
-        // player
-        pacMan.draw(g2);
+        // Ingame
+        if (gameState == ingameState) {
+
+            // player
+            pacMan.draw(g2);
+            
+            // Ingame ui
+            ui.drawIngame(g2);
         
-        // FPS
-        ui.draw(g2);
+        }
+
+        // Title screen
+        if (gameState == titelState) {
+            // title ui
+            ui.drawTitle(g2);
+        }
 
 
         g2.dispose();
