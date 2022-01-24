@@ -19,9 +19,8 @@ public class Main {
         final int width = game.getWidth();
         final int hight = game.getHight();
 
-        // add components to container
+        // add components to window
         window.add(game);
-        window.pack();
 
         window.setSize(width, hight);
         window.setLocationRelativeTo(null);
