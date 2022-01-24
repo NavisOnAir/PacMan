@@ -38,7 +38,7 @@ public class Game extends JPanel implements Runnable{
     // instance creation
     KeyHandler keyHand = new KeyHandler();
     Thread gameThread;
-    PacMan pacMan = new PacMan(this);
+    PacMan pacMan = new PacMan(this, keyHand);
     public Ui ui = new Ui(this);
 
     public Game(int col, int row) {
@@ -92,17 +92,19 @@ public class Game extends JPanel implements Runnable{
 
                 delta--;
                 updateCount++;
+                // DRAW
+                repaint();
+                drawCount++;
             }
 
-            // DRAW
-            repaint();
-            drawCount++;
+            
 
             if (timer >= 1000000000) {
                 // System.out.println("FPS:" + drawCount);
                 this.currentTPS = updateCount;
                 this.currentFPS = drawCount;
                 updateCount = 0;
+                drawCount = 0;
                 timer = 0;
             }
             
@@ -113,15 +115,6 @@ public class Game extends JPanel implements Runnable{
     public void update() {
 
         // player
-        if (keyHand.arrowUp) {
-            pacMan.setRotation(pacMan.up);
-        } else if (keyHand.arrowRight) {
-            pacMan.setRotation(pacMan.right);
-        } else if (keyHand.arrowDown) {
-            pacMan.setRotation(pacMan.down);
-        } else if (keyHand.arrowLeft) {
-            pacMan.setRotation(pacMan.left);
-        }
         pacMan.move();
 
     }
@@ -134,8 +127,6 @@ public class Game extends JPanel implements Runnable{
         // player
         pacMan.draw(g2);
         
-        // UI
-        //ui.draw(g2);
         // FPS
         ui.draw(g2);
 

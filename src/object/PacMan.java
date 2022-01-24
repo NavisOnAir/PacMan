@@ -5,6 +5,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import main.Game;
+import main.KeyHandler;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -12,11 +13,13 @@ import java.awt.image.BufferedImage;
 public class PacMan extends Object {
 
 	boolean vunerability;
+	KeyHandler keyHand;
 
 	public BufferedImage picStill, picUp, picDown, picLeft, picRight;
 
-	public PacMan(Game game) {
+	public PacMan(Game game, KeyHandler keyHand2) {
 		super(game);
+		this.keyHand = keyHand2;
 
 		setDefaults();
 		getPlayerImage();
@@ -44,7 +47,17 @@ public class PacMan extends Object {
 	}
 
 	public void move() {
-		switch(rotation) {
+		if (keyHand.arrowUp) {
+            this.setRotation(this.up);
+        } else if (keyHand.arrowRight) {
+            this.setRotation(this.right);
+        } else if (keyHand.arrowDown) {
+            this.setRotation(this.down);
+        } else if (keyHand.arrowLeft) {
+            this.setRotation(this.left);
+        }
+
+		switch(this.rotation) {
 			case up:
 				this.y -= speed;
 				break;
