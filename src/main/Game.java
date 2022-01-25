@@ -34,6 +34,7 @@ public class Game extends JPanel implements Runnable{
     public final int titelState = 0;
     public final int ingameState = 1;
     public final int pauseState = 2;
+    public final int wonState = 3;
 
     // create game tile array
     public int[][] gameTiles;
@@ -45,6 +46,9 @@ public class Game extends JPanel implements Runnable{
     public int tileCoin = 3;
     public int tilePacMan = 4;
     public int tileDoor = 5;
+
+    // point counter
+    public int pointCounter;
 
 
     // fps
@@ -70,10 +74,12 @@ public class Game extends JPanel implements Runnable{
 
 
     public Game(int col, int row) {
-        maxScreenCol = col; // 30
-        maxScreenRow = row; // 20
-        screenWidth = tileSize * maxScreenCol; // 1440
-        screenHight = tileSize * maxScreenRow; // 960
+        this.maxScreenCol = col; // 30
+        this.maxScreenRow = row; // 20
+        this.screenWidth = tileSize * maxScreenCol; // 1440
+        this.screenHight = tileSize * maxScreenRow; // 960
+
+        this.pointCounter = 0;
 
         this.setPreferredSize(new Dimension(screenWidth, screenHight));
         this.setBackground(Color.black);
@@ -173,6 +179,19 @@ public class Game extends JPanel implements Runnable{
         // player
         if (gameState == ingameState) {
             pacMan.move();
+
+            // checks if pacman won
+            boolean pacmanWon = true;
+            for (int i = 0; i < gameTiles.length; i++) {
+                for (int j = 0; j < gameTiles[0].length; j++) {
+                    int gameTile = gameTiles[i][j];
+                    if (gameTile == tileCoin) {
+                        pacmanWon = false;
+                        break;
+                    }
+                }
+            }
+            if (pacmanWon) gameState = wonState;
         }
 
     }

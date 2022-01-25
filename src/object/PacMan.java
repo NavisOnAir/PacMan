@@ -95,15 +95,31 @@ public class PacMan extends Object {
 
 			if (rotation == up) {
 				this.nextTile = game.getTile(indexWidth, indexHight - 1);
+				if (this.nextTile == game.tileCoin) {
+					game.gameTiles[indexHight - 1][indexWidth] = game.tileEmpty;
+					game.pointCounter++;
+				}
 			}
 			if (rotation == right) {
 				this.nextTile = game.getTile(indexWidth + 1, indexHight);
+				if (this.nextTile == game.tileCoin) {
+					game.gameTiles[indexHight][indexWidth + 1] = game.tileEmpty;
+					game.pointCounter++;
+				}
 			}
 			if (rotation == down) {
 				this.nextTile = game.getTile(indexWidth, indexHight + 1);
+				if (this.nextTile == game.tileCoin) {
+					game.gameTiles[indexHight + 1][indexWidth] = game.tileEmpty;
+					game.pointCounter++;
+				}
 			}
 			if (rotation == left) {
 				this.nextTile = game.getTile(indexWidth - 1, indexHight);
+				if (this.nextTile == game.tileCoin) {
+					game.gameTiles[indexHight][indexWidth - 1] = game.tileEmpty;
+					game.pointCounter++;
+				}
 			}
 		}
 
