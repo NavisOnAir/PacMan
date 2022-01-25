@@ -31,7 +31,7 @@ public class PacMan extends Object {
 	public void setDefaults() {
 		x = 48;
 		y = 48;
-		speed = 2; // 2 * 60 per second
+		speed = 3; // 3 * 60 per second
 		rotation = right;
 	}
 
