@@ -47,19 +47,22 @@ public class Game extends JPanel implements Runnable{
     public int tilePacMan = 4;
     public int tileDoor = 5;
 
-    // point counter
+    // counters
     public int pointCounter;
+    public int secondsPlayed;
 
 
     // fps
     int FPS = 60;
     int currentTPS = 0;
     int currentFPS = 0;
+    int currentFrame = 0;
 
     // instance creation
     public Ui ui = new Ui(this);
     LevelData lvlDat = new LevelData();
     Utils utils = new Utils();
+    public Timer timer = new Timer();
 
     // event listener
     KeyHandler keyHand = new KeyHandler();
@@ -139,6 +142,7 @@ public class Game extends JPanel implements Runnable{
         long timer = 0;
         int updateCount = 0;
         int drawCount = 0;
+        this.timer.start();
 
         while (gameThread != null) {
 
@@ -157,6 +161,9 @@ public class Game extends JPanel implements Runnable{
                 // DRAW
                 repaint();
                 drawCount++;
+
+                // current Frame
+                this.currentFrame++;
             }
 
             
@@ -165,6 +172,7 @@ public class Game extends JPanel implements Runnable{
                 // System.out.println("FPS:" + drawCount);
                 this.currentTPS = updateCount;
                 this.currentFPS = drawCount;
+                this.currentFrame = 0;
                 updateCount = 0;
                 drawCount = 0;
                 timer = 0;
@@ -175,6 +183,9 @@ public class Game extends JPanel implements Runnable{
     
     // update method
     public void update() {
+
+        // timer
+
 
         // player
         if (gameState == ingameState) {

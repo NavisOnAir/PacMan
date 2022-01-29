@@ -8,6 +8,8 @@ import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.text.DecimalFormat;
+
 import javax.imageio.ImageIO;
 
 public class Ui {
@@ -28,6 +30,9 @@ public class Ui {
 
     // standard font
     public Font defaultFont = new Font("Courier", Font.PLAIN, 20);
+
+    // timer display blinking
+    private boolean isTimer = false;
 
     public Ui(Game game) {
         this.game = game;
@@ -84,6 +89,25 @@ public class Ui {
         g2.setColor(Color.white);
         g2.setFont(defaultFont.deriveFont(fontSize));
         g2.drawString(str, sX, sY);
+
+        // timer
+        long currentTimePassed = game.timer.getTimeInNanoSeconds();
+        double currentSeconds = (double) currentTimePassed / 1000000000;
+        DecimalFormat f = new DecimalFormat("##.00");
+        str = "Time: " + f.format(currentSeconds);
+        int tX = 50;
+        int tY = game.getHight();
+
+        if (game.gameState == game.ingameState) {
+            g2.drawString(str, tX, tY);
+        } else if (game.gameState == game.pauseState) {
+            if (game.currentFrame % 30 == 0) {
+                this.isTimer = !this.isTimer;
+            }
+            if (this.isTimer) {
+                g2.drawString(str, tX, tY);
+            }
+        }
 
 
     }
