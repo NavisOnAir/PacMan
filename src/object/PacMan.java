@@ -18,21 +18,20 @@ public class PacMan extends Object {
 
 	public BufferedImage picStill, picUp, picDown, picLeft, picRight;
 
-	public PacMan(Game game, KeyHandler keyHand2) {
+	public PacMan(Game game, KeyHandler keyHand2, int x, int y) {
 		super(game);
 		this.keyHand = keyHand2;
 
 		this.nextTile = -1;
 
-		setDefaults();
-		getPlayerImage();
-	}
-
-	public void setDefaults() {
-		x = 48;
-		y = 48;
+		// starting position
+		this.x = x * game.tileSize;
+		this.y = y * game.tileSize;
 		speed = 3; // 3 * 60 per second
 		rotation = right;
+
+		// default methods
+		getPlayerImage();
 	}
 
 	public void getPlayerImage() {
@@ -68,6 +67,7 @@ public class PacMan extends Object {
 			// get next tile
 			int indexWidth = x / game.tileSize;
 			int indexHight = y / game.tileSize;
+
 			if (nextRotation == up) {
 				this.nextTile = game.getTile(indexWidth, indexHight - 1);
 			}

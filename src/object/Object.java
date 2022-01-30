@@ -12,6 +12,9 @@ public class Object {
     public int speed;
     public int nextTile;
 
+    // properties
+    public boolean isVunerable = false;
+
     // animation
     public int spriteNumber = 0;
     public int spriteCounter = 0;

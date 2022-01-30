@@ -92,25 +92,41 @@ public class Utils {
                 r += line;
             }
             f.close();
-            System.out.println(r);
             return r;
 
         } catch(IOException e) {
-            /*
-            try {
-                String levelData = getStringFrom2DArray(lvlDat.levelOne);
-            BufferedWriter h = new BufferedWriter(
-                new FileWriter(path));
-            h.write(levelData);
-
-            h.close();
-            this.gameTiles = lvlDat.levelOne;
-
-            } catch(IOException g) {
-                g.printStackTrace();
-            }*/
             return this.errorState;
-            
         }
+    }
+
+    // get x and y of int[][]
+    public int[][] getXAndYIn2DIntArray(int[][] intArr, int testObj) {
+        int[][] output;
+        int count = 0;
+        for (int i = 0; i < intArr.length; i++) {
+            for (int j = 0; j < intArr[0].length; j++) {
+                if (intArr[i][j] == testObj) {
+                    count++;
+                }
+            }
+        }
+        output = new int[count][2];
+        count = 0;
+        for (int i = 0; i < intArr.length; i++) {
+            for (int j = 0; j < intArr[0].length; j++) {
+                if (intArr[i][j] == testObj) {
+                    output[count][0] = j;
+                    output[count][1] = i;
+                    count++;
+                }
+                if (count == output.length) {
+                    return output;
+                }
+            }
+        }
+        output = new int[1][2];
+        output[0][0] = 1;
+        output[0][1] = 1;
+        return output;
     }
 }

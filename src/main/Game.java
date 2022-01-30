@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 
 import listener.MouseHandler;
 import listener.KeyHandler;
+import object.Ghost;
 import object.PacMan;
 
 import java.awt.Graphics;
@@ -38,6 +39,7 @@ public class Game extends JPanel implements Runnable{
 
     // create game tile array
     public int[][] gameTiles;
+    public Ghost[] ghostArray;
 
     // tile decoding
     public int tileEmpty = 0;
@@ -79,7 +81,7 @@ public class Game extends JPanel implements Runnable{
     Thread gameThread;
 
     // moving objects
-    PacMan pacMan = new PacMan(this, keyHand);
+    PacMan pacMan;;
 
 
 
@@ -109,7 +111,6 @@ public class Game extends JPanel implements Runnable{
         String levelString = utils.getFileAsString("levels/" + this.levelSelected);
         if (levelString != utils.errorState) {
             this.gameTiles = utils.stringTo2DArray(levelString);
-            System.out.println("No Error");
         } else {
             try {
                 String levelData = utils.getStringFrom2DArray(lvlDat.levelOne);
@@ -123,6 +124,26 @@ public class Game extends JPanel implements Runnable{
             } catch(IOException g) {
                 g.printStackTrace();
             }
+        }
+
+        // get starting positions
+        int[][] pacManStartCords = utils.getXAndYIn2DIntArray(gameTiles, tilePacMan);
+        int[][] ghostsStartCords = utils.getXAndYIn2DIntArray(gameTiles, tileGhost);
+
+        // create pacman instance
+        this.pacMan = new PacMan(this, this.keyHand, pacManStartCords[0][0], pacManStartCords[0][1]);
+
+        // set tile @ pacman start cords to empty
+        this.gameTiles[pacManStartCords[0][1]][pacManStartCords[0][0]] = tileEmpty;
+
+        // set length of ghost array to number of ghosts
+        this.ghostArray = new Ghost[ghostsStartCords.length];
+        for (int i = 0; i < ghostsStartCords.length; i++) {
+            // creating ghost instances
+            ghostArray[i] = new Ghost(this, ghostsStartCords[i][0], ghostsStartCords[i][1]);
+
+            // set tile @ ghost start cords to empty
+            this.gameTiles[ghostsStartCords[i][1]][ghostsStartCords[i][0]] = tileEmpty;
         }
     }
 
@@ -169,7 +190,6 @@ public class Game extends JPanel implements Runnable{
             
 
             if (timer >= 1000000000) {
-                // System.out.println("FPS:" + drawCount);
                 this.currentTPS = updateCount;
                 this.currentFPS = drawCount;
                 this.currentFrame = 0;
@@ -216,6 +236,11 @@ public class Game extends JPanel implements Runnable{
 
             // player
             pacMan.draw(g2);
+
+            // enemies
+            for (Ghost ghost : this.ghostArray) {
+                ghost.draw(g2);
+            }
         
         }
 
@@ -252,6 +277,13 @@ public class Game extends JPanel implements Runnable{
     }
 
     public int getTile(int width, int hight) {
+        // fixing width and hight less than 0
+        if (width < 0) {
+            width = gameTiles[0].length - 1;
+        }
+        if (hight < 0) {
+            hight = gameTiles.length - 1;
+        }
         return gameTiles[hight][width];
     }
     
