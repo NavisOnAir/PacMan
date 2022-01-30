@@ -25,6 +25,14 @@ public class Ui {
     public int stopButtonX;
     public int stopButtonY;
 
+    // level select button cords/levels
+    public int levelSelectButtonX;
+    public int levelSelectButtonY;
+
+    public int[] levelButtonX = new int[10];
+    public int[] levelButtonY = new int[10];
+    public String[] levelStrings = new String[10];
+ 
     // tile images
     public BufferedImage sprEmpty, sprWall, sprCoin, sprDoor;
 
@@ -38,6 +46,7 @@ public class Ui {
         this.game = game;
     }
 
+    // ui`s
     // drawing ingame ui with tiles and palyer
     public void drawIngame(Graphics2D g2) {
 
@@ -115,7 +124,7 @@ public class Ui {
     // title screen
     public void drawTitle(Graphics2D g2) {
 
-        // Start text
+        // start buttom
         String str = "Start";
         float fontSize = 40f; // changing this needs to change it in mousehandler too
         int sX = getXForCenteredText(defaultFont.deriveFont(fontSize), str);
@@ -127,6 +136,25 @@ public class Ui {
         g2.setColor(Color.white);
         g2.setFont(defaultFont.deriveFont(fontSize));
         g2.drawString(str, sX, sY);
+
+        // level select button
+        str = "Select Level";
+        int lsX = getXForCenteredText(defaultFont.deriveFont(fontSize), str);
+        int lsY = Math.round(game.screenHight - game.screenHight * 0.6f);
+
+        this.levelSelectButtonX = lsX;
+        this.levelSelectButtonY = lsY;
+
+        g2.drawString(str, lsX, lsY);
+
+        // level selected display
+        fontSize = 20f; // changing this needs to change it in mousehandler too
+        str = "Level: " + game.levelSelected;
+        int llX = Math.round(game.screenWidth - game.screenWidth * 0.3f);
+        int llY = game.screenHight;
+
+        g2.setFont(defaultFont.deriveFont(fontSize));
+        g2.drawString(str, llX, llY);
 
     }
 
@@ -146,6 +174,35 @@ public class Ui {
         g2.drawString(str, sX, sY);
     }
 
+    // level select screen
+    public void drawLevelSelection(Graphics2D g2) {
+        // drawing variables
+        String[] levels = game.utils.getFilesInDirectory("levels/");
+        int x = 50;
+        int y = 50;
+        int step = Math.round((game.getHight() - y * 2) / 10);
+        int j = 0;
+        float fontSize = 30f; // changing this needs to change it in mousehandler too
+
+        g2.setColor(Color.white);
+        g2.setFont(defaultFont.deriveFont(fontSize));
+
+        for (int i = y; i < y * step * 10; i += step) {
+            if (j >= levels.length || j >= 10) {
+                return;
+            }
+            this.levelButtonX[j] = x;
+            this.levelButtonY[j] = y;
+            this.levelStrings[j] = levels[j];
+            g2.drawString(levels[j], x, y);
+            y += step;
+            j++;
+        }
+    }
+
+
+
+    // ui methods
     public int getXForCenteredText(Font font, String str) {
         FontRenderContext frc = new FontRenderContext(null, true, true);
         Rectangle2D r2D = font.getStringBounds(str, frc);

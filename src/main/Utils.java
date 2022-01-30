@@ -2,12 +2,22 @@ package main;
 
 import java.awt.geom.Rectangle2D;
 
+import java.io.File;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
 public class Utils {
+
+    // debug states
+    public final String errorState = "ERRORSTATE";
     
     // transforms a string that was converted in getStringFrom2DArray pattern to int[][]
     public int[][] stringTo2DArray(String input) {
+        // replaces all symbols that are not needed
+        String in = input.replace("\n", "");
         // split input into an string array containing arrays as String so they had to be converted
-        String[] stringAr = input.split("},");
+        String[] stringAr = in.split("},");
         String[] countAr = stringAr[0].split(", ");
         int[][] outputIntAr = new int[stringAr.length][countAr.length];
         for (int i = 0; i < stringAr.length; i++) {
@@ -57,6 +67,50 @@ public class Utils {
             return true;
         } else {
             return false;
+        }
+    }
+
+    // get files in directory
+    public String[] getFilesInDirectory(String path) {
+        File dirFiles = new File(path);
+        File[] fileAr = dirFiles.listFiles();
+        String[] output = new String[fileAr.length];
+        for (int i = 0;i < fileAr.length; i++) {
+            output[i] = fileAr[i].getName();
+        }
+        return output;
+    }
+
+    // get file content as string
+    public String getFileAsString(String path) {
+        try {
+            String line;
+            String r = "";
+            BufferedReader f = new BufferedReader(
+                new FileReader(path));
+            while ((line = f.readLine()) != null) {
+                r += line;
+            }
+            f.close();
+            System.out.println(r);
+            return r;
+
+        } catch(IOException e) {
+            /*
+            try {
+                String levelData = getStringFrom2DArray(lvlDat.levelOne);
+            BufferedWriter h = new BufferedWriter(
+                new FileWriter(path));
+            h.write(levelData);
+
+            h.close();
+            this.gameTiles = lvlDat.levelOne;
+
+            } catch(IOException g) {
+                g.printStackTrace();
+            }*/
+            return this.errorState;
+            
         }
     }
 }

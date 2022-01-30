@@ -11,11 +11,10 @@ import object.PacMan;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+
 
 public class Game extends JPanel implements Runnable{
 
@@ -35,6 +34,7 @@ public class Game extends JPanel implements Runnable{
     public final int ingameState = 1;
     public final int pauseState = 2;
     public final int wonState = 3;
+    public final int levelSelectState = 4;
 
     // create game tile array
     public int[][] gameTiles;
@@ -46,17 +46,24 @@ public class Game extends JPanel implements Runnable{
     public int tileCoin = 3;
     public int tilePacMan = 4;
     public int tileDoor = 5;
+    public int tileFruit = 6;
+    public int tilePowerPill = 7;
 
     // counters
     public int pointCounter;
     public int secondsPlayed;
 
+    // level select
+    public String levelSelected = "level1.lvl";
 
     // fps
     int FPS = 60;
     int currentTPS = 0;
     int currentFPS = 0;
     int currentFrame = 0;
+
+    // debug strings
+    public String debugStandardString = "[DEBUG][" + System.nanoTime()/1000000000 + "] ";
 
     // instance creation
     public Ui ui = new Ui(this);
@@ -90,22 +97,24 @@ public class Game extends JPanel implements Runnable{
         this.addKeyListener(keyHand);
         this.addMouseListener(mouseHand);
 
-        this.setFocusable(true);
+        this.setFocusable(true);       
+    }
 
-        // load first level
-        String filePath = "levels/level1.lvl";
-        try {
-            BufferedReader f = new BufferedReader(
-                new FileReader(filePath)); // lvl stands for level marking its a level file
-            String r = f.readLine();
-            f.close();
-            this.gameTiles = utils.stringTo2DArray(r);
+    public void setupGame() {
+        // set default gamestate
+        this.gameState = titelState;
 
-        } catch(IOException e) {
+        // load field array
+        // level must contain coins, without gameState will change to wonState!!!
+        String levelString = utils.getFileAsString("levels/" + this.levelSelected);
+        if (levelString != utils.errorState) {
+            this.gameTiles = utils.stringTo2DArray(levelString);
+            System.out.println("No Error");
+        } else {
             try {
                 String levelData = utils.getStringFrom2DArray(lvlDat.levelOne);
             BufferedWriter h = new BufferedWriter(
-                new FileWriter(filePath));
+                new FileWriter("levels/" + this.levelSelected));
             h.write(levelData);
 
             h.close();
@@ -114,16 +123,7 @@ public class Game extends JPanel implements Runnable{
             } catch(IOException g) {
                 g.printStackTrace();
             }
-            
         }
-
-        
-    }
-
-    public void setupGame() {
-        this.gameState = titelState;
-
-        // load field array
     }
 
     public void startGameThread() {
@@ -183,10 +183,6 @@ public class Game extends JPanel implements Runnable{
     
     // update method
     public void update() {
-
-        // timer
-
-
         // player
         if (gameState == ingameState) {
             pacMan.move();
@@ -229,11 +225,16 @@ public class Game extends JPanel implements Runnable{
             ui.drawTitle(g2);
         }
 
-        // pase screen
+        // Pause screen
         if (gameState == pauseState) {
             ui.drawIngame(g2);
             pacMan.draw(g2);
             ui.drawPause(g2);
+        }
+
+        // Level select screen
+        if (gameState == levelSelectState) {
+            ui.drawLevelSelection(g2);
         }
 
 
