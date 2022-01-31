@@ -12,10 +12,13 @@ import java.text.DecimalFormat;
 
 import javax.imageio.ImageIO;
 
+import object.Object;
+
 public class Ui {
     
     // instances
     Game game;
+    Object object = new Object();
 
     // start button cords
     public int startButtonX;

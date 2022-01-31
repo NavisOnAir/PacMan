@@ -156,6 +156,8 @@ public class PacMan extends Object {
 	}
 
 	public void draw(Graphics2D g2) {
+
+		// animation
         BufferedImage image = picRight;
 
 		switch(rotation) {
@@ -195,6 +197,9 @@ public class PacMan extends Object {
 				break;
 		}
 		g2.drawImage(image, x, y, game.tileSize, game.tileSize, null);
+
+		// debug
+		drawDebug(g2);
     }
 	
 
@@ -205,7 +210,4 @@ public class PacMan extends Object {
 		return this.y;
 	}
 
-	public void setRotation(int rot) {
-		this.rotation = rot;
-	}
 }

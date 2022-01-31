@@ -22,6 +22,7 @@ public class Game extends JPanel implements Runnable{
     // screen settings
     final int origTileSize = 16;
     final int scale = 3;
+    public boolean isDebugMode = true;
 
     public final int tileSize = origTileSize * scale; // 48
     int maxScreenCol;
@@ -140,7 +141,7 @@ public class Game extends JPanel implements Runnable{
         this.ghostArray = new Ghost[ghostsStartCords.length];
         for (int i = 0; i < ghostsStartCords.length; i++) {
             // creating ghost instances
-            ghostArray[i] = new Ghost(this, ghostsStartCords[i][0], ghostsStartCords[i][1]);
+            ghostArray[i] = new Ghost(this, ghostsStartCords[i][0], ghostsStartCords[i][1], i * 10);
 
             // set tile @ ghost start cords to empty
             this.gameTiles[ghostsStartCords[i][1]][ghostsStartCords[i][0]] = tileEmpty;
@@ -203,8 +204,10 @@ public class Game extends JPanel implements Runnable{
     
     // update method
     public void update() {
-        // player
+        
+        // ingame
         if (gameState == ingameState) {
+            // move player
             pacMan.move();
 
             // checks if pacman won
@@ -219,7 +222,13 @@ public class Game extends JPanel implements Runnable{
                 }
             }
             if (pacmanWon) gameState = wonState;
+
+            // ghost
+            for (Ghost ghost : this.ghostArray) {
+                ghost.move();
+            }
         }
+
 
     }
 
