@@ -9,6 +9,7 @@ import listener.MouseHandler;
 import listener.KeyHandler;
 import object.Ghost;
 import object.PacMan;
+import ui.Ui;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -27,8 +28,8 @@ public class Game extends JPanel implements Runnable{
     public final int tileSize = origTileSize * scale; // 48
     int maxScreenCol;
     int maxScreenRow;
-    int screenWidth;
-    int screenHight;
+    public int screenWidth;
+    public int screenHight;
 
     // game states
     public int gameState;
@@ -61,9 +62,9 @@ public class Game extends JPanel implements Runnable{
 
     // fps
     int FPS = 60;
-    int currentTPS = 0;
-    int currentFPS = 0;
-    int currentFrame = 0;
+    public int currentTPS = 0;
+    public int currentFPS = 0;
+    public int currentFrame = 0;
 
     // debug strings
     public String debugStandardString = "[DEBUG][" + System.nanoTime()/1000000000 + "] ";
@@ -71,7 +72,7 @@ public class Game extends JPanel implements Runnable{
     // instance creation
     public Ui ui = new Ui(this);
     LevelData lvlDat = new LevelData();
-    Utils utils = new Utils();
+    public Utils utils = new Utils();
     public Timer timer = new Timer();
 
     // event listener

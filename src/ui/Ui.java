@@ -1,4 +1,4 @@
-package main;
+package ui;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -12,6 +12,7 @@ import java.text.DecimalFormat;
 
 import javax.imageio.ImageIO;
 
+import main.Game;
 import object.Object;
 
 public class Ui {
