@@ -124,7 +124,6 @@ public class Ghost extends Object {
 
     private boolean randomPathFinding() { // false = left; true = right
         int randomValue = (int) (Math.random() * 2);
-        System.out.println(randomValue);
         if (randomValue == 1) {
             return true;
         } else {
