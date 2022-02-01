@@ -155,6 +155,7 @@ public class PacMan extends Object {
 
 	}
 
+	@Override
 	public void draw(Graphics2D g2) {
 
 		// animation

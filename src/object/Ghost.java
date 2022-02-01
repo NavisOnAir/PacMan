@@ -18,7 +18,7 @@ public class Ghost extends Object {
         this.releaseTime = releaseTime;
         this.rotation = this.up;
         this.nextRotation = this.down;
-        this.speed = 2;
+        this.speed = 3;
     } 
 
     public void move() {
