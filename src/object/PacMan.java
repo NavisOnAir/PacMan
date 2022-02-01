@@ -32,7 +32,7 @@ public class PacMan extends Object {
 		rotation = right;
 
 		// add collision box
-		this.collider = new Collider(this);
+		this.collider = new Collider(this, "PacMan");
 
 		// default methods
 		getPlayerImage();
@@ -205,7 +205,7 @@ public class PacMan extends Object {
 
 		// debug
 		if (game.isDebugMode) {
-			drawDebug(g2);
+			this.drawDebug(g2);
 		}
     }
 	

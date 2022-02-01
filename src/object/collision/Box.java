@@ -2,7 +2,7 @@ package object.collision;
 
 public class Box {
     
-    int width, height, x, y;
+    public int width, height, x, y;
 
     public Box(int x, int y, int width, int height) {
         this.width = width;

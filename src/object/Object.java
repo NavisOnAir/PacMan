@@ -46,6 +46,7 @@ public class Object {
         g2.setColor(Color.white);
         g2.fillRect(this.x, this.y, game.tileSize, game.tileSize);
 
+        // debug mode
         if (game.isDebugMode) {
             drawDebug(g2);
         }

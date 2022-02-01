@@ -240,7 +240,12 @@ public class Game extends JPanel implements Runnable{
                 // check collision
                 for (Collider collidetTo : colliders) {
                     if (col != collidetTo) {
-                        
+                        boolean isCollision = utils.checkCollision(col, collidetTo);
+                        if (isCollision) {
+                            col.collisionEnter(collidetTo);
+                        } else {
+                            col.collisionExit(collidetTo);
+                        }
                     }
                 }
             }

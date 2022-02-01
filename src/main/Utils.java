@@ -8,6 +8,7 @@ import java.io.FileReader;
 import java.io.IOException;
 
 import object.collision.Box;
+import object.collision.Collider;
 
 public class Utils {
 
@@ -72,8 +73,51 @@ public class Utils {
         }
     }
 
-    public boolean checkBox(Box boxOne, Box boxTwo) {
-        return false;
+    public boolean checkCollision(Collider colOne, Collider colTwo) {
+        // get collider box
+        Box boxOne = colOne.box;
+        Box boxTwo = colTwo.box;
+
+        // defines first box x to lowest first x coordinate box
+        int firstBoxXTwo;
+        int secondBoxXOne;
+        if (boxOne.x < boxTwo.x) {
+            firstBoxXTwo = boxOne.x + boxOne.width;
+            secondBoxXOne = boxTwo.x;
+        } else {
+            firstBoxXTwo = boxTwo.x + boxTwo.width;
+            secondBoxXOne = boxOne.x;
+        }
+
+        // compares x values
+        boolean isX = true;
+        if (firstBoxXTwo < secondBoxXOne) {
+            isX = false;
+        }
+
+        // defines first box y to lowest first y coordinate box
+        int firstBoxYOne;
+        int secondBoxYTwo;
+        if (boxOne.y - boxOne.height < boxTwo.y - boxTwo.height) {
+            firstBoxYOne = boxOne.y;
+            secondBoxYTwo = boxTwo.y - boxTwo.height;
+        } else {
+            firstBoxYOne = boxTwo.y;
+            secondBoxYTwo = boxOne.y - boxOne.height;
+        }
+
+        // compares y values
+        boolean isY = true;
+        if (firstBoxYOne < secondBoxYTwo) {
+            isY = false;
+        }
+
+        // compares both cord booleans to check overlapping colliding
+        if (isX && isY) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     // get files in directory

@@ -1,6 +1,7 @@
 package object;
 
 import main.Game;
+import object.collision.Collider;
 
 import java.awt.Color;
 
@@ -19,6 +20,9 @@ public class Ghost extends Object {
         this.rotation = this.up;
         this.nextRotation = this.down;
         this.speed = 3;
+
+        // add collider
+        this.collider = new Collider(this, "Ghost");
     } 
 
     public void move() {
