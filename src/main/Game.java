@@ -9,6 +9,7 @@ import listener.MouseHandler;
 import listener.KeyHandler;
 import object.Ghost;
 import object.PacMan;
+import object.collision.Collider;
 import ui.Ui;
 
 import java.awt.Graphics;
@@ -68,6 +69,9 @@ public class Game extends JPanel implements Runnable{
 
     // debug strings
     public String debugStandardString = "[DEBUG][" + System.nanoTime()/1000000000 + "] ";
+
+    // collision management
+    private Collider[] colliders = new Collider[0];
 
     // instance creation
     public Ui ui = new Ui(this);
@@ -228,6 +232,18 @@ public class Game extends JPanel implements Runnable{
             for (Ghost ghost : this.ghostArray) {
                 ghost.move();
             }
+
+            // colliders
+            for (Collider col : colliders) {
+                col.update();
+
+                // check collision
+                for (Collider collidetTo : colliders) {
+                    if (col != collidetTo) {
+                        
+                    }
+                }
+            }
         }
 
 
@@ -295,6 +311,22 @@ public class Game extends JPanel implements Runnable{
             hight = gameTiles.length - 1;
         }
         return gameTiles[hight][width];
+    }
+
+    // add methods
+    public void addCollider(Collider col) {
+        int newColLength = colliders.length + 1;
+        Collider[] newColliders = new Collider[newColLength];
+        for (int i = 0; i < colliders.length; i++) {
+            newColliders[i] = colliders[i];
+        }
+        newColliders[newColLength - 1] = col;
+        this.colliders = newColliders;
+    }
+
+    // events
+    public PacMan pacManMoved() {
+        return this.pacMan;
     }
     
 }

@@ -5,6 +5,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import main.Game;
+import object.collision.Collider;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -29,6 +30,9 @@ public class PacMan extends Object {
 		this.y = y * game.tileSize;
 		speed = 3; // 3 * 60 per second
 		rotation = right;
+
+		// add collision box
+		this.collider = new Collider(this);
 
 		// default methods
 		getPlayerImage();
@@ -200,7 +204,9 @@ public class PacMan extends Object {
 		g2.drawImage(image, x, y, game.tileSize, game.tileSize, null);
 
 		// debug
-		drawDebug(g2);
+		if (game.isDebugMode) {
+			drawDebug(g2);
+		}
     }
 	
 

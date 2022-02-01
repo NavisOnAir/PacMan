@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 
 import main.Game;
+import object.collision.Collider;
 
 public class Object {
 
@@ -35,6 +36,7 @@ public class Object {
 
     // instances
     public Game game;
+    public Collider collider;
 
     public Object(Game game) {
         this.game = game;
@@ -51,13 +53,16 @@ public class Object {
 
     // debug methods
     public void drawDebug(Graphics2D g2) {
-        // debug
-		if (game.isDebugMode) {
-			
-			int[] debugLineCords = getCordsInRotation();
-			int[] centeredCords = getCenteredCords();
-			g2.setColor(Color.red);
-			g2.drawLine(centeredCords[0], centeredCords[1], debugLineCords[0], debugLineCords[1]);
+        // orientation / direction as red line
+		int[] debugLineCords = getCordsInRotation();
+		int[] centeredCords = getCenteredCords();
+		g2.setColor(Color.red);
+		g2.drawLine(centeredCords[0], centeredCords[1], debugLineCords[0], debugLineCords[1]);
+
+        // collider as white box
+        g2.setColor(Color.white);
+        if (collider != null) {
+            collider.draw(g2);
 		
 		}
     }

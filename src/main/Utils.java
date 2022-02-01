@@ -7,6 +7,8 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
+import object.collision.Box;
+
 public class Utils {
 
     // debug states
@@ -68,6 +70,10 @@ public class Utils {
         } else {
             return false;
         }
+    }
+
+    public boolean checkBox(Box boxOne, Box boxTwo) {
+        return false;
     }
 
     // get files in directory
