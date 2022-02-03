@@ -3,11 +3,19 @@ package object;
 import main.Game;
 import object.collision.Collider;
 
+import javax.imageio.ImageIO;
+
 import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 public class Ghost extends Object {
 
     Color color;
+
+    // sprites
+    BufferedImage spriteRedOne, spriteRedTwo, spriteBlueOne, spriteBlueTwo, spriteYellowOne, spriteYellowTwo, spriteGreenOne, spriteGreenTwo;
 
     // timer
     int releaseTime;
@@ -23,6 +31,8 @@ public class Ghost extends Object {
 
         // add collider
         this.collider = new Collider(this, "Ghost");
+
+        loadSprites();
     } 
 
     public void move() {
@@ -124,6 +134,26 @@ public class Ghost extends Object {
                 this.rotation = nextRotation;
             }
         }
+    }
+
+    public void loadSprites() {
+        try {
+            spriteRedOne = ImageIO.read(getClass().getResourceAsStream("/sprites/ghost/ghost_red_one.png"));
+            spriteRedTwo = ImageIO.read(getClass().getResourceAsStream("/sprites/ghost/ghost_red_two.png"));
+            spriteBlueOne = ImageIO.read(getClass().getResourceAsStream("/sprites/ghost/ghost_blue_one.png"));
+            spriteBlueTwo = ImageIO.read(getClass().getResourceAsStream("/sprites/ghost/ghost_blue_two.png"));
+            spriteGreenOne = ImageIO.read(getClass().getResourceAsStream("/sprites/ghost/ghost_green_one.png"));
+            spriteGreenTwo = ImageIO.read(getClass().getResourceAsStream("/sprites/ghost/ghost_green_two.png"));
+            spriteYellowOne = ImageIO.read(getClass().getResourceAsStream("/sprites/ghost/ghost_yellow_one.png"));
+            spriteYellowTwo = ImageIO.read(getClass().getResourceAsStream("/sprites/ghost/ghost_yellow_two.png"));
+        } catch(IOException e) {
+            e.printStackTrace();
+        } 
+    }
+
+    @Override
+    public void draw(Graphics2D g2) {
+
     }
 
     private boolean randomPathFinding() { // false = left; true = right
