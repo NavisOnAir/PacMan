@@ -22,7 +22,7 @@ public class Ghost extends Object {
         this.speed = 3;
 
         // add collider
-        this.collider = new Collider(this, "Ghost");
+        this.collider = new Collider(this, game.colliderGhostName);
     } 
 
     public void move() {

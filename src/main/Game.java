@@ -72,6 +72,8 @@ public class Game extends JPanel implements Runnable{
 
     // collision management
     private Collider[] colliders = new Collider[0];
+    public final String colliderGhostName = "Ghost";
+    public final String colliderPacManName = "PacMan";
 
     // instance creation
     public Ui ui = new Ui(this);

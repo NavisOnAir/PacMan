@@ -32,7 +32,7 @@ public class PacMan extends Object {
 		rotation = right;
 
 		// add collision box
-		this.collider = new Collider(this, "PacMan");
+		this.collider = new Collider(this, game.colliderPacManName);
 
 		// default methods
 		getPlayerImage();
