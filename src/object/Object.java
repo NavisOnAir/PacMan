@@ -104,4 +104,12 @@ public class Object {
         int[] centeredCords = {centeredX, centeredY};
         return centeredCords;
     }
+
+    public void collisionEnter(Collider col) {
+        this.collider.collisionEnter(col);
+    }
+
+    public void collisionExit(Collider col) {
+        this.collider.collisionExit(col);
+    }
 }

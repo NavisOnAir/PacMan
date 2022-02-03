@@ -5,12 +5,12 @@ import java.awt.Dimension;
 
 import javax.swing.JPanel;
 
+import graphics.ui.Ui;
 import listener.MouseHandler;
 import listener.KeyHandler;
 import object.Ghost;
 import object.PacMan;
 import object.collision.Collider;
-import ui.Ui;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -39,6 +39,7 @@ public class Game extends JPanel implements Runnable{
     public final int pauseState = 2;
     public final int wonState = 3;
     public final int levelSelectState = 4;
+    public final int looseState = 5;
 
     // create game tile array
     public int[][] gameTiles;
@@ -148,7 +149,7 @@ public class Game extends JPanel implements Runnable{
         this.ghostArray = new Ghost[ghostsStartCords.length];
         for (int i = 0; i < ghostsStartCords.length; i++) {
             // creating ghost instances
-            ghostArray[i] = new Ghost(this, ghostsStartCords[i][0], ghostsStartCords[i][1], i * 10);
+            ghostArray[i] = new Ghost(this, ghostsStartCords[i][0], ghostsStartCords[i][1], i * 10, i);
 
             // set tile @ ghost start cords to empty
             this.gameTiles[ghostsStartCords[i][1]][ghostsStartCords[i][0]] = tileEmpty;
@@ -244,9 +245,9 @@ public class Game extends JPanel implements Runnable{
                     if (col != collidetTo) {
                         boolean isCollision = utils.checkCollision(col, collidetTo);
                         if (isCollision) {
-                            col.collisionEnter(collidetTo);
+                            col.parent.collisionEnter(collidetTo);
                         } else {
-                            col.collisionExit(collidetTo);
+                            col.parent.collisionExit(collidetTo);
                         }
                     }
                 }

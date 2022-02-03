@@ -217,4 +217,9 @@ public class PacMan extends Object {
 		return this.y;
 	}
 
+	@Override
+	public void collisionEnter(Collider col) {
+		game.gameState = game.looseState;
+	}
+
 }

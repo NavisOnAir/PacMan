@@ -5,22 +5,26 @@ import object.collision.Collider;
 
 import javax.imageio.ImageIO;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class Ghost extends Object {
 
-    Color color;
-
     // sprites
     BufferedImage spriteRedOne, spriteRedTwo, spriteBlueOne, spriteBlueTwo, spriteYellowOne, spriteYellowTwo, spriteGreenOne, spriteGreenTwo;
+    int color;
+
+    // color constants
+    public final int colorRed = 0;
+    public final int colorGreen = 1;
+    public final int colorBlue = 2;
+    public final int colorYellow = 3;
 
     // timer
     int releaseTime;
 
-    public Ghost(Game game, int x, int y, int releaseTime) {
+    public Ghost(Game game, int x, int y, int releaseTime, int color) {
         super(game);
         this.x = x * game.tileSize;
         this.y = y * game.tileSize;
@@ -28,6 +32,7 @@ public class Ghost extends Object {
         this.rotation = this.up;
         this.nextRotation = this.down;
         this.speed = 3;
+        this.color = color;
 
         // add collider
         this.collider = new Collider(this, game.colliderGhostName);
@@ -134,6 +139,17 @@ public class Ghost extends Object {
                 this.rotation = nextRotation;
             }
         }
+
+        // animation
+		spriteCounter++;
+		if (spriteCounter >= 20) {
+			if (spriteNumber == 0) {
+				spriteNumber = 1;
+			} else if (spriteNumber == 1) {
+				spriteNumber = 0;
+			}
+			spriteCounter = 0;
+		}
     }
 
     public void loadSprites() {
@@ -154,6 +170,55 @@ public class Ghost extends Object {
     @Override
     public void draw(Graphics2D g2) {
 
+        BufferedImage sprite = null;
+
+        switch (color) {
+            case colorRed:
+                if (this.spriteNumber == 0) {
+                    sprite = spriteRedOne;
+                }
+                if (this.spriteNumber == 1) {
+                    sprite = spriteRedTwo;
+                }
+                break;
+            case colorGreen:
+                if (this.spriteNumber == 0) {
+                    sprite = spriteGreenOne;
+                }
+                if (this.spriteNumber == 1) {
+                    sprite = spriteGreenTwo;
+                }
+                break;
+            case colorBlue:
+                if (this.spriteNumber == 0) {
+                    sprite = spriteBlueOne;
+                }
+                if (this.spriteNumber == 1) {
+                    sprite = spriteBlueTwo;
+                }
+                break;
+            case colorYellow:
+                if (this.spriteNumber == 0) {
+                    sprite = spriteYellowOne;
+                }
+                if (this.spriteNumber == 1) {
+                    sprite = spriteYellowTwo;
+                }
+                break;
+            default:
+                sprite = spriteBlueOne;
+                break;
+        }
+        if (sprite == null) {
+            sprite = spriteRedOne;
+        }
+
+        // draw sprites
+        g2.drawImage(sprite, x, y, game.tileSize, game.tileSize, null);
+
+        if (game.isDebugMode) {
+            drawDebug(g2);
+        }
     }
 
     private boolean randomPathFinding() { // false = left; true = right
@@ -164,5 +229,4 @@ public class Ghost extends Object {
             return false;
         }
     }
-    
 }

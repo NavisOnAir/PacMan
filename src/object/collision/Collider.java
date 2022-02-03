@@ -5,10 +5,10 @@ import object.Object;
 import java.awt.Graphics2D;
 import java.awt.Color;
 
-public class Collider {
+public class Collider implements Collision {
 
     int x, y;
-    Object parent;
+    public Object parent;
     public Box box;
     public String name;
 
@@ -46,11 +46,13 @@ public class Collider {
         this.box.y = y;
     }
 
+    @Override
     public void collisionEnter(Collider col) {
         this.color = Color.red;
     }
 
-    public void collisionExit(Collider collidetTo) {
+    @Override
+    public void collisionExit(Collider col) {
         this.color = Color.white;
     }
     
