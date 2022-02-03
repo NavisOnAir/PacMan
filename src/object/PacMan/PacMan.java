@@ -37,6 +37,7 @@ public class PacMan extends Object {
 
 		// default methods
 		getPlayerImage();
+		//addAnimController();
 	}
 
 	public void getPlayerImage() {
@@ -203,6 +204,7 @@ public class PacMan extends Object {
 				break;
 		}
 		g2.drawImage(image, x, y, game.tileSize, game.tileSize, null);
+		//animCont.update();
 
 		// debug
 		if (game.isDebugMode) {
@@ -221,6 +223,11 @@ public class PacMan extends Object {
 	@Override
 	public void collisionEnter(Collider col) {
 		game.gameState = game.looseState;
+	}
+
+	@Override
+	public void addAnimController() {
+		this.animCont = new PacManAnim(this, game);
 	}
 
 }
