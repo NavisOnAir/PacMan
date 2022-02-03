@@ -29,11 +29,26 @@ public class PacMan extends Object {
 		// starting position
 		this.x = x * game.tileSize;
 		this.y = y * game.tileSize;
-		speed = 3; // 3 * 60 per second
+
+		// movement viriables
+		speed = 4; // 3 * 60 per second
 		rotation = right;
+		this.step = (int) (game.tileSize * speed / game.FPS);
+		
+		// test step
+		boolean stepApproved = approveStepSize();
+		if (!stepApproved) {
+			if (step != 0){
+				this.step--;
+			} else {
+				this.step = 1;
+			}
+		}
 
 		// add collision box
+		int offset = 3;
 		this.collider = new Collider(this, game.colliderPacManName);
+		collider.changeBoxSize(offset * game.scale, offset * game.scale, game.tileSize - offset * 2 * game.scale);
 
 		// default methods
 		getPlayerImage();
@@ -132,16 +147,16 @@ public class PacMan extends Object {
 		if (this.nextTile == game.tileEmpty || this.nextTile == game.tileCoin) {
 			switch(this.rotation) {
 				case up:
-					this.y -= speed;
+					this.y -= step;
 					break;
 				case right:
-					this.x += speed;
+					this.x += step;
 					break;
 				case down:
-					this.y += speed;
+					this.y += step;
 					break;
 				case left:
-					this.x -= speed;
+					this.x -= step;
 					break;
 				default:
 					break;

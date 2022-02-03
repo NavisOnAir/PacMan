@@ -32,11 +32,27 @@ public class Ghost extends Object {
         this.releaseTime = releaseTime;
         this.rotation = this.up;
         this.nextRotation = this.down;
-        this.speed = 3;
         this.color = color;
 
+        // movement viriables
+		speed = 4; // 3 * 60 per second
+		rotation = right;
+		this.step = (int) (game.tileSize * speed / game.FPS);
+		
+		// test step
+		boolean stepApproved = approveStepSize();
+		if (!stepApproved) {
+			if (step != 0){
+				this.step--;
+			} else {
+				this.step = 1;
+			}
+		}
+
         // add collider
+        int offset = 2;
         this.collider = new Collider(this, game.colliderGhostName);
+        this.collider.changeBoxSize(offset * game.scale, offset * game.scale, game.tileSize - offset * 2 * game.scale);
 
         loadSprites();
     } 
@@ -124,16 +140,16 @@ public class Ghost extends Object {
                 // moving object
                 switch (this.rotation) {
                     case up:
-                        this.y -= speed;
+                        this.y -= step;
                         break;
                     case right:
-                        this.x += speed;
+                        this.x += step;
                         break;
                     case down:
-                        this.y += speed;
+                        this.y += step;
                         break;
                     case left:
-                        this.x -= speed;
+                        this.x -= step;
                         break;
                 }
             } else {

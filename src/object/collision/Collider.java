@@ -9,21 +9,31 @@ public class Collider implements Collision {
 
     int x, y;
     public Object parent;
-    public Box box;
     public String name;
+
+    // box collider
+    public Box box;
+    private int boxXOffset = 0;
+    private int boxYOffset = 0;
 
     // debug
     Color color = Color.white;
 
     public Collider(Object parent, String name) {
         this.parent = parent;
-        this.box = new Box(parent.x, parent.y, parent.game.tileSize, parent.game.tileSize);
+        this.box = new Box(parent.x + boxXOffset, parent.y + boxYOffset, parent.game.tileSize, parent.game.tileSize);
         this.x = parent.x;
         this.y = parent.y;
         this.name = name;
 
         // add collider to game collider array
         this.parent.game.addCollider(this);
+    }
+
+    public void changeBoxSize(int relativeX, int relativeY, int size) { // size is same on all sites
+        this.boxXOffset = relativeX;
+        this.boxYOffset = relativeY;
+        this.box = new Box(parent.x + boxXOffset, parent.y + boxYOffset, size, size);
     }
 
     public int getWidth() {
@@ -40,8 +50,8 @@ public class Collider implements Collision {
     }
 
     public void update() {
-        this.x = parent.x;
-        this.y = parent.y;
+        this.x = parent.x + boxXOffset;
+        this.y = parent.y + boxYOffset;
         this.box.x = x;
         this.box.y = y;
     }

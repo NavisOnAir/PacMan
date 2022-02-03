@@ -17,6 +17,7 @@ public class Object {
     public int x, y;
     public double speed;
     public int nextTile;
+    public int step;
 
     // properties
     public boolean isVunerable = false;
@@ -99,6 +100,17 @@ public class Object {
         }
         return extCords;
     }
+
+    public boolean approveStepSize() {
+		for (int i = 0; i <= game.tileSize; i++) {
+			if ((step * i) % game.tileSize == 0) {
+				System.out.println("<<< Working with stepsize of: " + step + " >>>");
+				return true;
+			}
+		}
+		return false;
+	}
+
 
     public int[] getCenteredCords() {
         int centeredX = this.x + Math.round(game.tileSize / 2);

@@ -23,7 +23,7 @@ public class Game extends JPanel implements Runnable{
 
     // screen settings
     final int origTileSize = 16;
-    final int scale = 3;
+    public final int scale = 3;
     public boolean isDebugMode = true;
 
     public final int tileSize = origTileSize * scale; // 48
