@@ -3,6 +3,7 @@ package object;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
+import graphics.animation.AnimationController;
 import main.Game;
 import object.collision.Collider;
 
@@ -37,6 +38,7 @@ public class Object {
     // instances
     public Game game;
     public Collider collider;
+    public AnimationController animCont;
 
     public Object(Game game) {
         this.game = game;
@@ -111,5 +113,9 @@ public class Object {
 
     public void collisionExit(Collider col) {
         this.collider.collisionExit(col);
+    }
+
+    public void addAnimController() {
+        this.animCont = new AnimationController(this, this.game);
     }
 }

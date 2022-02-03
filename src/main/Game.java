@@ -8,8 +8,8 @@ import javax.swing.JPanel;
 import graphics.ui.Ui;
 import listener.MouseHandler;
 import listener.KeyHandler;
-import object.Ghost;
-import object.PacMan;
+import object.Ghosts.Ghost;
+import object.PacMan.PacMan;
 import object.collision.Collider;
 
 import java.awt.Graphics;
@@ -63,7 +63,7 @@ public class Game extends JPanel implements Runnable{
     public String levelSelected = "level1.lvl";
 
     // fps
-    int FPS = 60;
+    public int FPS = 60;
     public int currentTPS = 0;
     public int currentFPS = 0;
     public int currentFrame = 0;

@@ -1,6 +1,7 @@
-package object;
+package object.Ghosts;
 
 import main.Game;
+import object.Object;
 import object.collision.Collider;
 
 import javax.imageio.ImageIO;

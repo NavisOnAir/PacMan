@@ -4,9 +4,9 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.font.FontRenderContext;
 
+import graphics.ui.Ui;
 import main.Game;
 import main.Utils;
-import ui.Ui;
 
 public class MouseHandler implements MouseListener {
 

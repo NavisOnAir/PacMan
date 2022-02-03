@@ -1,10 +1,11 @@
-package object;
+package object.PacMan;
 
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
 import main.Game;
+import object.Object;
 import object.collision.Collider;
 
 import java.awt.Graphics2D;
