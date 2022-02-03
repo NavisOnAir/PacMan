@@ -56,7 +56,7 @@ public class Utils {
     // return true if x and y are in rectangle
     public boolean checkRectangle(int x, int y, Rectangle2D reg2D, int regX, int regY) {
         int rWidth = (int) Math.round(reg2D.getWidth());
-        int rHight = (int) Math.round(reg2D.getHeight());
+        int rHight = (int) Math.round(reg2D.getHeight()  / 2);
 
         // comparing logic
         boolean boolX = true;

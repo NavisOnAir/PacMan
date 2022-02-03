@@ -289,6 +289,11 @@ public class Game extends JPanel implements Runnable{
             ui.drawIngame(g2);
             pacMan.draw(g2);
             ui.drawPause(g2);
+
+            // enemies
+            for (Ghost ghost : this.ghostArray) {
+                ghost.draw(g2);
+            }
         }
 
         // Level select screen

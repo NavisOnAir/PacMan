@@ -21,6 +21,9 @@ public class Ui {
     Game game;
     Object object = new Object();
 
+    // utility
+    FontRenderContext frc = new FontRenderContext(null, true, true);
+
     // start button cords
     public int startButtonX;
     public int startButtonY;
@@ -164,14 +167,22 @@ public class Ui {
 
     // pause screen
     public void drawPause(Graphics2D g2) {
+
         // start button
         String str = "Start";
         float fontSize = 50f; // changing this needs to change it in mousehandler too
         int sX = getXForCenteredText(defaultFont.deriveFont(fontSize), str);
         int sY = Math.round(game.screenHight - game.screenHight * 0.3f);
+        
 
         this.startButtonX = sX;
         this.startButtonY = sY;
+
+        // start button background
+        int rectWidth = (int) Math.round(defaultFont.deriveFont(fontSize).getStringBounds(str, frc).getWidth());
+        int rectHeight = (int) Math.round(defaultFont.deriveFont(fontSize).getStringBounds(str, frc).getHeight() / 2);
+        g2.setColor(Color.black);
+        g2.fillRect(sX, sY - rectHeight, rectWidth, rectHeight);
 
         g2.setColor(Color.white);
         g2.setFont(defaultFont.deriveFont(fontSize));
