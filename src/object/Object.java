@@ -15,7 +15,7 @@ public class Object {
     
     // stearing, positioning
     public int x, y;
-    public int speed;
+    public double speed;
     public int nextTile;
 
     // properties
