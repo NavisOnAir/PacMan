@@ -120,7 +120,9 @@ public class PacMan extends Object {
 			}
 
 			// tile specific operations
-			if (this.nextTile == game.tileEmpty || this.nextTile == game.tileCoin) {
+
+			// coin
+			if (this.nextTile == game.tileEmpty || this.nextTile == game.tileCoin || this.nextTile == game.tilePowerPill) {
 				this.setRotation(this.nextRotation);
 			}
 			
@@ -161,7 +163,7 @@ public class PacMan extends Object {
 			}
 		}
 
-		if (this.nextTile == game.tileEmpty || this.nextTile == game.tileCoin) {
+		if (this.nextTile == game.tileEmpty || this.nextTile == game.tileCoin || this.nextTile == game.tilePowerPill) {
 			switch(this.rotation) {
 				case up:
 					this.y -= step;
@@ -179,6 +181,11 @@ public class PacMan extends Object {
 					break;
 			}
 		}
+
+		// power pill
+		if (this.nextTile == game.tilePowerPill) {
+			empowered();
+		}
 		
 		// animation
 		spriteCounter++;
@@ -191,6 +198,10 @@ public class PacMan extends Object {
 			spriteCounter = 0;
 		}
 
+	}
+
+	public void empowered() {
+		
 	}
 
 	@Override
