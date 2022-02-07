@@ -8,10 +8,12 @@ import main.Game;
 import object.collision.Collider;
 
 public class Object {
-
-    public Object() {
-
-    }
+    // object stages
+	public final int stateIdle = 0;
+	public final int stateMoveUp = 1;
+	public final int stateMoveRight = 2;
+	public final int stateMoveDown = 3;
+	public final int stateMoveLeft = 4;
     
     // stearing, positioning
     public int startX, startY;
@@ -26,6 +28,7 @@ public class Object {
     // animation
     public int spriteNumber = 0;
     public int spriteCounter = 0;
+    public int objectState = 0;
 
     // rotation states
 	public final int up = 0;

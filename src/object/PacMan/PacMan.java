@@ -1,11 +1,8 @@
 package object.PacMan;
 
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
-
 import main.Game;
 import object.Object;
+import object.PacMan.animation.PacManAnimController;
 import object.collision.Collider;
 
 import java.awt.Graphics2D;
@@ -17,6 +14,7 @@ public class PacMan extends Object {
 
 	boolean vunerability;
 	KeyHandler keyHand;
+	PacManAnimController animControll;
 
 	public int lifes;
 
@@ -58,23 +56,9 @@ public class PacMan extends Object {
 		this.collider = new Collider(this, game.colliderPacManName);
 		collider.changeBoxSize(offset * game.scale, offset * game.scale, game.tileSize - offset * 2 * game.scale);
 
-		// default methods
-		getPlayerImage();
-		//addAnimController();
-	}
+		// animation controller
+		this.animControll = new PacManAnimController(this, game);
 
-	public void getPlayerImage() {
-		// load sprites
-		try { 
-			picDown = ImageIO.read(getClass().getResourceAsStream("/sprites/pacman/PacMan_open_down.png"));
-			picUp = ImageIO.read(getClass().getResourceAsStream("/sprites/pacman/PacMan_open_up.png"));
-			picRight = ImageIO.read(getClass().getResourceAsStream("/sprites/pacman/PacMan_open_right.png"));
-			picLeft = ImageIO.read(getClass().getResourceAsStream("/sprites/pacman/PacMan_open_left.png"));
-			picStill = ImageIO.read(getClass().getResourceAsStream("/sprites/pacman/PacMan_closed.png"));
-
-		} catch(IOException e) {
-			e.printStackTrace();
-		} 
 	}
 
 	// called on death
@@ -167,15 +151,19 @@ public class PacMan extends Object {
 			switch(this.rotation) {
 				case up:
 					this.y -= step;
+					this.objectState = stateMoveUp;
 					break;
 				case right:
 					this.x += step;
+					this.objectState = stateMoveRight;
 					break;
 				case down:
 					this.y += step;
+					this.objectState = stateMoveDown;
 					break;
 				case left:
 					this.x -= step;
+					this.objectState = stateMoveLeft;
 					break;
 				default:
 					break;
@@ -198,6 +186,9 @@ public class PacMan extends Object {
 			spriteCounter = 0;
 		}
 
+		// anim update
+		animControll.update();
+
 	}
 
 	public void empowered() {
@@ -208,46 +199,7 @@ public class PacMan extends Object {
 	public void draw(Graphics2D g2) {
 
 		// animation
-        BufferedImage image = picRight;
-
-		switch(rotation) {
-			case up:
-				if (spriteNumber == 0) {
-					image = picUp;
-				}
-				if (spriteNumber == 1) {
-					image = picStill;
-				}
-				break;
-			case right:
-				if (spriteNumber == 0) {
-					image = picRight;
-				}
-				if (spriteNumber == 1) {
-					image = picStill;
-				}
-				break;
-			case down:
-				if (spriteNumber == 0) {
-					image = picDown;
-				}
-				if (spriteNumber == 1) {
-					image = picStill;
-				}
-				break;
-			case left:
-				if (spriteNumber == 0) {
-					image = picLeft;
-				}
-				if (spriteNumber == 1) {
-					image = picStill;
-				}
-				break;
-			default:
-				break;
-		}
-		g2.drawImage(image, x, y, game.tileSize, game.tileSize, null);
-		//animCont.update();
+        animControll.draw(g2);
 
 		// debug
 		if (game.isDebugMode) {
@@ -277,7 +229,7 @@ public class PacMan extends Object {
 
 	@Override
 	public void addAnimController() {
-		this.animCont = new PacManAnim(this, game);
+		this.animCont = new PacManAnimController(this, game);
 	}
 
 }
