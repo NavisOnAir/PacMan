@@ -117,11 +117,8 @@ public class Ui {
 
         // life counter
         String strLifes = "Lifes: " + game.pacMan.lifes;
-
         int lcX = game.getWidth() - 150;
         int lcY = game.getHight();
-
-
         g2.setColor(Color.white);
         g2.setFont(defaultFont.deriveFont(fontSize));
 
@@ -129,7 +126,7 @@ public class Ui {
         if (game.gameState == game.ingameState) {
             g2.drawString(strTimer, tX, tY);
             g2.drawString(strLifes, lcX, lcY);
-        } else if (game.gameState == game.pauseState) {
+        } else if (game.gameState == game.pauseState || game.gameState == game.respawnState) {
             if (game.currentFrame % 30 == 0) {
                 this.isTimer = !this.isTimer;
                 this.isLifes = !this.isLifes;

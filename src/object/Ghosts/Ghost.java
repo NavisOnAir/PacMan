@@ -27,6 +27,8 @@ public class Ghost extends Object {
 
     public Ghost(Game game, int x, int y, int releaseTime, int color) {
         super(game);
+        this.startX = x * game.tileSize;
+        this.startY = y * game.tileSize;
         this.x = x * game.tileSize;
         this.y = y * game.tileSize;
         this.releaseTime = releaseTime;

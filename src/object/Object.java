@@ -112,6 +112,11 @@ public class Object {
 		return false;
 	}
 
+    public void dieEvent() {
+		this.x = startX;
+		this.y = startY;
+	}
+
 
     public int[] getCenteredCords() {
         int centeredX = this.x + Math.round(game.tileSize / 2);

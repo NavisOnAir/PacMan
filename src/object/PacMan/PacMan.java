@@ -33,9 +33,10 @@ public class PacMan extends Object {
 
 		// starting position
 		this.startX = x * game.tileSize;
-		this.startY = x * game.tileSize;
+		this.startY = y * game.tileSize;
 		this.x = x * game.tileSize;
 		this.y = y * game.tileSize;
+		System.out.println(x + " " + y + " -- " + startX + " " + startY);
 
 		// movement viriables
 		speed = 4; // 3 * 60 per second
@@ -77,9 +78,12 @@ public class PacMan extends Object {
 	}
 
 	// called on death
+	@Override
 	public void dieEvent() {
 		this.x = startX;
 		this.y = startY;
+		this.rotation = right;
+		game.gameState = game.respawnState;
 	}
 
 	public void move() {

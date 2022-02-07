@@ -40,6 +40,7 @@ public class Game extends JPanel implements Runnable{
     public final int wonState = 3;
     public final int levelSelectState = 4;
     public final int looseState = 5;
+    public final int respawnState = 6;
 
     // create game tile array
     public int[][] gameTiles;
@@ -58,6 +59,7 @@ public class Game extends JPanel implements Runnable{
     // counters
     public int pointCounter;
     public int secondsPlayed;
+    public int respawnTimer;
 
     // level select
     public String levelSelected = "level1.lvl";
@@ -254,6 +256,22 @@ public class Game extends JPanel implements Runnable{
             }
         }
 
+        if (gameState == respawnState) {
+            if (respawnTimer <= FPS * 2) {
+                respawnTimer++;
+            } else {
+                gameState = ingameState;
+
+                // die event for all ghosts
+                for (Ghost ghost :ghostArray) {
+                    ghost.dieEvent();
+                }
+
+                // reset respawn timer
+                this.respawnTimer = 0;
+            }
+        }
+
 
     }
 
@@ -299,6 +317,15 @@ public class Game extends JPanel implements Runnable{
         // Level select screen
         if (gameState == levelSelectState) {
             ui.drawLevelSelection(g2);
+        }
+
+        // Respawn screen
+        if (gameState == respawnState) {
+            ui.drawIngame(g2);
+            // enemies
+            for (Ghost ghost : this.ghostArray) {
+                ghost.draw(g2);
+            }
         }
 
 
