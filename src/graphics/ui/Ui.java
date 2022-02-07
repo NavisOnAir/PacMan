@@ -160,6 +160,7 @@ public class Ui {
         g2.setFont(defaultFont.deriveFont(fontSize));
         g2.drawString(str, sX, sY);
 
+        /*
         // level select button
         str = "Select Level";
         int lsX = getXForCenteredText(defaultFont.deriveFont(fontSize), str);
@@ -168,7 +169,11 @@ public class Ui {
         this.levelSelectButtonX = lsX;
         this.levelSelectButtonY = lsY;
 
-        g2.drawString(str, lsX, lsY);
+        g2.drawString(str, lsX, lsY);*/
+        GButton levelSelectButton = new GButton("Select Level", getXForCenteredText(defaultFont.deriveFont(fontSize), str), Math.round(game.screenHight - game.screenHight * 0.6f), this, 40f);
+        game.addMouseListener(levelSelectButton);
+        levelSelectButton.draw(g2);
+        levelSelectButton.drawDebug(g2);
 
         // level selected display
         fontSize = 20f; // changing this needs to change it in mousehandler too
@@ -189,7 +194,7 @@ public class Ui {
         float fontSize = 50f; // changing this needs to change it in mousehandler too
         int sX = getXForCenteredText(defaultFont.deriveFont(fontSize), str);
         int sY = Math.round(game.screenHight - game.screenHight * 0.3f);
-        
+
 
         this.startButtonX = sX;
         this.startButtonY = sY;
