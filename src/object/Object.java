@@ -14,6 +14,7 @@ public class Object {
     }
     
     // stearing, positioning
+    public int startX, startY;
     public int x, y;
     public double speed;
     public int nextTile;

@@ -90,7 +90,7 @@ public class Game extends JPanel implements Runnable{
     Thread gameThread;
 
     // moving objects
-    PacMan pacMan;;
+    public PacMan pacMan;;
 
 
 
@@ -341,5 +341,6 @@ public class Game extends JPanel implements Runnable{
     public PacMan pacManMoved() {
         return this.pacMan;
     }
+
     
 }

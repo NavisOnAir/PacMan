@@ -46,8 +46,9 @@ public class Ui {
     // standard font
     public Font defaultFont = new Font("Courier", Font.PLAIN, 20);
 
-    // timer display blinking
+    // display blinking
     private boolean isTimer = false;
+    private boolean isLifes = false;
 
     public Ui(Game game) {
         this.game = game;
@@ -110,18 +111,32 @@ public class Ui {
         long currentTimePassed = game.timer.getTimeInNanoSeconds();
         double currentSeconds = (double) currentTimePassed / 1000000000;
         DecimalFormat f = new DecimalFormat("##.00");
-        str = "Time: " + f.format(currentSeconds);
+        String strTimer = "Time: " + f.format(currentSeconds);
         int tX = 50;
         int tY = game.getHight();
 
+        // life counter
+        String strLifes = "Lifes: " + game.pacMan.lifes;
+
+        int lcX = game.getWidth() - 150;
+        int lcY = game.getHight();
+
+
+        g2.setColor(Color.white);
+        g2.setFont(defaultFont.deriveFont(fontSize));
+
+        // blinking ui (timer, lifes)
         if (game.gameState == game.ingameState) {
-            g2.drawString(str, tX, tY);
+            g2.drawString(strTimer, tX, tY);
+            g2.drawString(strLifes, lcX, lcY);
         } else if (game.gameState == game.pauseState) {
             if (game.currentFrame % 30 == 0) {
                 this.isTimer = !this.isTimer;
+                this.isLifes = !this.isLifes;
             }
             if (this.isTimer) {
-                g2.drawString(str, tX, tY);
+                g2.drawString(strTimer, tX, tY);
+                g2.drawString(strLifes, lcX, lcY);
             }
         }
 

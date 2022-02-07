@@ -18,6 +18,8 @@ public class PacMan extends Object {
 	boolean vunerability;
 	KeyHandler keyHand;
 
+	public int lifes;
+
 	public BufferedImage picStill, picUp, picDown, picLeft, picRight;
 
 	public PacMan(Game game, KeyHandler keyHand2, int x, int y) {
@@ -26,7 +28,12 @@ public class PacMan extends Object {
 
 		this.nextTile = -1;
 
+		// lifes
+		this.lifes = 3;
+
 		// starting position
+		this.startX = x * game.tileSize;
+		this.startY = x * game.tileSize;
 		this.x = x * game.tileSize;
 		this.y = y * game.tileSize;
 
@@ -67,6 +74,12 @@ public class PacMan extends Object {
 		} catch(IOException e) {
 			e.printStackTrace();
 		} 
+	}
+
+	// called on death
+	public void dieEvent() {
+		this.x = startX;
+		this.y = startY;
 	}
 
 	public void move() {
@@ -237,7 +250,14 @@ public class PacMan extends Object {
 
 	@Override
 	public void collisionEnter(Collider col) {
-		game.gameState = game.looseState;
+		if (col.name == game.colliderGhostName) {
+			if (lifes > 1) {
+				this.lifes--;
+				dieEvent();
+			} else {
+				game.gameState = game.looseState;
+			}
+		}
 	}
 
 	@Override
