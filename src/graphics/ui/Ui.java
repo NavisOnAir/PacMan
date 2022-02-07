@@ -41,7 +41,7 @@ public class Ui {
     public String[] levelStrings = new String[10];
  
     // tile images
-    public BufferedImage sprEmpty, sprWall, sprCoin, sprDoor;
+    public BufferedImage sprEmpty, sprWall, sprCoin, sprDoor, sprPowerPill;
 
     // standard font
     public Font defaultFont = new Font("Courier", Font.PLAIN, 20);
@@ -64,6 +64,7 @@ public class Ui {
             sprWall = ImageIO.read(getClass().getResourceAsStream("/sprites/tiles/wall.png"));
             sprCoin = ImageIO.read(getClass().getResourceAsStream("/sprites/tiles/coin.png"));
             sprDoor = ImageIO.read(getClass().getResourceAsStream("/sprites/tiles/door.png"));
+            sprPowerPill = ImageIO.read(getClass().getResourceAsStream("/sprites/tiles/power_pill.png"));
 
 		} catch(IOException e) {
 			e.printStackTrace();
@@ -83,6 +84,9 @@ public class Ui {
                 }
                 if (tileCode == game.tileDoor) {
                     g2.drawImage(sprDoor, j * game.tileSize, i * game.tileSize, game.tileSize, game.tileSize, null);
+                }
+                if (tileCode == game.tilePowerPill) {
+                    g2.drawImage(sprPowerPill, j * game.tileSize, i * game.tileSize, game.tileSize, game.tileSize, null);
                 }
             }
         }
