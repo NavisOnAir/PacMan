@@ -60,7 +60,8 @@ public class PacManAnimController extends AnimationController {
         Animation lastAnim = currentAnimation;
         currentAnimationIndex = index;
         currentAnimation = animationList.get(currentAnimationIndex);
-        currentAnimation.updateFrame(lastAnim.currentFrame);
+        currentAnimation.currentFrame = lastAnim.currentFrame;
+        currentAnimation.currentSprite = lastAnim.currentSprite;
     }
 
 }

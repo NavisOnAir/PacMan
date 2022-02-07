@@ -18,7 +18,7 @@ public class Animation {
 
     // counters
     public int currentFrame = 0; // frame counter to indicate a sprite switch
-    int currentSprite = 0;
+    public int currentSprite = 0;
     int spriteSwitchFrame;
 
     // sprites
@@ -66,10 +66,6 @@ public class Animation {
     public void draw(Graphics2D g2, int x, int y) {
         g2.drawImage(spriteList.get(currentSprite), x, y, game.tileSize, game.tileSize, null);
 
-    }
-
-    public void updateFrame(int bufferedTime) {
-        currentFrame = bufferedTime;
     }
     
 }
