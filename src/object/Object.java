@@ -29,6 +29,7 @@ public class Object {
     public int spriteNumber = 0;
     public int spriteCounter = 0;
     public int objectState = 0;
+    public AnimationController animControll;
 
     // rotation states
 	public final int up = 0;
@@ -43,7 +44,6 @@ public class Object {
     // instances
     public Game game;
     public Collider collider;
-    public AnimationController animCont;
 
     public Object(Game game) {
         this.game = game;
@@ -108,7 +108,9 @@ public class Object {
     public boolean approveStepSize() {
 		for (int i = 0; i <= game.tileSize; i++) {
 			if ((step * i) % game.tileSize == 0) {
-				System.out.println("<<< Working with stepsize of: " + step + " >>>");
+                if (game.isDebugMode) {
+				    System.out.println("<<< Working with stepsize of: " + step + " >>>");
+                }
 				return true;
 			}
 		}
@@ -134,9 +136,5 @@ public class Object {
 
     public void collisionExit(Collider col) {
         this.collider.collisionExit(col);
-    }
-
-    public void addAnimController() {
-        this.animCont = new AnimationController(this, this.game);
     }
 }

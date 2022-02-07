@@ -6,7 +6,6 @@ import object.PacMan.animation.PacManAnimController;
 import object.collision.Collider;
 
 import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
 
 import listener.KeyHandler;
 
@@ -14,11 +13,8 @@ public class PacMan extends Object {
 
 	boolean vunerability;
 	KeyHandler keyHand;
-	PacManAnimController animControll;
 
 	public int lifes;
-
-	public BufferedImage picStill, picUp, picDown, picLeft, picRight;
 
 	public PacMan(Game game, KeyHandler keyHand2, int x, int y) {
 		super(game);
@@ -34,7 +30,6 @@ public class PacMan extends Object {
 		this.startY = y * game.tileSize;
 		this.x = x * game.tileSize;
 		this.y = y * game.tileSize;
-		System.out.println(x + " " + y + " -- " + startX + " " + startY);
 
 		// movement viriables
 		speed = 4; // 3 * 60 per second
@@ -225,11 +220,6 @@ public class PacMan extends Object {
 				game.gameState = game.looseState;
 			}
 		}
-	}
-
-	@Override
-	public void addAnimController() {
-		this.animCont = new PacManAnimController(this, game);
 	}
 
 }

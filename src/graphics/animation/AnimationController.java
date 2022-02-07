@@ -16,6 +16,7 @@ public class AnimationController {
     public ArrayList<Animation> animationList = new ArrayList<Animation>();
     public int currentAnimationIndex = 0;
     public Animation currentAnimation;
+    public String[] sprites;
 
     public AnimationController(Object parent, Game game) {
         this.game = game;

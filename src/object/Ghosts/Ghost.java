@@ -2,19 +2,17 @@ package object.Ghosts;
 
 import main.Game;
 import object.Object;
+import object.Ghosts.animation.GhostAnimController;
 import object.collision.Collider;
-
-import javax.imageio.ImageIO;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 public class Ghost extends Object {
 
     // sprites
     BufferedImage spriteRedOne, spriteRedTwo, spriteBlueOne, spriteBlueTwo, spriteYellowOne, spriteYellowTwo, spriteGreenOne, spriteGreenTwo;
-    int color;
+    public int color;
 
     // color constants
     public final int colorRed = 0;
@@ -56,7 +54,8 @@ public class Ghost extends Object {
         this.collider = new Collider(this, game.colliderGhostName);
         this.collider.changeBoxSize(offset * game.scale, offset * game.scale, game.tileSize - offset * 2 * game.scale);
 
-        loadSprites();
+        // animation
+        this.animControll = new GhostAnimController(this, game, this);
     } 
 
     public void move() {
@@ -160,81 +159,15 @@ public class Ghost extends Object {
         }
 
         // animation
-		spriteCounter++;
-		if (spriteCounter >= 20) {
-			if (spriteNumber == 0) {
-				spriteNumber = 1;
-			} else if (spriteNumber == 1) {
-				spriteNumber = 0;
-			}
-			spriteCounter = 0;
-		}
-    }
-
-    public void loadSprites() {
-        try {
-            spriteRedOne = ImageIO.read(getClass().getResourceAsStream("/sprites/ghost/ghost_red_one.png"));
-            spriteRedTwo = ImageIO.read(getClass().getResourceAsStream("/sprites/ghost/ghost_red_two.png"));
-            spriteBlueOne = ImageIO.read(getClass().getResourceAsStream("/sprites/ghost/ghost_blue_one.png"));
-            spriteBlueTwo = ImageIO.read(getClass().getResourceAsStream("/sprites/ghost/ghost_blue_two.png"));
-            spriteGreenOne = ImageIO.read(getClass().getResourceAsStream("/sprites/ghost/ghost_green_one.png"));
-            spriteGreenTwo = ImageIO.read(getClass().getResourceAsStream("/sprites/ghost/ghost_green_two.png"));
-            spriteYellowOne = ImageIO.read(getClass().getResourceAsStream("/sprites/ghost/ghost_yellow_one.png"));
-            spriteYellowTwo = ImageIO.read(getClass().getResourceAsStream("/sprites/ghost/ghost_yellow_two.png"));
-        } catch(IOException e) {
-            e.printStackTrace();
-        } 
+        animControll.update();
     }
 
     @Override
     public void draw(Graphics2D g2) {
+        // animation
+        animControll.draw(g2);
 
-        BufferedImage sprite = null;
-
-        switch (color) {
-            case colorRed:
-                if (this.spriteNumber == 0) {
-                    sprite = spriteRedOne;
-                }
-                if (this.spriteNumber == 1) {
-                    sprite = spriteRedTwo;
-                }
-                break;
-            case colorGreen:
-                if (this.spriteNumber == 0) {
-                    sprite = spriteGreenOne;
-                }
-                if (this.spriteNumber == 1) {
-                    sprite = spriteGreenTwo;
-                }
-                break;
-            case colorBlue:
-                if (this.spriteNumber == 0) {
-                    sprite = spriteBlueOne;
-                }
-                if (this.spriteNumber == 1) {
-                    sprite = spriteBlueTwo;
-                }
-                break;
-            case colorYellow:
-                if (this.spriteNumber == 0) {
-                    sprite = spriteYellowOne;
-                }
-                if (this.spriteNumber == 1) {
-                    sprite = spriteYellowTwo;
-                }
-                break;
-            default:
-                sprite = spriteBlueOne;
-                break;
-        }
-        if (sprite == null) {
-            sprite = spriteRedOne;
-        }
-
-        // draw sprites
-        g2.drawImage(sprite, x, y, game.tileSize, game.tileSize, null);
-
+        // debug
         if (game.isDebugMode) {
             drawDebug(g2);
         }

@@ -14,7 +14,6 @@ public class PacManAnimController extends AnimationController {
 
     public PacManAnimController(Object parent, Game game) {
         super(parent, game);
-        String[] sprites;
 
         // up
         sprites = new String[]{"/sprites/pacman/PacMan_closed.png", "/sprites/pacman/PacMan_open_up.png"};
