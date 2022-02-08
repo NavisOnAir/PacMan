@@ -34,7 +34,7 @@ public class AnimationController {
         
     }
 
-    public void addAnimation(String name, int duration, String[] spritePaths) {
+    public void addAnimation(String name, double duration, String[] spritePaths) {
         // create new animation instance
         Animation anim = new Animation(game, name, duration, spritePaths);
 

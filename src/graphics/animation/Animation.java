@@ -14,7 +14,7 @@ public class Animation {
 
     // attributes
     public String name;
-    int duration; // in seconds
+    double duration; // in seconds
 
     // counters
     public int currentFrame = 0; // frame counter to indicate a sprite switch
@@ -24,13 +24,19 @@ public class Animation {
     // sprites
     ArrayList<BufferedImage> spriteList = new ArrayList<BufferedImage>();
 
-    public Animation(Game game, String name, int duration, String[] spritePaths) {
+    public Animation(Game game, String name, double duration, String[] spritePaths) {
         this.game = game;
         this.name = name;
         this.duration = duration; // in seconds
 
         // calculate the frame to switch between sprites
-        this.spriteSwitchFrame = duration * game.FPS / spritePaths.length;
+        this.spriteSwitchFrame = (int) (duration * game.FPS / spritePaths.length);
+        if (spriteSwitchFrame == 0) {
+            this.spriteSwitchFrame = -1;
+        }
+        if (spriteSwitchFrame <= 0) {
+            System.out.println("<<< Error Sprite switch counter in Animation is 0 or less >>>");
+        }
 
         // fetch sprites
         loadSprites(spritePaths);

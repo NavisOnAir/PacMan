@@ -12,24 +12,27 @@ public class PacManAnimController extends AnimationController {
     final int animDown = 2;
     final int animLeft = 3; 
 
+    // anim duration
+    final double animDur = 1;
+
     public PacManAnimController(Object parent, Game game) {
         super(parent, game);
 
         // up
         sprites = new String[]{"/sprites/pacman/PacMan_closed.png", "/sprites/pacman/PacMan_open_up.png"};
-        addAnimation("moveUp", 1, sprites);
+        addAnimation("moveUp", animDur, sprites);
 
         // right
         sprites = new String[]{"/sprites/pacman/PacMan_closed.png", "/sprites/pacman/PacMan_open_right.png"};
-        addAnimation("moveRight", 1, sprites);
+        addAnimation("moveRight", animDur, sprites);
 
         // down
         sprites = new String[]{"/sprites/pacman/PacMan_closed.png", "/sprites/pacman/PacMan_open_down.png"};
-        addAnimation("moveDown", 1, sprites);
+        addAnimation("moveDown", animDur, sprites);
 
         // left
         sprites = new String[]{"/sprites/pacman/PacMan_closed.png", "/sprites/pacman/PacMan_open_left.png"};
-        addAnimation("moveLeft", 1, sprites);
+        addAnimation("moveLeft", animDur, sprites);
 
     }
 
