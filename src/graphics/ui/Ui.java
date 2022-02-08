@@ -19,7 +19,7 @@ public class Ui {
     
     // instances
     Game game;
-    Object object = new Object();
+    Object object = new Object(game);
 
     // utility
     FontRenderContext frc = new FontRenderContext(null, true, true);

@@ -8,10 +8,6 @@ import main.Game;
 import object.collision.Collider;
 
 public class Object {
-
-    public Object() {
-
-    }
     
     // stearing, positioning
     public int startX, startY;
