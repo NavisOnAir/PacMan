@@ -15,6 +15,7 @@ public class PacMan extends Object {
 	KeyHandler keyHand;
 
 	public int lifes;
+	public double empEnterTime;
 
 	public PacMan(Game game, KeyHandler keyHand2, int x, int y) {
 		super(game);
@@ -35,6 +36,7 @@ public class PacMan extends Object {
 		speed = 4; // 3 * 60 per second
 		rotation = right;
 		this.step = (int) (game.tileSize * speed / game.FPS);
+		this.isVunerable = true;
 		
 		// test step
 		boolean stepApproved = approveStepSize();
@@ -187,7 +189,9 @@ public class PacMan extends Object {
 	}
 
 	public void empowered() {
-		
+		empEnterTime = game.timer.getTimeInSeconds();
+		game.pacManEmpowered();
+		this.isEmpowered = true;
 	}
 
 	@Override
@@ -212,12 +216,19 @@ public class PacMan extends Object {
 
 	@Override
 	public void collisionEnter(Collider col) {
-		if (col.name == game.colliderGhostName) {
-			if (lifes > 1) {
-				this.lifes--;
-				dieEvent();
-			} else {
-				game.gameState = game.looseState;
+		if (isVunerable) {
+			if (col.name == game.colliderGhostName) {
+				if (lifes > 1) {
+					this.lifes--;
+					dieEvent();
+				} else {
+					game.gameState = game.looseState;
+				}
+			}
+		} else {
+			// deletes ghost if eaten
+			if (col.name == game.colliderGhostName) {
+				col.parent.dieEvent();
 			}
 		}
 	}

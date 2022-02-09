@@ -24,6 +24,7 @@ public class Object {
 
     // properties
     public boolean isVunerable = false;
+    public boolean isEmpowered = false;
 
     // animation
     public int spriteNumber = 0;

@@ -23,6 +23,14 @@ public class Ghost extends Object {
     // timer
     int releaseTime;
 
+    // life state
+    public int lifeState;
+    public final int aliveState = 0;
+    public final int deadState = 1;
+
+    // empowered
+    public int lastStep;
+
     public Ghost(Game game, int x, int y, int releaseTime, int color) {
         super(game);
         this.startX = x * game.tileSize;
@@ -38,6 +46,8 @@ public class Ghost extends Object {
 		speed = 4; // 3 * 60 per second
 		rotation = right;
 		this.step = (int) (game.tileSize * speed / game.FPS);
+        this.lastStep = step;
+        this.lifeState = aliveState;
 		
 		// test step
 		boolean stepApproved = approveStepSize();
@@ -180,5 +190,13 @@ public class Ghost extends Object {
         } else {
             return false;
         }
+    }
+
+    // events
+    public void dieEvent() {
+        this.x = startX;
+        this.y = startY;
+        this.releaseTime = (int) game.timer.getTimeInSeconds() + 20;
+        
     }
 }
