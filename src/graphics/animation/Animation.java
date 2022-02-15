@@ -5,7 +5,7 @@ import javax.imageio.ImageIO;
 
 import main.Game;
 
-import java.io.IOException;
+import java.util.ArrayList;
 import java.awt.Graphics2D;
 
 public class Animation {
@@ -14,19 +14,29 @@ public class Animation {
 
     // attributes
     public String name;
-    int duration; // in times per second
+    double duration; // in seconds
 
     // counters
-    int currentFrame = 0; // frame counter to indicate a sprite switch
-    int currentSprite = 0;
+    public int currentFrame = 0; // frame counter to indicate a sprite switch
+    public int currentSprite = 0;
+    int spriteSwitchFrame;
 
     // sprites
-    BufferedImage[] sprites;
+    ArrayList<BufferedImage> spriteList = new ArrayList<BufferedImage>();
 
-    public Animation(Game game, String name, int duration, String[] spritePaths) {
+    public Animation(Game game, String name, double duration, String[] spritePaths) {
         this.game = game;
         this.name = name;
-        this.duration = duration;
+        this.duration = duration; // in seconds
+
+        // calculate the frame to switch between sprites
+        this.spriteSwitchFrame = (int) (duration * game.FPS / spritePaths.length);
+        if (spriteSwitchFrame == 0) {
+            this.spriteSwitchFrame = -1;
+        }
+        if (spriteSwitchFrame <= 0) {
+            System.out.println("<<< Error Sprite switch counter in Animation is 0 or less >>>");
+        }
 
         // fetch sprites
         loadSprites(spritePaths);
@@ -34,12 +44,10 @@ public class Animation {
     }
 
     void loadSprites(String[] spritePaths) {
-        this.sprites = new BufferedImage[spritePaths.length];
-
         for (int i = 0; i < spritePaths.length; i++) {
             try {
-                sprites[i] = ImageIO.read(getClass().getResourceAsStream(spritePaths[i]));
-            } catch (IOException e) {
+                this.spriteList.add(ImageIO.read(getClass().getResourceAsStream(spritePaths[i])));
+            } catch (Exception e) {
                 e.printStackTrace();
                 System.out.println("<<< Failed to load sprite in: " + spritePaths[i] + " >>>");
             }
@@ -48,22 +56,21 @@ public class Animation {
 
     // must be called every frame
     public void update() {
-        if (currentFrame >= Math.round(game.FPS / duration)) {
-            this.currentSprite++;
 
-            // checks if currentsprite isnt out of bounds of sprites[]
-            if (currentSprite == sprites.length) {
-                this.currentSprite = 0;
+        // switch sprite after spriteSwitchFrame reached
+        if (currentFrame % spriteSwitchFrame == 0) {
+            if (currentSprite == spriteList.size() - 1) {
+                currentSprite = 0;
+            } else {
+                currentSprite++;
             }
-            this.currentFrame = 0;
         }
-        this.currentFrame++;
-
+        currentFrame++;
     }
 
     // draws sprite on screen
     public void draw(Graphics2D g2, int x, int y) {
-        g2.drawImage(sprites[currentSprite], x, y, game.tileSize, game.tileSize, null);
+        g2.drawImage(spriteList.get(currentSprite), x, y, game.tileSize, game.tileSize, null);
 
     }
     

@@ -24,7 +24,7 @@ public class Game extends JPanel implements Runnable{
     // screen settings
     final int origTileSize = 16;
     public final int scale = 3;
-    public boolean isDebugMode = true;
+    public boolean isDebugMode = false;
 
     public final int tileSize = origTileSize * scale; // 48
     int maxScreenCol;
@@ -233,6 +233,13 @@ public class Game extends JPanel implements Runnable{
             }
             if (pacmanWon) gameState = wonState;
 
+            // pacman empowered
+            if (pacMan.isEmpowered) {
+                if (timer.getTimeInSeconds() >= pacMan.empEnterTime + 10) {
+                    pacManNotEmpowered();
+                }
+            }
+
             // ghost
             for (Ghost ghost : this.ghostArray) {
                 ghost.move();
@@ -291,7 +298,10 @@ public class Game extends JPanel implements Runnable{
 
             // enemies
             for (Ghost ghost : this.ghostArray) {
-                ghost.draw(g2);
+                // only draws ghost if alive
+                if (ghost.lifeState == ghost.aliveState) {
+                    ghost.draw(g2);
+                }
             }
         
         }
@@ -365,8 +375,40 @@ public class Game extends JPanel implements Runnable{
     }
 
     // events
-    public PacMan pacManMoved() {
-        return this.pacMan;
+    public void pacManEmpowered() {
+        pacMan.isVunerable = false;
+        for (Ghost ghost : ghostArray) {
+            ghost.isVunerable = true;
+            ghost.step = 1; // potential error if speed less than 2
+            
+            // change direction of everey ghost
+            if (ghost.rotation == ghost.up) {
+                ghost.rotation = ghost.down;
+            }
+
+            if (ghost.rotation == ghost.right) {
+                ghost.rotation = ghost.left;
+            }
+
+            if (ghost.rotation == ghost.down) {
+                ghost.rotation = ghost.up;
+            }
+
+            if (ghost.rotation == ghost.left) {
+                ghost.rotation = ghost.right;
+            }
+                
+        }
+    }
+
+    public void pacManNotEmpowered() {
+        pacMan.isVunerable = true;
+        pacMan.isEmpowered = false;
+        for (Ghost ghost : ghostArray) {
+            ghost.isVunerable = false;
+            
+            ghost.step = (int) ghost.lastStep;
+        }
     }
 
     

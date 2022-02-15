@@ -1,15 +1,11 @@
 package object.PacMan;
 
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
-
 import main.Game;
 import object.Object;
+import object.PacMan.animation.PacManAnimController;
 import object.collision.Collider;
 
 import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
 
 import listener.KeyHandler;
 
@@ -19,8 +15,7 @@ public class PacMan extends Object {
 	KeyHandler keyHand;
 
 	public int lifes;
-
-	public BufferedImage picStill, picUp, picDown, picLeft, picRight;
+	public double empEnterTime;
 
 	public PacMan(Game game, KeyHandler keyHand2, int x, int y) {
 		super(game);
@@ -36,12 +31,12 @@ public class PacMan extends Object {
 		this.startY = y * game.tileSize;
 		this.x = x * game.tileSize;
 		this.y = y * game.tileSize;
-		System.out.println(x + " " + y + " -- " + startX + " " + startY);
 
 		// movement viriables
 		speed = 4; // 3 * 60 per second
 		rotation = right;
 		this.step = (int) (game.tileSize * speed / game.FPS);
+		this.isVunerable = true;
 		
 		// test step
 		boolean stepApproved = approveStepSize();
@@ -58,23 +53,9 @@ public class PacMan extends Object {
 		this.collider = new Collider(this, game.colliderPacManName);
 		collider.changeBoxSize(offset * game.scale, offset * game.scale, game.tileSize - offset * 2 * game.scale);
 
-		// default methods
-		getPlayerImage();
-		//addAnimController();
-	}
+		// animation controller
+		this.animControll = new PacManAnimController(this, game);
 
-	public void getPlayerImage() {
-		// load sprites
-		try { 
-			picDown = ImageIO.read(getClass().getResourceAsStream("/sprites/pacman/PacMan_open_down.png"));
-			picUp = ImageIO.read(getClass().getResourceAsStream("/sprites/pacman/PacMan_open_up.png"));
-			picRight = ImageIO.read(getClass().getResourceAsStream("/sprites/pacman/PacMan_open_right.png"));
-			picLeft = ImageIO.read(getClass().getResourceAsStream("/sprites/pacman/PacMan_open_left.png"));
-			picStill = ImageIO.read(getClass().getResourceAsStream("/sprites/pacman/PacMan_closed.png"));
-
-		} catch(IOException e) {
-			e.printStackTrace();
-		} 
 	}
 
 	// called on death
@@ -120,7 +101,9 @@ public class PacMan extends Object {
 			}
 
 			// tile specific operations
-			if (this.nextTile == game.tileEmpty || this.nextTile == game.tileCoin) {
+
+			// coin
+			if (this.nextTile == game.tileEmpty || this.nextTile == game.tileCoin || this.nextTile == game.tilePowerPill) {
 				this.setRotation(this.nextRotation);
 			}
 			
@@ -137,12 +120,18 @@ public class PacMan extends Object {
 					game.gameTiles[indexHight - 1][indexWidth] = game.tileEmpty;
 					game.pointCounter++;
 				}
+				if (this.nextTile == game.tilePowerPill) {
+					game.gameTiles[indexHight - 1][indexWidth] = game.tileEmpty;
+				}
 			}
 			if (rotation == right) {
 				this.nextTile = game.getTile(indexWidth + 1, indexHight);
 				if (this.nextTile == game.tileCoin) {
 					game.gameTiles[indexHight][indexWidth + 1] = game.tileEmpty;
 					game.pointCounter++;
+				}
+				if (this.nextTile == game.tilePowerPill) {
+					game.gameTiles[indexHight][indexWidth + 1] = game.tileEmpty;
 				}
 			}
 			if (rotation == down) {
@@ -151,6 +140,9 @@ public class PacMan extends Object {
 					game.gameTiles[indexHight + 1][indexWidth] = game.tileEmpty;
 					game.pointCounter++;
 				}
+				if (this.nextTile == game.tilePowerPill) {
+					game.gameTiles[indexHight + 1][indexWidth] = game.tileEmpty;
+				}
 			}
 			if (rotation == left) {
 				this.nextTile = game.getTile(indexWidth - 1, indexHight);
@@ -158,26 +150,38 @@ public class PacMan extends Object {
 					game.gameTiles[indexHight][indexWidth - 1] = game.tileEmpty;
 					game.pointCounter++;
 				}
+				if (this.nextTile == game.tilePowerPill) {
+					game.gameTiles[indexHight][indexWidth - 1] = game.tileEmpty;
+				}
 			}
 		}
 
-		if (this.nextTile == game.tileEmpty || this.nextTile == game.tileCoin) {
+		if (this.nextTile == game.tileEmpty || this.nextTile == game.tileCoin || this.nextTile == game.tilePowerPill) {
 			switch(this.rotation) {
 				case up:
 					this.y -= step;
+					this.objectState = stateMoveUp;
 					break;
 				case right:
 					this.x += step;
+					this.objectState = stateMoveRight;
 					break;
 				case down:
 					this.y += step;
+					this.objectState = stateMoveDown;
 					break;
 				case left:
 					this.x -= step;
+					this.objectState = stateMoveLeft;
 					break;
 				default:
 					break;
 			}
+		}
+
+		// power pill
+		if (this.nextTile == game.tilePowerPill) {
+			empowered();
 		}
 		
 		// animation
@@ -191,52 +195,22 @@ public class PacMan extends Object {
 			spriteCounter = 0;
 		}
 
+		// anim update
+		animControll.update();
+
+	}
+
+	public void empowered() {
+		empEnterTime = game.timer.getTimeInSeconds();
+		game.pacManEmpowered();
+		this.isEmpowered = true;
 	}
 
 	@Override
 	public void draw(Graphics2D g2) {
 
 		// animation
-        BufferedImage image = picRight;
-
-		switch(rotation) {
-			case up:
-				if (spriteNumber == 0) {
-					image = picUp;
-				}
-				if (spriteNumber == 1) {
-					image = picStill;
-				}
-				break;
-			case right:
-				if (spriteNumber == 0) {
-					image = picRight;
-				}
-				if (spriteNumber == 1) {
-					image = picStill;
-				}
-				break;
-			case down:
-				if (spriteNumber == 0) {
-					image = picDown;
-				}
-				if (spriteNumber == 1) {
-					image = picStill;
-				}
-				break;
-			case left:
-				if (spriteNumber == 0) {
-					image = picLeft;
-				}
-				if (spriteNumber == 1) {
-					image = picStill;
-				}
-				break;
-			default:
-				break;
-		}
-		g2.drawImage(image, x, y, game.tileSize, game.tileSize, null);
-		//animCont.update();
+        animControll.draw(g2);
 
 		// debug
 		if (game.isDebugMode) {
@@ -254,19 +228,21 @@ public class PacMan extends Object {
 
 	@Override
 	public void collisionEnter(Collider col) {
-		if (col.name == game.colliderGhostName) {
-			if (lifes > 1) {
-				this.lifes--;
-				dieEvent();
-			} else {
-				game.gameState = game.looseState;
+		if (isVunerable) {
+			if (col.name == game.colliderGhostName) {
+				if (lifes > 1) {
+					this.lifes--;
+					dieEvent();
+				} else {
+					game.gameState = game.looseState;
+				}
+			}
+		} else {
+			// deletes ghost if eaten
+			if (col.name == game.colliderGhostName) {
+				col.parent.dieEvent();
 			}
 		}
-	}
-
-	@Override
-	public void addAnimController() {
-		this.animCont = new PacManAnim(this, game);
 	}
 
 }
