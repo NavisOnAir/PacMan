@@ -120,12 +120,18 @@ public class PacMan extends Object {
 					game.gameTiles[indexHight - 1][indexWidth] = game.tileEmpty;
 					game.pointCounter++;
 				}
+				if (this.nextTile == game.tilePowerPill) {
+					game.gameTiles[indexHight - 1][indexWidth] = game.tileEmpty;
+				}
 			}
 			if (rotation == right) {
 				this.nextTile = game.getTile(indexWidth + 1, indexHight);
 				if (this.nextTile == game.tileCoin) {
 					game.gameTiles[indexHight][indexWidth + 1] = game.tileEmpty;
 					game.pointCounter++;
+				}
+				if (this.nextTile == game.tilePowerPill) {
+					game.gameTiles[indexHight][indexWidth + 1] = game.tileEmpty;
 				}
 			}
 			if (rotation == down) {
@@ -134,12 +140,18 @@ public class PacMan extends Object {
 					game.gameTiles[indexHight + 1][indexWidth] = game.tileEmpty;
 					game.pointCounter++;
 				}
+				if (this.nextTile == game.tilePowerPill) {
+					game.gameTiles[indexHight + 1][indexWidth] = game.tileEmpty;
+				}
 			}
 			if (rotation == left) {
 				this.nextTile = game.getTile(indexWidth - 1, indexHight);
 				if (this.nextTile == game.tileCoin) {
 					game.gameTiles[indexHight][indexWidth - 1] = game.tileEmpty;
 					game.pointCounter++;
+				}
+				if (this.nextTile == game.tilePowerPill) {
+					game.gameTiles[indexHight][indexWidth - 1] = game.tileEmpty;
 				}
 			}
 		}
