@@ -105,6 +105,7 @@ public class PacMan extends Object {
 			// coin
 			if (this.nextTile == game.tileEmpty || this.nextTile == game.tileCoin || this.nextTile == game.tilePowerPill) {
 				this.setRotation(this.nextRotation);
+				game.pointCounter += 100;
 			}
 			
 		}
@@ -182,6 +183,7 @@ public class PacMan extends Object {
 		// power pill
 		if (this.nextTile == game.tilePowerPill) {
 			empowered();
+			game.pointCounter += 1001;
 		}
 		
 		// animation
@@ -241,6 +243,7 @@ public class PacMan extends Object {
 			// deletes ghost if eaten
 			if (col.name == game.colliderGhostName) {
 				col.parent.dieEvent();
+				game.pointCounter += 5;
 			}
 		}
 	}

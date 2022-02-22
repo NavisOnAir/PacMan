@@ -27,9 +27,11 @@ public class Ghost extends Object {
     public int lifeState;
     public final int aliveState = 0;
     public final int deadState = 1;
+    public final int slowState = 2;
 
     // empowered
     public int lastStep;
+    private GhostAnimController animControll;
 
     public Ghost(Game game, int x, int y, int releaseTime, int color) {
         super(game);
@@ -198,5 +200,13 @@ public class Ghost extends Object {
         this.y = startY;
         this.releaseTime = (int) game.timer.getTimeInSeconds() + 20;
         
+    }
+
+    public void pacManEmpowered() {
+        animControll.pacManEmpowered();
+    }
+
+    public void exitPacManEmpowered() {
+        animControll.exitPacManEmpowered();
     }
 }

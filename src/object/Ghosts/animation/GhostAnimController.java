@@ -14,6 +14,7 @@ public class GhostAnimController extends AnimationController {
     public final int colorGreen = 1;
     public final int colorBlue = 2;
     public final int colorYellow = 3;
+    public final int pacManEmpowered = 4;
 
 
     public GhostAnimController(Object parent, Game game, Ghost ghost) {
@@ -36,6 +37,10 @@ public class GhostAnimController extends AnimationController {
         sprites = new String[]{"/sprites/ghost/ghost_yellow_one.png", "/sprites/ghost/ghost_yellow_two.png"};
         addAnimation("moveYellow", 1, sprites);
 
+        // pacman empowered
+        sprites = new String[]{"/sprites/ghost/ghost_slow_blue_1.png", "/sprites/ghost/ghost_slow_blue_2.png", "/sprites/ghost/ghost_slow_white_1.png", "/sprites/ghost/ghost_slow_white_2.png"};
+        addAnimation("pacManEmpowered", 1, sprites);
+
         // set animation for color
         if (ghost.color == ghost.colorRed) {
             switchAnimation(colorRed);
@@ -52,6 +57,14 @@ public class GhostAnimController extends AnimationController {
         if (ghost.color == ghost.colorYellow) {
             switchAnimation(colorYellow);
         }
+    }
+
+    public void pacManEmpowered() {
+        switchAnimation(pacManEmpowered);
+    }
+
+    public void exitPacManEmpowered() {
+        switchAnimation(ghost.color);
     }
     
 }

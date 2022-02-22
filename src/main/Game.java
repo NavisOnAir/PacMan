@@ -380,6 +380,7 @@ public class Game extends JPanel implements Runnable{
         for (Ghost ghost : ghostArray) {
             ghost.isVunerable = true;
             ghost.step = 1; // potential error if speed less than 2
+            ghost.pacManEmpowered();
             
             // change direction of everey ghost
             if (ghost.rotation == ghost.up) {
@@ -401,7 +402,7 @@ public class Game extends JPanel implements Runnable{
         }
     }
 
-    public void pacManNotEmpowered() {
+    private void pacManNotEmpowered() {
         pacMan.isVunerable = true;
         pacMan.isEmpowered = false;
         for (Ghost ghost : ghostArray) {
@@ -417,6 +418,7 @@ public class Game extends JPanel implements Runnable{
             ghost.y = currentY;
 
             ghost.step = (int) ghost.lastStep;
+            ghost.exitPacManEmpowered();
         }
     }
 
