@@ -406,7 +406,16 @@ public class Game extends JPanel implements Runnable{
         pacMan.isEmpowered = false;
         for (Ghost ghost : ghostArray) {
             ghost.isVunerable = false;
-            
+
+            // secures that ghost cords match the modulo tilesize operation to secure ghost not moving through walls
+            // not the smowest sollution
+            int currentX = ghost.x;
+            int currentY = ghost.y;
+            currentX -= currentX % tileSize;
+            currentY -= currentY % tileSize;
+            ghost.x = currentX;
+            ghost.y = currentY;
+
             ghost.step = (int) ghost.lastStep;
         }
     }
