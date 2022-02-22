@@ -129,7 +129,7 @@ public class Ui {
         // point counters
         String strPoints = "Points: " + game.pointCounter;
         int pcX = Math.round(game.getWidth() * 1 / 4);
-        int pcY = game.getHight();
+        int pcY = game.getHeight();
         g2.setColor(Color.white);
         g2.setFont(defaultFont.deriveFont(fontSize));
 
