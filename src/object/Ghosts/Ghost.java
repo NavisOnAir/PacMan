@@ -62,7 +62,7 @@ public class Ghost extends Object {
         // add collider
         int offset = 2;
         this.collider = new Collider(this, game.colliderGhostName);
-        this.collider.changeBoxSize(offset * game.scale, offset * game.scale, game.tileSize - offset * 2 * game.scale);
+        this.collider.changeBoxSize(offset * game.getScale(), offset * game.getScale(), game.tileSize - offset * 2 * game.getScale());
 
         // animation
         this.animControll = new GhostAnimController(this, game, this);

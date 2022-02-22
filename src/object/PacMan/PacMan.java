@@ -51,7 +51,7 @@ public class PacMan extends Object {
 		// add collision box
 		int offset = 3;
 		this.collider = new Collider(this, game.colliderPacManName);
-		collider.changeBoxSize(offset * game.scale, offset * game.scale, game.tileSize - offset * 2 * game.scale);
+		collider.changeBoxSize(offset * game.getScale(), offset * game.getScale(), game.tileSize - offset * 2 * game.getScale());
 
 		// animation controller
 		this.animControll = new PacManAnimController(this, game);
