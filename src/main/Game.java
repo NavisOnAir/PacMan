@@ -22,15 +22,15 @@ import java.io.IOException;
 public class Game extends JPanel implements Runnable{
 
     // screen settings
-    final int origTileSize = 16;
-    public final int scale = 3;
+    private final int origTileSize = 16;
+    private final int scale = 3;
     public boolean isDebugMode = false;
 
     public final int tileSize = origTileSize * scale; // 48
-    int maxScreenCol;
-    int maxScreenRow;
-    public int screenWidth;
-    public int screenHight;
+    private int maxScreenCol;
+    private int maxScreenRow;
+    private int screenWidth;
+    private int screenHeight;
 
     // game states
     public int gameState;
@@ -100,11 +100,11 @@ public class Game extends JPanel implements Runnable{
         this.maxScreenCol = col; // 30
         this.maxScreenRow = row; // 20
         this.screenWidth = tileSize * maxScreenCol; // 1440
-        this.screenHight = tileSize * maxScreenRow; // 960
+        this.screenHeight = tileSize * maxScreenRow; // 960
 
         this.pointCounter = 0;
 
-        this.setPreferredSize(new Dimension(screenWidth, screenHight));
+        this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.black);
 
         this.addKeyListener(keyHand);
@@ -345,11 +345,11 @@ public class Game extends JPanel implements Runnable{
 
     // get methods
     public int getWidth() {
-        return screenWidth + 6; // adjusting width to fit better
+        return screenWidth; // adjusting width to fit better
     }
 
-    public int getHight() {
-        return screenHight + 29; // adjusting hight to fit better
+    public int getHeight() {
+        return screenHeight; // adjusting hight to fit better
     }
 
     public int getTile(int width, int hight) {
@@ -361,6 +361,10 @@ public class Game extends JPanel implements Runnable{
             hight = gameTiles.length - 1;
         }
         return gameTiles[hight][width];
+    }
+
+    public int getScale() {
+        return scale;
     }
 
     // add methods

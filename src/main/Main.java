@@ -17,15 +17,16 @@ public class Main {
         game.setupGame();
 
         final int width = game.getWidth();
-        final int hight = game.getHight() + 75; // +75 Hotbar
+        final int height = game.getHeight() + 29; // +29 to fit with topbar (topbar with exit button is 29 pixel tall)
 
         // add components to window
         window.add(game);
 
-        window.setSize(width, hight);
+        window.setSize(width, height);
         window.setLocationRelativeTo(null);
         window.setVisible(true);
 
+        // starting game thread
         game.startGameThread();
     }
     

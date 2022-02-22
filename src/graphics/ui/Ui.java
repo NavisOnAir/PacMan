@@ -102,7 +102,7 @@ public class Ui {
         String str = "Stop";
         float fontSize = 30f; // changing this needs to change it in mousehandler too
         int sX = getXForCenteredText(defaultFont.deriveFont(fontSize), str);
-        int sY = game.getHight();
+        int sY = game.getHeight();
 
         this.stopButtonX = sX;
         this.stopButtonY = sY;
@@ -117,12 +117,12 @@ public class Ui {
         DecimalFormat f = new DecimalFormat("##.00");
         String strTimer = "Time: " + f.format(currentSeconds);
         int tX = 50;
-        int tY = game.getHight();
+        int tY = game.getHeight();
 
         // life counter
         String strLifes = "Lifes: " + game.pacMan.lifes;
         int lcX = game.getWidth() - 150;
-        int lcY = game.getHight();
+        int lcY = game.getHeight();
         g2.setColor(Color.white);
         g2.setFont(defaultFont.deriveFont(fontSize));
 
@@ -160,7 +160,7 @@ public class Ui {
         String str = "Start";
         float fontSize = 40f; // changing this needs to change it in mousehandler too
         int sX = getXForCenteredText(defaultFont.deriveFont(fontSize), str);
-        int sY = Math.round(game.screenHight - game.screenHight * 0.7f);
+        int sY = Math.round(game.getHeight() - game.getHeight() * 0.7f);
 
         this.startButtonX = sX;
         this.startButtonY = sY;
@@ -172,7 +172,7 @@ public class Ui {
         // level select button
         str = "Select Level";
         int lsX = getXForCenteredText(defaultFont.deriveFont(fontSize), str);
-        int lsY = Math.round(game.screenHight - game.screenHight * 0.6f);
+        int lsY = Math.round(game.getHeight() - game.getHeight() * 0.6f);
 
         this.levelSelectButtonX = lsX;
         this.levelSelectButtonY = lsY;
@@ -182,8 +182,8 @@ public class Ui {
         // level selected display
         fontSize = 20f; // changing this needs to change it in mousehandler too
         str = "Level: " + game.levelSelected;
-        int llX = Math.round(game.screenWidth - game.screenWidth * 0.3f);
-        int llY = game.screenHight;
+        int llX = Math.round(game.getWidth() - game.getWidth() * 0.3f);
+        int llY = game.getHeight();
 
         g2.setFont(defaultFont.deriveFont(fontSize));
         g2.drawString(str, llX, llY);
@@ -197,7 +197,7 @@ public class Ui {
         String str = "Start";
         float fontSize = 50f; // changing this needs to change it in mousehandler too
         int sX = getXForCenteredText(defaultFont.deriveFont(fontSize), str);
-        int sY = Math.round(game.screenHight - game.screenHight * 0.3f);
+        int sY = Math.round(game.getHeight() - game.getHeight() * 0.3f);
         
 
         this.startButtonX = sX;
@@ -220,7 +220,7 @@ public class Ui {
         String[] levels = game.utils.getFilesInDirectory("levels/");
         int x = 50;
         int y = 50;
-        int step = Math.round((game.getHight() - y * 2) / 10);
+        int step = Math.round((game.getHeight() - y * 2) / 10);
         int j = 0;
         float fontSize = 30f; // changing this needs to change it in mousehandler too
 
@@ -248,7 +248,7 @@ public class Ui {
         Rectangle2D r2D = font.getStringBounds(str, frc);
         int rWidth = (int) Math.round(r2D.getWidth());
         int rX = (int) Math.round(r2D.getX());
-        int x = (game.screenWidth / 2) - (rWidth / 2) - rX;
+        int x = (game.getWidth() / 2) - (rWidth / 2) - rX;
         
         return x;
     }
