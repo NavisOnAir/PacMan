@@ -126,10 +126,18 @@ public class Ui {
         g2.setColor(Color.white);
         g2.setFont(defaultFont.deriveFont(fontSize));
 
-        // blinking ui (timer, lifes)
+        // point counters
+        String strPoints = "Points: " + game.pointCounter;
+        int pcX = Math.round(game.getWidth() * 1 / 4);
+        int pcY = game.getHight();
+        g2.setColor(Color.white);
+        g2.setFont(defaultFont.deriveFont(fontSize));
+
+        // blinking ui (timer, lifes, point counter)
         if (game.gameState == game.ingameState) {
             g2.drawString(strTimer, tX, tY);
             g2.drawString(strLifes, lcX, lcY);
+            g2.drawString(strPoints, pcX, pcY);
         } else if (game.gameState == game.pauseState || game.gameState == game.respawnState) {
             if (game.currentFrame % 30 == 0) {
                 this.isTimer = !this.isTimer;
@@ -138,6 +146,7 @@ public class Ui {
             if (this.isTimer) {
                 g2.drawString(strTimer, tX, tY);
                 g2.drawString(strLifes, lcX, lcY);
+                g2.drawString(strPoints, pcX, pcY);
             }
         }
 

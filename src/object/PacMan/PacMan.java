@@ -102,9 +102,13 @@ public class PacMan extends Object {
 
 			// tile specific operations
 
-			// coin
+			// coin or empty or powerpill
 			if (this.nextTile == game.tileEmpty || this.nextTile == game.tileCoin || this.nextTile == game.tilePowerPill) {
 				this.setRotation(this.nextRotation);
+			}
+
+			// only coin
+			if (this.nextTile == game.tileCoin) {
 				game.pointCounter += 100;
 			}
 			
