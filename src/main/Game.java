@@ -288,6 +288,8 @@ public class Game extends JPanel implements Runnable{
     // drawing method
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+
+        // transform graphics to graphics2d overall referenced as g2
         Graphics2D g2 = (Graphics2D) g;
 
         // Ingame

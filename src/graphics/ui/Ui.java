@@ -92,6 +92,7 @@ public class Ui {
         }
 
         // interface drawing
+        int buttomMargin = 10;
         g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 20));
         g2.setColor(Color.white);
         g2.drawString("TPS:" + Integer.toString(game.currentTPS), 10, 30);
@@ -102,7 +103,7 @@ public class Ui {
         String str = "Stop";
         float fontSize = 30f; // changing this needs to change it in mousehandler too
         int sX = getXForCenteredText(defaultFont.deriveFont(fontSize), str);
-        int sY = game.getHeight();
+        int sY = game.getHeight() - buttomMargin;
 
         this.stopButtonX = sX;
         this.stopButtonY = sY;
@@ -117,19 +118,19 @@ public class Ui {
         DecimalFormat f = new DecimalFormat("##.00");
         String strTimer = "Time: " + f.format(currentSeconds);
         int tX = 50;
-        int tY = game.getHeight();
+        int tY = game.getHeight() - buttomMargin;
 
         // life counter
         String strLifes = "Lifes: " + game.pacMan.lifes;
         int lcX = game.getWidth() - 150;
-        int lcY = game.getHeight();
+        int lcY = game.getHeight() - buttomMargin;
         g2.setColor(Color.white);
         g2.setFont(defaultFont.deriveFont(fontSize));
 
         // point counters
         String strPoints = "Points: " + game.pointCounter;
         int pcX = Math.round(game.getWidth() * 1 / 4);
-        int pcY = game.getHeight();
+        int pcY = game.getHeight() - buttomMargin;
         g2.setColor(Color.white);
         g2.setFont(defaultFont.deriveFont(fontSize));
 
