@@ -63,7 +63,7 @@ public class Ui {
 			sprEmpty = ImageIO.read(getClass().getResourceAsStream("/sprites/tiles/empty.png"));
             sprWall = ImageIO.read(getClass().getResourceAsStream("/sprites/tiles/wall.png"));
             sprCoin = ImageIO.read(getClass().getResourceAsStream("/sprites/tiles/coin.png"));
-            sprDoor = ImageIO.read(getClass().getResourceAsStream("/sprites/tiles/door.png"));
+            sprDoor = ImageIO.read(getClass().getResourceAsStream("/sprites/tiles/door_horizontal.png"));
             sprPowerPill = ImageIO.read(getClass().getResourceAsStream("/sprites/tiles/powerpill_1.png"));
 
 		} catch(IOException e) {
