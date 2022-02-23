@@ -214,6 +214,28 @@ public class Ui {
         g2.drawString(str, sX, sY);
     }
 
+    // won screen
+    public void drawWonScreen(Graphics2D g2) {
+        // letter size
+        float letterSize = 30f;
+        String points = "Your Points: " + Integer.toString(game.pointCounter);
+        String time = String.valueOf(game.timer.getTimeInSeconds()) + " s";
+
+        // position of strings
+        int pointsStrX = getXForCenteredText(defaultFont.deriveFont(letterSize), points);
+        int pointsStrY = Math.round(game.getHeight() * 0.3f);
+        int timeStrX = getXForCenteredText(defaultFont.deriveFont(letterSize), time);
+        int timeStrY = Math.round(game.getHeight() * 0.4f);
+
+        // set drawing settings
+        g2.setFont(defaultFont.deriveFont(letterSize));
+        g2.setColor(Color.white);
+
+        // draw strings
+        g2.drawString(points, pointsStrX, pointsStrY);
+        g2.drawString(time, timeStrX, timeStrY);
+    }
+
     // level select screen
     public void drawLevelSelection(Graphics2D g2) {
         // drawing variables

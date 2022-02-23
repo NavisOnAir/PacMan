@@ -102,7 +102,6 @@ public class Game extends JPanel implements Runnable{
         this.screenWidth = tileSize * maxScreenCol; // 1440
         this.screenHeight = tileSize * maxScreenRow; // 960
 
-        this.pointCounter = 0;
 
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.black);
@@ -116,6 +115,10 @@ public class Game extends JPanel implements Runnable{
     public void setupGame() {
         // set default gamestate
         this.gameState = titelState;
+
+        // set all counters to 0
+        this.pointCounter = 0;
+        timer.reset();
 
         // load field array
         // level must contain coins, without gameState will change to wonState!!!
@@ -322,6 +325,14 @@ public class Game extends JPanel implements Runnable{
             for (Ghost ghost : this.ghostArray) {
                 ghost.draw(g2);
             }
+        }
+
+        // Won screen
+        if (gameState == wonState) {
+            if (!timer.getStopped()) {
+                timer.pause();
+            }
+            ui.drawWonScreen(g2);
         }
 
         // Level select screen

@@ -39,4 +39,8 @@ public class Timer {
     public void reset() {
         this.startTime = 0;
     }
+
+    public boolean getStopped() {
+        return isStopped;
+    }
 }
