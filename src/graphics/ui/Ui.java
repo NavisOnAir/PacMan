@@ -63,7 +63,7 @@ public class Ui {
 			sprEmpty = ImageIO.read(getClass().getResourceAsStream("/sprites/tiles/empty.png"));
             sprWall = ImageIO.read(getClass().getResourceAsStream("/sprites/tiles/wall.png"));
             sprCoin = ImageIO.read(getClass().getResourceAsStream("/sprites/tiles/coin.png"));
-            sprDoor = ImageIO.read(getClass().getResourceAsStream("/sprites/tiles/door.png"));
+            sprDoor = ImageIO.read(getClass().getResourceAsStream("/sprites/tiles/door_horizontal.png"));
             sprPowerPill = ImageIO.read(getClass().getResourceAsStream("/sprites/tiles/powerpill_1.png"));
 
 		} catch(IOException e) {
@@ -92,6 +92,7 @@ public class Ui {
         }
 
         // interface drawing
+        int buttomMargin = 10;
         g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 20));
         g2.setColor(Color.white);
         g2.drawString("TPS:" + Integer.toString(game.currentTPS), 10, 30);
@@ -102,7 +103,7 @@ public class Ui {
         String str = "Stop";
         float fontSize = 30f; // changing this needs to change it in mousehandler too
         int sX = getXForCenteredText(defaultFont.deriveFont(fontSize), str);
-        int sY = game.getHeight();
+        int sY = game.getHeight() - buttomMargin;
 
         this.stopButtonX = sX;
         this.stopButtonY = sY;
@@ -117,19 +118,19 @@ public class Ui {
         DecimalFormat f = new DecimalFormat("##.00");
         String strTimer = "Time: " + f.format(currentSeconds);
         int tX = 50;
-        int tY = game.getHeight();
+        int tY = game.getHeight() - buttomMargin;
 
         // life counter
         String strLifes = "Lifes: " + game.pacMan.lifes;
         int lcX = game.getWidth() - 150;
-        int lcY = game.getHeight();
+        int lcY = game.getHeight() - buttomMargin;
         g2.setColor(Color.white);
         g2.setFont(defaultFont.deriveFont(fontSize));
 
         // point counters
         String strPoints = "Points: " + game.pointCounter;
         int pcX = Math.round(game.getWidth() * 1 / 4);
-        int pcY = game.getHeight();
+        int pcY = game.getHeight() - buttomMargin;
         g2.setColor(Color.white);
         g2.setFont(defaultFont.deriveFont(fontSize));
 
@@ -212,6 +213,28 @@ public class Ui {
         g2.setColor(Color.white);
         g2.setFont(defaultFont.deriveFont(fontSize));
         g2.drawString(str, sX, sY);
+    }
+
+    // won screen
+    public void drawWonScreen(Graphics2D g2) {
+        // letter size
+        float letterSize = 30f;
+        String points = "Your Points: " + Integer.toString(game.pointCounter);
+        String time = String.valueOf(game.timer.getTimeInSeconds()) + " s";
+
+        // position of strings
+        int pointsStrX = getXForCenteredText(defaultFont.deriveFont(letterSize), points);
+        int pointsStrY = Math.round(game.getHeight() * 0.3f);
+        int timeStrX = getXForCenteredText(defaultFont.deriveFont(letterSize), time);
+        int timeStrY = Math.round(game.getHeight() * 0.4f);
+
+        // set drawing settings
+        g2.setFont(defaultFont.deriveFont(letterSize));
+        g2.setColor(Color.white);
+
+        // draw strings
+        g2.drawString(points, pointsStrX, pointsStrY);
+        g2.drawString(time, timeStrX, timeStrY);
     }
 
     // level select screen
