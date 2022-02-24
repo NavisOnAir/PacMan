@@ -1,16 +1,19 @@
 package main;
 
 public class Timer {
+    // time variables
     private long nanoSeconds;
     private double seconds;
     private long startTime = 0;
     private boolean isStopped;
 
+    // start timer
     public void start() {
         this.isStopped = false;
         startTime = System.nanoTime();
     }
 
+    // pause timer
     public void pause() {
         this.isStopped = true;
         long currentTime = System.nanoTime();
@@ -18,6 +21,7 @@ public class Timer {
         this.nanoSeconds += (currentTime - this.startTime);
     }
 
+    // return time in seconds
     public double getTimeInSeconds() {
         long currentTime = System.nanoTime();
         if (isStopped) {
@@ -27,6 +31,7 @@ public class Timer {
         }
     }
 
+    // return time in nanoseconds
     public long getTimeInNanoSeconds() {
         long currentTime = System.nanoTime();
         if (isStopped) {
@@ -36,10 +41,12 @@ public class Timer {
         }
     }
 
+    // reset timer
     public void reset() {
         this.startTime = 0;
     }
 
+    // return if timer is paused
     public boolean getStopped() {
         return isStopped;
     }

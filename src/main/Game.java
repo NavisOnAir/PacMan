@@ -18,7 +18,7 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 
-
+// implements runnable as interface for the game thread
 public class Game extends JPanel implements Runnable{
 
     // screen settings
@@ -26,13 +26,17 @@ public class Game extends JPanel implements Runnable{
     private final int scale = 3;
     public boolean isDebugMode = false;
 
+    // tile size in pixel for one tile
     public final int tileSize = origTileSize * scale; // 48
+
+    // maximum collums and rows of the labyrinth
     private int maxScreenCol;
     private int maxScreenRow;
+    // dimensions in pixel of the jpanel
     private int screenWidth;
     private int screenHeight;
 
-    // game states
+    // game states to define the current state of the game
     public int gameState;
     public final int titelState = 0;
     public final int ingameState = 1;
@@ -42,11 +46,12 @@ public class Game extends JPanel implements Runnable{
     public final int looseState = 5;
     public final int respawnState = 6;
 
-    // create game tile array
+    // create game tile array containing a encoded integer value for each tile in labyrinth
     public int[][] gameTiles;
+    // array containing all ghosts
     public Ghost[] ghostArray;
 
-    // tile decoding
+    // tile encoding
     public int tileEmpty = 0;
     public int tileWall = 1;
     public int tileGhost = 2;
@@ -59,30 +64,35 @@ public class Game extends JPanel implements Runnable{
     // counters
     public int pointCounter;
     public int secondsPlayed;
+    // count the time in 1 / FPS seconds to be able to set a respawn time
     public int respawnTimer;
 
-    // level select
+    // level select as string of the currently selected level file path
     public String levelSelected = "level1.lvl";
 
-    // fps
-    public int FPS = 60;
+    // frames per second
+    public final int FPS = 60;
+    // ticks per second to be able to differantiate between drawing and moving objects currently equal to FPS
     public int currentTPS = 0;
     public int currentFPS = 0;
+    // counts the current frame of a second
     public int currentFrame = 0;
 
-    // debug strings
+    // debug strings for a general debuging output in the console if debug is anabled
     public String debugStandardString = "[DEBUG][" + System.nanoTime()/1000000000 + "] ";
 
     // collision management
     private Collider[] colliders = new Collider[0];
+    // different names to tell wich collider is hit
     public final String colliderGhostName = "Ghost";
     public final String colliderPacManName = "PacMan";
 
     // instance creation
     public Ui ui = new Ui(this);
-    LevelData lvlDat = new LevelData();
+    private LevelData lvlDat = new LevelData();
     public Utils utils = new Utils();
     public Timer timer = new Timer();
+    public PacMan pacMan;
 
     // event listener
     KeyHandler keyHand = new KeyHandler();
@@ -91,27 +101,28 @@ public class Game extends JPanel implements Runnable{
     // game thread
     Thread gameThread;
 
-    // moving objects
-    public PacMan pacMan;;
 
-
-
+    // constructor
     public Game(int col, int row) {
+        // default settings
         this.maxScreenCol = col; // 30
         this.maxScreenRow = row; // 20
         this.screenWidth = tileSize * maxScreenCol; // 1440
         this.screenHeight = tileSize * maxScreenRow; // 960
 
-
+        // jpanel settings
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.black);
 
+        // add input management classes
         this.addKeyListener(keyHand);
         this.addMouseListener(mouseHand);
 
+        // if you can tap into window
         this.setFocusable(true);       
     }
 
+    // initialize the game and setup all required variables
     public void setupGame() {
         // set default gamestate
         this.gameState = titelState;
@@ -121,18 +132,23 @@ public class Game extends JPanel implements Runnable{
         timer.reset();
 
         // load field array
-        // level must contain coins, without gameState will change to wonState!!!
-        String levelString = utils.getFileAsString("levels/" + this.levelSelected);
+        // load level from path in levelSelected
+        String levelString = utils.getFileAsString("levels/" + levelSelected);
+
+        // load level from path
         if (levelString != utils.errorState) {
+            // assigns 2d array to gametiles 2d array
             this.gameTiles = utils.stringTo2DArray(levelString);
+
+        // load default hardcoded level if levelString is errorstate wich is a constant in utils class
         } else {
             try {
                 String levelData = utils.getStringFrom2DArray(lvlDat.levelOne);
             BufferedWriter h = new BufferedWriter(
-                new FileWriter("levels/" + this.levelSelected));
+                new FileWriter("levels/" + levelSelected));
             h.write(levelData);
-
             h.close();
+            // assigns 2d array of hardcoded level to gametiles 2d array
             this.gameTiles = lvlDat.levelOne;
 
             } catch(IOException g) {
@@ -161,6 +177,7 @@ public class Game extends JPanel implements Runnable{
         }
     }
 
+    // starts game thread
     public void startGameThread() {
         gameThread = new Thread(this);
         gameThread.start();
@@ -170,15 +187,21 @@ public class Game extends JPanel implements Runnable{
     @Override
     public void run() {
 
+        // time in nanoseconds for one interval
         double drawInterval = 1000000000 / FPS;
+        // value between zero and one to indecate if time for the current frame is passed
         double delta = 0;
+        // time in nanoseconds
         long lastTime = System.nanoTime();
         long currentTime;
         long timer = 0;
+        // counter to count frames in ticks
         int updateCount = 0;
         int drawCount = 0;
+        // start game timer
         this.timer.start();
 
+        // runs a loop that ends if game thread is terminated
         while (gameThread != null) {
 
             // calculate passed time
@@ -187,12 +210,13 @@ public class Game extends JPanel implements Runnable{
             timer += currentTime - lastTime;
             lastTime = currentTime;
 
+            // runs evere 1 / FPS second currently every 1/60 second
             if (delta >= 1) {
                 // UPDATE
                 update();
-
                 delta--;
                 updateCount++;
+
                 // DRAW
                 repaint();
                 drawCount++;
@@ -202,7 +226,7 @@ public class Game extends JPanel implements Runnable{
             }
 
             
-
+            // runs every second once
             if (timer >= 1000000000) {
                 this.currentTPS = updateCount;
                 this.currentFPS = drawCount;
@@ -215,7 +239,7 @@ public class Game extends JPanel implements Runnable{
         }
     }
     
-    // update method
+    // update method called every tick
     public void update() {
         
         // ingame
@@ -266,6 +290,7 @@ public class Game extends JPanel implements Runnable{
             }
         }
 
+        // respawn
         if (gameState == respawnState) {
             if (respawnTimer <= FPS * 2) {
                 respawnTimer++;
@@ -351,7 +376,7 @@ public class Game extends JPanel implements Runnable{
             }
         }
 
-
+        // delete g2
         g2.dispose();
 
     }
@@ -365,15 +390,16 @@ public class Game extends JPanel implements Runnable{
         return screenHeight; // adjusting hight to fit better
     }
 
-    public int getTile(int width, int hight) {
+    // get tile at width height
+    public int getTile(int width, int height) {
         // fixing width and hight less than 0
         if (width < 0) {
             width = gameTiles[0].length - 1;
         }
-        if (hight < 0) {
-            hight = gameTiles.length - 1;
+        if (height < 0) {
+            height = gameTiles.length - 1;
         }
-        return gameTiles[hight][width];
+        return gameTiles[height][width];
     }
 
     public int getScale() {
@@ -383,23 +409,29 @@ public class Game extends JPanel implements Runnable{
     // add methods
     public void addCollider(Collider col) {
         int newColLength = colliders.length + 1;
+        // create new array with a by 1 greater size than previously
         Collider[] newColliders = new Collider[newColLength];
+        // add all current colliders to new array
         for (int i = 0; i < colliders.length; i++) {
             newColliders[i] = colliders[i];
         }
+        // add new collider at the back of the new array
         newColliders[newColLength - 1] = col;
+        // assign the new collider array to the old one
         this.colliders = newColliders;
     }
 
     // events
+    // called when power pill consumed
     public void pacManEmpowered() {
         pacMan.isVunerable = false;
+        // loops through every ghost
         for (Ghost ghost : ghostArray) {
             ghost.isVunerable = true;
             ghost.step = 1; // potential error if speed less than 2
             ghost.pacManEmpowered();
             
-            // change direction of everey ghost
+            // invert direction of everey ghost
             if (ghost.rotation == ghost.up) {
                 ghost.rotation = ghost.down;
             }
@@ -419,6 +451,7 @@ public class Game extends JPanel implements Runnable{
         }
     }
 
+    // called when pacman exits empowered state
     private void pacManNotEmpowered() {
         pacMan.isVunerable = true;
         pacMan.isEmpowered = false;
