@@ -11,16 +11,19 @@ import listener.KeyHandler;
 
 public class PacMan extends Object {
 
+	// variables
 	boolean vunerability;
-	KeyHandler keyHand;
-
 	public int lifes;
 	public double empEnterTime;
+
+	// instances
+	KeyHandler keyHand;
 
 	public PacMan(Game game, KeyHandler keyHand2, int x, int y) {
 		super(game);
 		this.keyHand = keyHand2;
 
+		// used to identify the next tile in front
 		this.nextTile = -1;
 
 		// lifes
@@ -38,7 +41,7 @@ public class PacMan extends Object {
 		this.step = (int) (game.tileSize * speed / game.FPS);
 		this.isVunerable = true;
 		
-		// test step
+		// test step if step size multiplied for one tile modulo tilesize matches 0, importend for patch tracking note: could be moved to object class
 		boolean stepApproved = approveStepSize();
 		if (!stepApproved) {
 			if (step != 0){
@@ -67,6 +70,7 @@ public class PacMan extends Object {
 		game.gameState = game.respawnState;
 	}
 
+	// called to move pacman
 	public void move() {
 
 		// key handling
@@ -83,7 +87,7 @@ public class PacMan extends Object {
 		// passable tile
 		if (this.x % game.tileSize == 0 && this.y % game.tileSize == 0) {
 
-			// get next tile
+			// get next tile in front of pacman
 			int indexWidth = x / game.tileSize;
 			int indexHight = y / game.tileSize;
 
@@ -101,8 +105,7 @@ public class PacMan extends Object {
 			}
 
 			// tile specific operations
-
-			// coin or empty or powerpill
+			// coin or empty or powerpill tile
 			if (this.nextTile == game.tileEmpty || this.nextTile == game.tileCoin || this.nextTile == game.tilePowerPill) {
 				this.setRotation(this.nextRotation);
 			}
@@ -114,8 +117,9 @@ public class PacMan extends Object {
 			
 		}
 
-		// movement
+		// movement rotates pacman
 		if (this.x % game.tileSize == 0 && this.y % game.tileSize == 0) {
+			// calculate matching index in gameField
 			int indexWidth = x / game.tileSize;
 			int indexHight = y / game.tileSize;
 
@@ -161,6 +165,7 @@ public class PacMan extends Object {
 			}
 		}
 
+		// moves pacman forward
 		if (this.nextTile == game.tileEmpty || this.nextTile == game.tileCoin || this.nextTile == game.tilePowerPill) {
 			switch(this.rotation) {
 				case up:
@@ -206,12 +211,14 @@ public class PacMan extends Object {
 
 	}
 
+	// called to empowere pacman
 	public void empowered() {
 		empEnterTime = game.timer.getTimeInSeconds();
 		game.pacManEmpowered();
 		this.isEmpowered = true;
 	}
 
+	// draw sprites
 	@Override
 	public void draw(Graphics2D g2) {
 
@@ -224,7 +231,6 @@ public class PacMan extends Object {
 		}
     }
 	
-
 	public int getx() {
 		return this.x;
 	}
@@ -232,9 +238,11 @@ public class PacMan extends Object {
 		return this.y;
 	}
 
+	// called on collision enter
 	@Override
 	public void collisionEnter(Collider col) {
 		if (isVunerable) {
+			// go into if statement if other collider is ghost
 			if (col.name == game.colliderGhostName) {
 				if (lifes > 1) {
 					this.lifes--;

@@ -73,6 +73,7 @@ public class Utils {
         }
     }
 
+    // collision detection between two colliders
     public boolean checkCollision(Collider colOne, Collider colTwo) {
         // get collider box
         Box boxOne = colOne.box;
@@ -112,7 +113,7 @@ public class Utils {
             isY = false;
         }
 
-        // compares both cord booleans to check overlapping colliding
+        // compares both cord booleans to check overlapping
         if (isX && isY) {
             return true;
         } else {
@@ -120,7 +121,7 @@ public class Utils {
         }
     }
 
-    // get files in directory
+    // get files in directory returns all file names as string array
     public String[] getFilesInDirectory(String path) {
         File dirFiles = new File(path);
         File[] fileAr = dirFiles.listFiles();
@@ -149,7 +150,7 @@ public class Utils {
         }
     }
 
-    // get x and y of int[][]
+    // get x and y coordinates of a value specified by testObject and encoded with tileEncoding in a 2d int array
     public int[][] getXAndYIn2DIntArray(int[][] intArr, int testObj) {
         int[][] output;
         int count = 0;

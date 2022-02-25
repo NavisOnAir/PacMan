@@ -20,6 +20,8 @@ public class MouseHandler implements MouseListener {
         this.ui = this.game.ui;
     }
 
+    // checks on every mouse clicked event if mouse coordinates are matching the coordinates of a down listet string
+    // before comparing coordinates checks the current game state
     @Override
     public void mouseClicked(MouseEvent e) {
         // title screen

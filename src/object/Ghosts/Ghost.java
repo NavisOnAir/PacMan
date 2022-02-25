@@ -33,6 +33,7 @@ public class Ghost extends Object {
     public int lastStep;
     private GhostAnimController animControll;
 
+    // constructor
     public Ghost(Game game, int x, int y, int releaseTime, int color) {
         super(game);
         this.startX = x * game.tileSize;
@@ -44,14 +45,14 @@ public class Ghost extends Object {
         this.nextRotation = this.down;
         this.color = color;
 
-        // movement viriables
+        // movement variables
 		speed = 4; // 3 * 60 per second
 		rotation = right;
 		this.step = (int) (game.tileSize * speed / game.FPS);
         this.lastStep = step;
         this.lifeState = aliveState;
 		
-		// test step
+		// test step if step size multiplied for one tile modulo tilesize matches 0, importend for patch tracking
 		boolean stepApproved = approveStepSize();
 		if (!stepApproved) {
 			if (step != 0){
@@ -70,6 +71,7 @@ public class Ghost extends Object {
         this.animControll = new GhostAnimController(this, game, this);
     } 
 
+    // called to move the ghost
     public void move() {
 
         // movement algorithm
@@ -149,6 +151,7 @@ public class Ghost extends Object {
                 }
             }
 
+            // called if tile is not a wall
             if (this.nextTile != game.tileWall) {
                 // moving object
                 switch (this.rotation) {
@@ -174,18 +177,20 @@ public class Ghost extends Object {
         animControll.update();
     }
 
+    // draw sprites
     @Override
     public void draw(Graphics2D g2) {
         // animation
         animControll.draw(g2);
 
-        // debug
+        // debug, draw debug indicators
         if (game.isDebugMode) {
             drawDebug(g2);
         }
     }
 
-    private boolean randomPathFinding() { // false = left; true = right
+    // returns a random boolean
+    private boolean randomPathFinding() { // false = left; true = right, relative rotation
         int randomValue = (int) (Math.random() * 2);
         if (randomValue == 1) {
             return true;
@@ -195,6 +200,7 @@ public class Ghost extends Object {
     }
 
     // events
+    // called on ghost hit by empowered pacman, reset ghost position
     public void dieEvent() {
         this.x = startX;
         this.y = startY;
@@ -202,10 +208,12 @@ public class Ghost extends Object {
         
     }
 
+    // called when pacman is empowered
     public void pacManEmpowered() {
         animControll.pacManEmpowered();
     }
 
+    // called when pacman is no longer empowered
     public void exitPacManEmpowered() {
         animControll.exitPacManEmpowered();
     }

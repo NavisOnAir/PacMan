@@ -17,10 +17,12 @@ public class GhostAnimController extends AnimationController {
     public final int pacManEmpowered = 4;
 
 
+    // constructor
     public GhostAnimController(Object parent, Game game, Ghost ghost) {
         super(parent, game);
         this.ghost = ghost;
         
+        // set sprites for different ghost collors or if pacman is empowered
         // red
         sprites = new String[]{"/sprites/ghost/ghost_red_one.png", "/sprites/ghost/ghost_red_two.png"};
         addAnimation("moveRed", 1, sprites);
@@ -59,10 +61,12 @@ public class GhostAnimController extends AnimationController {
         }
     }
 
+    // called when pac man hits power pill
     public void pacManEmpowered() {
         switchAnimation(pacManEmpowered);
     }
 
+    // called when pac man exits power pill effect
     public void exitPacManEmpowered() {
         switchAnimation(ghost.color);
     }

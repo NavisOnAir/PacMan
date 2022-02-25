@@ -50,6 +50,7 @@ public class Ui {
     private boolean isTimer = false;
     private boolean isLifes = false;
 
+    // constructor
     public Ui(Game game) {
         this.game = game;
     }
@@ -70,6 +71,7 @@ public class Ui {
 			e.printStackTrace();
 		} 
 
+        // draws tiles saved in game.gameTiles
         for (int i = 0; i < game.gameTiles.length; i++) {
             for (int j = 0; j < game.gameTiles[0].length; j++) {
                 int tileCode = game.gameTiles[i][j];
@@ -181,7 +183,7 @@ public class Ui {
         g2.drawString(str, lsX, lsY);
 
         // level selected display
-        fontSize = 20f; // changing this needs to change it in mousehandler too
+        fontSize = 20f; // changing this need to change the corunsponding value in mousehandler too for clicked event handeling
         str = "Level: " + game.levelSelected;
         int llX = Math.round(game.getWidth() - game.getWidth() * 0.3f);
         int llY = game.getHeight();
@@ -266,6 +268,7 @@ public class Ui {
 
 
     // ui methods
+    // returns the centered x coodŕdinate for a given string in given font to center text
     public int getXForCenteredText(Font font, String str) {
         FontRenderContext frc = new FontRenderContext(null, true, true);
         Rectangle2D r2D = font.getStringBounds(str, frc);

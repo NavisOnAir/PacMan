@@ -17,6 +17,7 @@ public class KeyHandler implements KeyListener {
         
     }
 
+    // set the the matching boolean to true if this key is pressed
     @Override
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();
@@ -38,6 +39,7 @@ public class KeyHandler implements KeyListener {
         }
     }
 
+    // set the matching boolean to false if key is released
     @Override
     public void keyReleased(KeyEvent e) {
         int code = e.getKeyCode();

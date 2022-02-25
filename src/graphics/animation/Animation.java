@@ -13,17 +13,19 @@ public class Animation {
     Game game;
 
     // attributes
-    public String name;
+    public String name; // name to tell wich collisionbox is hit
     double duration; // in seconds
 
     // counters
     public int currentFrame = 0; // frame counter to indicate a sprite switch
-    public int currentSprite = 0;
+    public int currentSprite = 0; // sprite to draw from sprites list
     int spriteSwitchFrame;
 
     // sprites
+    // saves all sprites in one list to access them when needed
     ArrayList<BufferedImage> spriteList = new ArrayList<BufferedImage>();
 
+    // constructor
     public Animation(Game game, String name, double duration, String[] spritePaths) {
         this.game = game;
         this.name = name;
@@ -43,6 +45,7 @@ public class Animation {
 
     }
 
+    // load all sprites and save them to spritelist, on error print error message to console
     void loadSprites(String[] spritePaths) {
         for (int i = 0; i < spritePaths.length; i++) {
             try {
@@ -54,7 +57,7 @@ public class Animation {
         }
     }
 
-    // must be called every frame
+    // must be called every frame, to update internal variables
     public void update() {
 
         // switch sprite after spriteSwitchFrame reached

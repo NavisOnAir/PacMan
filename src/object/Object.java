@@ -46,10 +46,12 @@ public class Object {
     public Game game;
     public Collider collider;
 
+    // constructor
     public Object(Game game) {
         this.game = game;
     }
 
+    // default draw method draws a white rectangle if not overriden
     public void draw(Graphics2D g2) {
         g2.setColor(Color.white);
         g2.fillRect(this.x, this.y, game.tileSize, game.tileSize);
@@ -61,6 +63,7 @@ public class Object {
     }
 
     // debug methods
+    // draws white outline of collider and redline in viewing rotation
     public void drawDebug(Graphics2D g2) {
         // orientation / direction as red line
 		int[] debugLineCords = getCordsInRotation();
@@ -106,6 +109,7 @@ public class Object {
         return extCords;
     }
 
+    // method called to test step if step size multiplied for one tile modulo tilesize matches 0, importend for patch tracking note: could be moved to object class
     public boolean approveStepSize() {
 		for (int i = 0; i <= game.tileSize; i++) {
 			if ((step * i) % game.tileSize == 0) {
@@ -118,12 +122,13 @@ public class Object {
 		return false;
 	}
 
+    // reset coordinates to start coordinates
     public void dieEvent() {
 		this.x = startX;
 		this.y = startY;
 	}
 
-
+    // returns window coordinates in the middle of the object
     public int[] getCenteredCords() {
         int centeredX = this.x + Math.round(game.tileSize / 2);
         int centeredY = this.y + Math.round(game.tileSize / 2);
@@ -131,10 +136,12 @@ public class Object {
         return centeredCords;
     }
 
+    // called on collision enter
     public void collisionEnter(Collider col) {
         this.collider.collisionEnter(col);
     }
 
+    // called on collision exit
     public void collisionExit(Collider col) {
         this.collider.collisionExit(col);
     }
