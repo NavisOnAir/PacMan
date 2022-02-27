@@ -26,12 +26,12 @@ public class Game extends JPanel implements Runnable{
     private final int scale = 3;
 
     // debug
-    public boolean isDebugMode = false; // change to true to anable debug information
+    public boolean isDebugMode = false; // change to true to enable debug information
 
     // tile size in pixel for one tile
     public final int tileSize = origTileSize * scale; // 48
 
-    // maximum collums and rows of the labyrinth
+    // maximum columns and rows of the labyrinth
     private int maxScreenCol;
     private int maxScreenRow;
     // dimensions in pixel of the jpanel
@@ -74,13 +74,13 @@ public class Game extends JPanel implements Runnable{
 
     // frames per second
     public final int FPS = 60;
-    // ticks per second to be able to differantiate between drawing and moving objects currently equal to FPS
+    // ticks per second to be able to differentiate between drawing and moving objects currently equal to FPS
     public int currentTPS = 0;
     public int currentFPS = 0;
     // counts the current frame of a second
     public int currentFrame = 0;
 
-    // debug strings for a general debuging output in the console if debug is anabled
+    // debug strings for a general debugging output in the console if debug is anabled
     public String debugStandardString = "[DEBUG][" + System.nanoTime()/1000000000 + "] ";
 
     // collision management
@@ -142,7 +142,7 @@ public class Game extends JPanel implements Runnable{
             // assigns 2d array to gametiles 2d array
             this.gameTiles = utils.stringTo2DArray(levelString);
 
-        // load default hardcoded level if levelString is errorstate wich is a constant in utils class
+        // load default hardcoded level if levelString is error-state wich is a constant in utils class
         } else {
             try {
                 String levelData = utils.getStringFrom2DArray(lvlDat.levelOne);
@@ -191,7 +191,7 @@ public class Game extends JPanel implements Runnable{
 
         // time in nanoseconds for one interval
         double drawInterval = 1000000000 / FPS;
-        // value between zero and one to indecate if time for the current frame is passed
+        // value between zero and one to indicate if time for the current frame is passed
         double delta = 0;
         // time in nanoseconds
         long lastTime = System.nanoTime();
@@ -212,7 +212,7 @@ public class Game extends JPanel implements Runnable{
             timer += currentTime - lastTime;
             lastTime = currentTime;
 
-            // runs evere 1 / FPS second currently every 1/60 second
+            // runs every 1 / FPS second currently every 1/60 second
             if (delta >= 1) {
                 // UPDATE
                 update();
@@ -279,13 +279,13 @@ public class Game extends JPanel implements Runnable{
                 col.update();
 
                 // check collision
-                for (Collider collidetTo : colliders) {
-                    if (col != collidetTo) {
-                        boolean isCollision = utils.checkCollision(col, collidetTo);
+                for (Collider collidedTo : colliders) {
+                    if (col != collidedTo) {
+                        boolean isCollision = utils.checkCollision(col, collidedTo);
                         if (isCollision) {
-                            col.parent.collisionEnter(collidetTo);
+                            col.parent.collisionEnter(collidedTo);
                         } else {
-                            col.parent.collisionExit(collidetTo);
+                            col.parent.collisionExit(collidedTo);
                         }
                     }
                 }
@@ -389,12 +389,12 @@ public class Game extends JPanel implements Runnable{
     }
 
     public int getHeight() {
-        return screenHeight; // adjusting hight to fit better
+        return screenHeight; // adjusting height to fit better
     }
 
     // get tile at width height
     public int getTile(int width, int height) {
-        // fixing width and hight less than 0
+        // fixing width and height less than 0
         if (width < 0) {
             width = gameTiles[0].length - 1;
         }
@@ -433,7 +433,7 @@ public class Game extends JPanel implements Runnable{
             ghost.step = 1; // potential error if speed less than 2
             ghost.pacManEmpowered();
             
-            // invert direction of everey ghost
+            // invert direction of every ghost
             if (ghost.rotation == ghost.up) {
                 ghost.rotation = ghost.down;
             }
@@ -461,7 +461,6 @@ public class Game extends JPanel implements Runnable{
             ghost.isVunerable = false;
 
             // secures that ghost cords match the modulo tilesize operation to secure ghost not moving through walls
-            // not the smowest sollution
             int currentX = ghost.x;
             int currentY = ghost.y;
             currentX -= currentX % tileSize;
