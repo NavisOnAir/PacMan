@@ -74,13 +74,13 @@ public class PacMan extends Object {
 	public void move() {
 
 		// key handling
-		if (keyHand.arrowUp) {
+		if (keyHand.arrowUp || keyHand.w) {
             this.nextRotation = this.up;
-        } else if (keyHand.arrowRight) {
+        } else if (keyHand.arrowRight || keyHand.d) {
             this.nextRotation = this.right;
-        } else if (keyHand.arrowDown) {
+        } else if (keyHand.arrowDown || keyHand.s) {
             this.nextRotation = this.down;
-        } else if (keyHand.arrowLeft) {
+        } else if (keyHand.arrowLeft || keyHand.a) {
             this.nextRotation = this.left;
         }
 
@@ -89,19 +89,19 @@ public class PacMan extends Object {
 
 			// get next tile in front of pacman
 			int indexWidth = x / game.tileSize;
-			int indexHight = y / game.tileSize;
+			int indexHeight = y / game.tileSize;
 
 			if (nextRotation == up) {
-				this.nextTile = game.getTile(indexWidth, indexHight - 1);
+				this.nextTile = game.getTile(indexWidth, indexHeight - 1);
 			}
 			if (nextRotation == right) {
-				this.nextTile = game.getTile(indexWidth + 1, indexHight);
+				this.nextTile = game.getTile(indexWidth + 1, indexHeight);
 			}
 			if (nextRotation == down) {
-				this.nextTile = game.getTile(indexWidth, indexHight + 1);
+				this.nextTile = game.getTile(indexWidth, indexHeight + 1);
 			}
 			if (nextRotation == left) {
-				this.nextTile = game.getTile(indexWidth - 1, indexHight);
+				this.nextTile = game.getTile(indexWidth - 1, indexHeight);
 			}
 
 			// tile specific operations
