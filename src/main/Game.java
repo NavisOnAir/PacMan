@@ -251,8 +251,18 @@ public class Game extends JPanel implements Runnable{
         
         // ingame
         if (gameState == ingameState) {
+            // kill pacman if d is pressed
+            if (keyHand.d) {
+                pacMan.lifes = 0;
+            }
+
             // move player
             pacMan.move();
+
+            // checks if pacman dies
+            if (pacMan.lifes <= 0) {
+                gameState = looseState;
+            }
 
             // checks if pacman won
             boolean pacmanWon = true;
@@ -383,6 +393,11 @@ public class Game extends JPanel implements Runnable{
             }
         }
 
+        // Die screen
+        if (gameState == looseState) {
+            ui.drawDieScreen(g2);
+        }
+
         // delete g2
         g2.dispose();
 
@@ -476,6 +491,15 @@ public class Game extends JPanel implements Runnable{
             ghost.step = (int) ghost.lastStep;
             ghost.exitPacManEmpowered();
         }
+    }
+
+    // starts the game
+    public void startGame() {
+        gameState = ingameState;
+        // resets timer
+        timer.reset();
+        // start timer
+        timer.start();
     }
 
     

@@ -271,6 +271,41 @@ public class Ui {
         }
     }
 
+    // die screen
+    public void drawDieScreen(Graphics2D g2) {
+        // you died label
+        String str = "You died";
+
+        float fontSize = 30f;
+        Font fnt = defaultFont.deriveFont(fontSize);
+        g2.setFont(fnt);
+
+        int dX = getXForCenteredText(fnt, str);
+        int dY = (int) Math.round(game.getHeight() * 0.5);
+
+        g2.setColor(Color.white);
+        g2.drawString(str, dX, dY);
+
+        // current points and time
+        String points = "Your Points: " + Integer.toString(game.pointCounter);
+        String time = String.valueOf(game.timer.getTimeInSeconds()) + " s";
+
+        // position of strings
+        int pointsStrX = getXForCenteredText(defaultFont.deriveFont(fontSize), points);
+        int pointsStrY = Math.round(game.getHeight() * 0.3f);
+        int timeStrX = getXForCenteredText(defaultFont.deriveFont(fontSize), time);
+        int timeStrY = Math.round(game.getHeight() * 0.4f);
+
+        // set drawing settings
+        g2.setFont(defaultFont.deriveFont(fontSize));
+        g2.setColor(Color.white);
+
+        // draw strings
+        g2.drawString(points, pointsStrX, pointsStrY);
+        g2.drawString(time, timeStrX, timeStrY);
+
+    }
+
 
 
     // ui methods

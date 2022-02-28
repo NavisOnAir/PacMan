@@ -131,4 +131,3 @@ Ordnerstruktur
             * wall.png
     
     * README.md
-

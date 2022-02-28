@@ -43,7 +43,7 @@ public class Timer {
 
     // reset timer
     public void reset() {
-        this.startTime = 0;
+        this.startTime = System.nanoTime();
     }
 
     // return if timer is paused

@@ -29,7 +29,7 @@ public class MouseHandler implements MouseListener {
 
             // start button
             if (utils.checkRectangle(e.getX(), e.getY(), ui.defaultFont.deriveFont(40f).getStringBounds("Start", frc), ui.startButtonX, ui.startButtonY)) {
-                game.gameState = game.ingameState;
+                game.startGame();
             }
 
             // select level button
