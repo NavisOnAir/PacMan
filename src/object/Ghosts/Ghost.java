@@ -113,24 +113,24 @@ public class Ghost extends Object {
         if (game.timer.getTimeInSeconds() >= releaseTime) {
              // current position in tile grid
             int indexWidth = x / game.tileSize;
-            int indexHight = y / game.tileSize;
+            int indexHeight = y / game.tileSize;
 
             if (this.x % game.tileSize == 0 && this.y % game.tileSize == 0) {
                 // get next tile in nextRotation
 
                 if (nextRotation == up) {
-                    this.nextTile = game.getTile(indexWidth, indexHight - 1);
+                    this.nextTile = game.getTile(indexWidth, indexHeight - 1);
                 }
                 if (nextRotation == right) {
-                    this.nextTile = game.getTile(indexWidth + 1, indexHight);
+                    this.nextTile = game.getTile(indexWidth + 1, indexHeight);
                 }
                 if (nextRotation == down) {
-                    this.nextTile = game.getTile(indexWidth, indexHight + 1);
+                    this.nextTile = game.getTile(indexWidth, indexHeight + 1);
                 }
                 if (nextRotation == left) {
-                    this.nextTile = game.getTile(indexWidth - 1, indexHight);
+                    this.nextTile = game.getTile(indexWidth - 1, indexHeight);
                 }
-    
+
                 // tile specific operations
                 if (this.nextTile != game.tileWall) {
                     this.setRotation(this.nextRotation);
@@ -138,16 +138,16 @@ public class Ghost extends Object {
 
                 // get tile in rotation
                 if (rotation == up) {
-                    this.nextTile = game.getTile(indexWidth, indexHight - 1);
+                    this.nextTile = game.getTile(indexWidth, indexHeight - 1);
                 }
                 if (rotation == right) {
-                    this.nextTile = game.getTile(indexWidth + 1, indexHight);
+                    this.nextTile = game.getTile(indexWidth + 1, indexHeight);
                 }
                 if (rotation == down) {
-                    this.nextTile = game.getTile(indexWidth, indexHight + 1);
+                    this.nextTile = game.getTile(indexWidth, indexHeight + 1);
                 }
                 if (rotation == left) {
-                    this.nextTile = game.getTile(indexWidth - 1, indexHight);
+                    this.nextTile = game.getTile(indexWidth - 1, indexHeight);
                 }
             }
 
@@ -202,9 +202,13 @@ public class Ghost extends Object {
     // events
     // called on ghost hit by empowered pacman, reset ghost position
     public void dieEvent() {
-        this.x = startX;
-        this.y = startY;
-        this.releaseTime = (int) game.timer.getTimeInSeconds() + 20;
+        x = startX;
+        y = startY;
+        if (game.timer.getTimeInSeconds() >= releaseTime){
+            releaseTime = (int) game.timer.getTimeInSeconds() + 10;
+        } else {
+            releaseTime += 10;
+        }
         
     }
 

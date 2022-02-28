@@ -26,37 +26,17 @@ public class KeyHandler implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();
-        switch(code) {
-            case 38:
-                arrowUp = true;
-                break;
-            case 39:
-                arrowRight = true;
-                break;
-            case 40:
-                arrowDown = true;
-                break;
-            case 37:
-                arrowLeft = true;
-                break;
-            case 27:
-                esc = true;
-                break;
-            case 87:
-                w = true;
-                break;
-            case 65:
-                a = true;
-                break;
-            case 83:
-                s = true;
-                break;
-            case 68:
-                d = true;
-                break;
-            default:
-                System.out.println(code);
-                break;
+        switch (code) {
+            case 38 -> arrowUp = true;
+            case 39 -> arrowRight = true;
+            case 40 -> arrowDown = true;
+            case 37 -> arrowLeft = true;
+            case 27 -> esc = true;
+            case 87 -> w = true;
+            case 65 -> a = true;
+            case 83 -> s = true;
+            case 68 -> d = true;
+            default -> System.out.println(code);
         }
     }
 
@@ -64,36 +44,18 @@ public class KeyHandler implements KeyListener {
     @Override
     public void keyReleased(KeyEvent e) {
         int code = e.getKeyCode();
-        switch(code) {
-            case 38:
-                arrowUp = false;
-                break;
-            case 39:
-                arrowRight = false;
-                break;
-            case 40:
-                arrowDown = false;
-                break;
-            case 37:
-                arrowLeft = false;
-                break;
-            case 27:
-                esc = false;
-                break;
-            case 87:
-                w = false;
-                break;
-            case 65:
-                a = false;
-                break;
-            case 83:
-                s = false;
-                break;
-            case 68:
-                d = false;
-                break;
-            default:
-                break;
+        switch (code) {
+            case 38 -> arrowUp = false;
+            case 39 -> arrowRight = false;
+            case 40 -> arrowDown = false;
+            case 37 -> arrowLeft = false;
+            case 27 -> esc = false;
+            case 87 -> w = false;
+            case 65 -> a = false;
+            case 83 -> s = false;
+            case 68 -> d = false;
+            default -> {
+            }
         }
     }
     
