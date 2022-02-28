@@ -39,14 +39,14 @@ public class Game extends JPanel implements Runnable{
     private int screenHeight;
 
     // game states to define the current state of the game
-    public int gameState;
-    public final int titelState = 0;
-    public final int ingameState = 1;
-    public final int pauseState = 2;
-    public final int wonState = 3;
-    public final int levelSelectState = 4;
-    public final int looseState = 5;
-    public final int respawnState = 6;
+    private int gameState;
+    private final int titelState = 0;
+    private final int ingameState = 1;
+    private final int pauseState = 2;
+    private final int wonState = 3;
+    private final int levelSelectState = 4;
+    private final int looseState = 5;
+    private final int respawnState = 6;
 
     // create game tile array containing a encoded integer value for each tile in labyrinth
     public int[][] gameTiles;
@@ -251,10 +251,6 @@ public class Game extends JPanel implements Runnable{
         
         // ingame
         if (gameState == ingameState) {
-            // kill pacman if d is pressed
-            if (keyHand.d) {
-                pacMan.lifes = 0;
-            }
 
             // move player
             pacMan.move();
@@ -405,12 +401,45 @@ public class Game extends JPanel implements Runnable{
 
     // get methods
     public int getWidth() {
-        return screenWidth; // adjusting width to fit better
+        return screenWidth;
     }
 
     public int getHeight() {
-        return screenHeight; // adjusting height to fit better
+        return screenHeight;
     }
+
+    public int getGameState() {
+        return gameState;
+    }
+
+    public int getTitleState() {
+        return titelState;
+    }
+
+    public int getIngameState() {
+        return ingameState;
+    }
+
+    public int getPauseState() {
+        return pauseState;
+    }
+
+    public int getWonState() {
+        return wonState;
+    }
+
+    public int getLevelSelectState() {
+        return levelSelectState;
+    }
+
+    public int getLooseState() {
+        return looseState;
+    }
+
+    public int getRespawnState() {
+        return respawnState;
+    }
+
 
     // get tile at width height
     public int getTile(int width, int height) {
@@ -426,6 +455,36 @@ public class Game extends JPanel implements Runnable{
 
     public int getScale() {
         return scale;
+    }
+
+    // set methods
+    // game stages
+    public void switchTitle() {
+        gameState = titelState;
+    }
+
+    public void switchIngame() {
+        gameState = ingameState;
+    }
+
+    public void switchPause() {
+        gameState = pauseState;
+    }
+
+    public void switchWon() {
+        gameState = wonState;
+    }
+
+    public void switchLevelSelect() {
+        gameState = levelSelectState;
+    }
+
+    public void switchLoose() {
+        gameState = looseState;
+    }
+
+    public void switchRespawn() {
+        gameState = respawnState;
     }
 
     // add methods

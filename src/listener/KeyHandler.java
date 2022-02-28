@@ -13,13 +13,16 @@ public class KeyHandler implements KeyListener {
     public boolean arrowLeft = false;
     public boolean esc = false;
     public boolean d = false;
+    public boolean w = false;
+    public boolean a = false;
+    public boolean s = false;
 
     @Override
     public void keyTyped(KeyEvent e) {
         
     }
 
-    // set the the matching boolean to true if this key is pressed
+    // set the matching boolean to true if this key is pressed
     @Override
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();
@@ -39,7 +42,15 @@ public class KeyHandler implements KeyListener {
             case 27:
                 esc = true;
                 break;
-            // kill pacman
+            case 87:
+                w = true;
+                break;
+            case 65:
+                a = true;
+                break;
+            case 83:
+                s = true;
+                break;
             case 68:
                 d = true;
                 break;
@@ -69,7 +80,15 @@ public class KeyHandler implements KeyListener {
             case 27:
                 esc = false;
                 break;
-            // kill pacman
+            case 87:
+                w = false;
+                break;
+            case 65:
+                a = false;
+                break;
+            case 83:
+                s = false;
+                break;
             case 68:
                 d = false;
                 break;

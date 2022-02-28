@@ -19,7 +19,7 @@ public class Ui {
     
     // instances
     Game game;
-    Object object = new Object(game);
+    Object object;
 
     // utility
     FontRenderContext frc = new FontRenderContext(null, true, true);
@@ -53,6 +53,7 @@ public class Ui {
     // constructor
     public Ui(Game game) {
         this.game = game;
+        this.object = new Object(game);
     }
 
     // ui`s
@@ -131,17 +132,17 @@ public class Ui {
 
         // point counters
         String strPoints = "Points: " + game.pointCounter;
-        int pcX = Math.round(game.getWidth() * 1 / 4);
+        int pcX = Math.round(game.getWidth() / 4);
         int pcY = game.getHeight() - buttomMargin;
         g2.setColor(Color.white);
         g2.setFont(defaultFont.deriveFont(fontSize));
 
-        // blinking ui (timer, lifes, point counter)
-        if (game.gameState == game.ingameState) {
+        // blinking ui (timer, life's, point counter)
+        if (game.getGameState() == game.getIngameState()) {
             g2.drawString(strTimer, tX, tY);
             g2.drawString(strLifes, lcX, lcY);
             g2.drawString(strPoints, pcX, pcY);
-        } else if (game.gameState == game.pauseState || game.gameState == game.respawnState) {
+        } else if (game.getGameState() == game.getPauseState() || game.getGameState() == game.getRespawnState()) {
             if (game.currentFrame % 30 == 0) {
                 this.isTimer = !this.isTimer;
                 this.isLifes = !this.isLifes;
@@ -159,9 +160,9 @@ public class Ui {
     // title screen
     public void drawTitle(Graphics2D g2) {
 
-        int buttomMargin = -10;
+        int bottomMargin = -10;
 
-        // start buttom
+        // start bottom
         String str = "Start";
         float fontSize = 40f; // changing this needs to change it in mousehandler too
         int sX = getXForCenteredText(defaultFont.deriveFont(fontSize), str);
@@ -188,7 +189,7 @@ public class Ui {
         fontSize = 20f; // changing this need to change the corunsponding value in mousehandler too for clicked event handeling
         str = "Level: " + game.levelSelected;
         int llX = Math.round(game.getWidth() - game.getWidth() * 0.3f);
-        int llY = game.getHeight() + buttomMargin;
+        int llY = game.getHeight() + bottomMargin;
 
         g2.setFont(defaultFont.deriveFont(fontSize));
         g2.drawString(str, llX, llY);
@@ -197,7 +198,7 @@ public class Ui {
         fontSize = 20f;
         str = "Press Esc to go back to Title screen";
         int mlX = 10;
-        int mlY = game.getHeight() + buttomMargin;
+        int mlY = game.getHeight() + bottomMargin;
 
         g2.setFont(defaultFont.deriveFont(fontSize));
         g2.drawString(str, mlX, mlY);

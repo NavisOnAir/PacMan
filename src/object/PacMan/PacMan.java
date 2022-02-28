@@ -67,7 +67,7 @@ public class PacMan extends Object {
 		this.x = startX;
 		this.y = startY;
 		this.rotation = right;
-		game.gameState = game.respawnState;
+		game.switchRespawn();
 	}
 
 	// called to move pacman
@@ -248,7 +248,7 @@ public class PacMan extends Object {
 					this.lifes--;
 					dieEvent();
 				} else {
-					game.gameState = game.looseState;
+					game.switchLoose();
 				}
 			}
 		} else {

@@ -25,7 +25,7 @@ public class MouseHandler implements MouseListener {
     @Override
     public void mouseClicked(MouseEvent e) {
         // title screen
-        if (game.gameState == game.titelState) {
+        if (game.getGameState() == game.getTitleState()) {
 
             // start button
             if (utils.checkRectangle(e.getX(), e.getY(), ui.defaultFont.deriveFont(40f).getStringBounds("Start", frc), ui.startButtonX, ui.startButtonY)) {
@@ -34,32 +34,31 @@ public class MouseHandler implements MouseListener {
 
             // select level button
             if (utils.checkRectangle(e.getX(), e.getY(), ui.defaultFont.deriveFont(40f).getStringBounds("Select Level", frc), ui.levelSelectButtonX, ui.levelSelectButtonY)) {
-                game.gameState = game.levelSelectState;
+                game.switchLevelSelect();
             }
         }
 
         // ingame screen
-        if (game.gameState == game.ingameState) {
+        if (game.getGameState() == game.getIngameState()) {
             
             // stop button
             if (utils.checkRectangle(e.getX(), e.getY(), ui.defaultFont.deriveFont(30f).getStringBounds("Stop", frc), ui.stopButtonX, ui.stopButtonY)) {
-                game.gameState = game.pauseState;
-                game.timer.pause();
+                game.switchPause();
             }
         }
 
         // pause screen
-        if (game.gameState == game.pauseState) {
+        if (game.getGameState() == game.getPauseState()) {
 
             // resume/start button
             if (utils.checkRectangle(e.getX(), e.getY(), ui.defaultFont.deriveFont(50f).getStringBounds("Start", frc), ui.startButtonX, ui.startButtonY)) {
-                game.gameState = game.ingameState;
+                game.switchIngame();
                 game.timer.start();
             }
         }
 
         // level selection
-        if (game.gameState == game.levelSelectState) {
+        if (game.getGameState() == game.getLevelSelectState()) {
             // every level select button
             for (int i = 0; i < 10 ; i++) {
                 if (ui.levelStrings[i] == null) {
