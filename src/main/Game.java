@@ -243,6 +243,11 @@ public class Game extends JPanel implements Runnable{
     
     // update method called every tick
     public void update() {
+
+        // back to main menu when esc pressed
+        if (keyHand.esc) {
+            gameState = titelState;
+        }
         
         // ingame
         if (gameState == ingameState) {

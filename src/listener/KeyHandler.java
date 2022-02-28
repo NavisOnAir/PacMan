@@ -11,6 +11,7 @@ public class KeyHandler implements KeyListener {
     public boolean arrowRight = false;
     public boolean arrowDown = false;
     public boolean arrowLeft = false;
+    public boolean esc = false;
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -34,7 +35,11 @@ public class KeyHandler implements KeyListener {
             case 37:
                 arrowLeft = true;
                 break;
+            case 27:
+                esc = true;
+                break;
             default:
+                System.out.println(code);
                 break;
         }
     }
@@ -55,6 +60,9 @@ public class KeyHandler implements KeyListener {
                 break;
             case 37:
                 arrowLeft = false;
+                break;
+            case 27:
+                esc = false;
                 break;
             default:
                 break;

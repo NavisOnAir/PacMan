@@ -159,6 +159,8 @@ public class Ui {
     // title screen
     public void drawTitle(Graphics2D g2) {
 
+        int buttomMargin = -10;
+
         // start buttom
         String str = "Start";
         float fontSize = 40f; // changing this needs to change it in mousehandler too
@@ -186,10 +188,19 @@ public class Ui {
         fontSize = 20f; // changing this need to change the corunsponding value in mousehandler too for clicked event handeling
         str = "Level: " + game.levelSelected;
         int llX = Math.round(game.getWidth() - game.getWidth() * 0.3f);
-        int llY = game.getHeight();
+        int llY = game.getHeight() + buttomMargin;
 
         g2.setFont(defaultFont.deriveFont(fontSize));
         g2.drawString(str, llX, llY);
+
+        // "back to menu button" label
+        fontSize = 20f;
+        str = "Press Esc to go back to Title screen";
+        int mlX = 10;
+        int mlY = game.getHeight() + buttomMargin;
+
+        g2.setFont(defaultFont.deriveFont(fontSize));
+        g2.drawString(str, mlX, mlY);
 
     }
 
@@ -206,12 +217,7 @@ public class Ui {
         this.startButtonX = sX;
         this.startButtonY = sY;
 
-        // start button background
-        int rectWidth = (int) Math.round(defaultFont.deriveFont(fontSize).getStringBounds(str, frc).getWidth());
-        int rectHeight = (int) Math.round(defaultFont.deriveFont(fontSize).getStringBounds(str, frc).getHeight() / 2);
-        g2.setColor(Color.black);
-        g2.fillRect(sX, sY - rectHeight, rectWidth, rectHeight);
-
+        // draw string
         g2.setColor(Color.white);
         g2.setFont(defaultFont.deriveFont(fontSize));
         g2.drawString(str, sX, sY);
