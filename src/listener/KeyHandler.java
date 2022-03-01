@@ -16,6 +16,7 @@ public class KeyHandler implements KeyListener {
     public boolean w = false;
     public boolean a = false;
     public boolean s = false;
+    public boolean q = false;
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -36,6 +37,7 @@ public class KeyHandler implements KeyListener {
             case 65 -> a = true;
             case 83 -> s = true;
             case 68 -> d = true;
+            case 81 -> q = true;
             default -> System.out.println(code);
         }
     }
@@ -54,6 +56,7 @@ public class KeyHandler implements KeyListener {
             case 65 -> a = false;
             case 83 -> s = false;
             case 68 -> d = false;
+            case 81 -> q = false;
             default -> {
             }
         }

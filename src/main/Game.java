@@ -287,7 +287,7 @@ public class Game extends JPanel implements Runnable{
 
             // checks if pacman dies
             if (pacMan.lifes <= 0) {
-                gameState = looseState;
+                switchLoose();
             }
 
             // checks if pacman won
@@ -329,6 +329,15 @@ public class Game extends JPanel implements Runnable{
                             col.parent.collisionExit(collidedTo);
                         }
                     }
+                }
+            }
+
+            // switch debug mode when q is pressed
+            if (keyHand.q) {
+                if (!isDebugMode) {
+                    isDebugMode = true;
+                } else {
+                    isDebugMode = false;
                 }
             }
         }
@@ -514,7 +523,9 @@ public class Game extends JPanel implements Runnable{
     }
 
     public void switchLoose() {
+        pacMan.dieEvent();
         gameState = looseState;
+
     }
 
     public void switchRespawn() {
