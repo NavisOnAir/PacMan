@@ -27,6 +27,13 @@ public class MouseHandler implements MouseListener {
         // title screen
         if (game.getGameState() == game.getTitleState()) {
 
+            // resume button
+            if (game.getStartGame()) {
+                if (utils.checkRectangle(e.getX(), e.getY(), ui.defaultFont.deriveFont(40f).getStringBounds("Resume", frc), ui.resumeButtonX, ui.resumeButtonY)) {
+                    game.resumeGame();
+                }
+            }
+
             // start button
             if (utils.checkRectangle(e.getX(), e.getY(), ui.defaultFont.deriveFont(40f).getStringBounds("Start", frc), ui.startButtonX, ui.startButtonY)) {
                 game.startGame();
@@ -52,8 +59,7 @@ public class MouseHandler implements MouseListener {
 
             // resume/start button
             if (utils.checkRectangle(e.getX(), e.getY(), ui.defaultFont.deriveFont(50f).getStringBounds("Start", frc), ui.startButtonX, ui.startButtonY)) {
-                game.switchIngame();
-                game.timer.start();
+                game.resumeGame();
             }
         }
 

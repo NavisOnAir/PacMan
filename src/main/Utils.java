@@ -1,9 +1,8 @@
 package main;
 
 import java.awt.geom.Rectangle2D;
-
-import java.io.File;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
@@ -13,20 +12,20 @@ import object.collision.Collider;
 public class Utils {
 
     // debug states
-    public final String errorState = "ERRORSTATE";
+    public final String errorState = "ERROR-STATE";
     
     // transforms a string that was converted in getStringFrom2DArray pattern to int[][]
     public int[][] stringTo2DArray(String input) {
         // replaces all symbols that are not needed
         String in = input.replace("\n", "");
-        // split input into an string array containing arrays as String so they had to be converted
+        // split input into a string array containing arrays as String, so they had to be converted
         String[] stringAr = in.split("},");
         String[] countAr = stringAr[0].split(", ");
         int[][] outputIntAr = new int[stringAr.length][countAr.length];
         for (int i = 0; i < stringAr.length; i++) {
             String[] innerStringAr = stringAr[i].split(", ");
             for (int j = 0; j < innerStringAr.length; j++) {
-                // stransforming every string into int number ans assinging to corosponding index
+                // transforming every string into int number and assigning to corresponding index
                 innerStringAr[j] = innerStringAr[j].replace("}", "");
                 innerStringAr[j] = innerStringAr[j].replace(" ", "");
                 outputIntAr[i][j] = Integer.parseInt(innerStringAr[j].replace("{", ""));
@@ -42,9 +41,9 @@ public class Utils {
         for (int i = 0; i < twoDArray.length; i++) {
             output += "{";
             for (int j = 0; j < twoDArray[0].length - 1; j++) {
-                output += Integer.toString(twoDArray[i][j]) + ", ";
+                output += twoDArray[i][j] + ", ";
             }
-            output += Integer.toString(twoDArray[i][twoDArray[i].length - 1]) + "}";
+            output += twoDArray[i][twoDArray[i].length - 1] + "}";
             if (i != twoDArray.length - 1) {
                 output += ",";
             }
@@ -53,16 +52,18 @@ public class Utils {
         return output;
     }
 
+
+
     // return true if x and y are in rectangle
     public boolean checkRectangle(int x, int y, Rectangle2D reg2D, int regX, int regY) {
         int rWidth = (int) Math.round(reg2D.getWidth());
-        int rHight = (int) Math.round(reg2D.getHeight()  / 2);
+        int rHeight = (int) Math.round(reg2D.getHeight()  / 2);
 
         // comparing logic
         boolean boolX = true;
         boolean boolY = true;
         if (y > regY) boolY = false;
-        if (y < regY - rHight) boolY = false;
+        if (y < regY - rHeight) boolY = false;
         if (x < regX) boolX = false;
         if (x > regX + rWidth) boolX = false;
 

@@ -17,6 +17,7 @@ import java.awt.Graphics2D;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Objects;
 
 // implements runnable as interface for the game thread
 public class Game extends JPanel implements Runnable{
@@ -31,22 +32,22 @@ public class Game extends JPanel implements Runnable{
     // tile size in pixel for one tile
     public final int tileSize = origTileSize * scale; // 48
 
-    // maximum columns and rows of the labyrinth
-    private int maxScreenCol;
-    private int maxScreenRow;
     // dimensions in pixel of the jpanel
-    private int screenWidth;
-    private int screenHeight;
+    private final int screenWidth;
+    private final int screenHeight;
 
     // game states to define the current state of the game
     private int gameState;
-    private final int titelState = 0;
+    private final int titleState = 0;
     private final int ingameState = 1;
     private final int pauseState = 2;
     private final int wonState = 3;
     private final int levelSelectState = 4;
     private final int looseState = 5;
     private final int respawnState = 6;
+
+    // has started a game
+    private boolean startedGame;
 
     // create game tile array containing a encoded integer value for each tile in labyrinth
     public int[][] gameTiles;
@@ -65,7 +66,7 @@ public class Game extends JPanel implements Runnable{
 
     // counters
     public int pointCounter;
-    public int secondsPlayed;
+
     // count the time in 1 / FPS seconds to be able to set a respawn time
     public int respawnTimer;
 
@@ -80,7 +81,7 @@ public class Game extends JPanel implements Runnable{
     // counts the current frame of a second
     public int currentFrame = 0;
 
-    // debug strings for a general debugging output in the console if debug is anabled
+    // debug strings for a general debugging output in the console if debug is enabled, not used yet
     public String debugStandardString = "[DEBUG][" + System.nanoTime()/1000000000 + "] ";
 
     // collision management
@@ -91,7 +92,7 @@ public class Game extends JPanel implements Runnable{
 
     // instance creation
     public Ui ui = new Ui(this);
-    private LevelData lvlDat = new LevelData();
+    private final LevelData lvlDat = new LevelData();
     public Utils utils = new Utils();
     public Timer timer = new Timer();
     public PacMan pacMan;
@@ -105,12 +106,11 @@ public class Game extends JPanel implements Runnable{
 
 
     // constructor
-    public Game(int col, int row) {
+    public Game(int col, int row) { // col: 30; row: 20;
         // default settings
-        this.maxScreenCol = col; // 30
-        this.maxScreenRow = row; // 20
-        this.screenWidth = tileSize * maxScreenCol; // 1440
-        this.screenHeight = tileSize * maxScreenRow; // 960
+        this.screenWidth = tileSize * col; // 1440
+        this.screenHeight = tileSize * row; // 960
+        startedGame = false;
 
         // jpanel settings
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -127,34 +127,63 @@ public class Game extends JPanel implements Runnable{
     // initialize the game and setup all required variables
     public void setupGame() {
         // set default gamestate
-        this.gameState = titelState;
+        this.gameState = titleState;
 
         // set all counters to 0
         this.pointCounter = 0;
         timer.reset();
 
+        if (!startedGame) {
+            resetGame();
+        }
+    }
+
+    // starts the game
+    public void startGame() {
+        resetGame();
+        switchIngame();
+        // resets timer
+        timer.reset();
+        // start timer
+        timer.start();
+        // set game-started boolean to true to show a level is saved and can be loaded
+        startedGame = true;
+    }
+
+    // resume on the saved game, only one can be saved and will be deleted if game is started via start
+    public void resumeGame() {
+        switchIngame();
+        timer.resume();
+    }
+
+    // load new game
+    public void resetGame() {
         // load field array
         // load level from path in levelSelected
         String levelString = utils.getFileAsString("levels/" + levelSelected);
 
         // load level from path
-        if (levelString != utils.errorState) {
+            /*
+            equivalent to levelString != utils.errorState
+             */
+        if (!Objects.equals(levelString, utils.errorState)) {
             // assigns 2d array to gametiles 2d array
             this.gameTiles = utils.stringTo2DArray(levelString);
 
-        // load default hardcoded level if levelString is error-state wich is a constant in utils class
+            // load default hardcoded level if levelString is error-state wich is a constant in utils class
         } else {
             try {
                 String levelData = utils.getStringFrom2DArray(lvlDat.levelOne);
-            BufferedWriter h = new BufferedWriter(
-                new FileWriter("levels/" + levelSelected));
-            h.write(levelData);
-            h.close();
-            // assigns 2d array of hardcoded level to gametiles 2d array
-            this.gameTiles = lvlDat.levelOne;
+                BufferedWriter h = new BufferedWriter(
+                        new FileWriter("levels/" + levelSelected)
+                );
+                h.write(levelData);
+                h.close();
+                // assigns 2d array of hardcoded level to gametiles 2d array
+                this.gameTiles = lvlDat.levelOne;
 
-            } catch(IOException g) {
-                g.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
 
@@ -190,7 +219,7 @@ public class Game extends JPanel implements Runnable{
     public void run() {
 
         // time in nanoseconds for one interval
-        double drawInterval = 1000000000 / FPS;
+        double drawInterval = (double) 1000000000 / FPS;
         // value between zero and one to indicate if time for the current frame is passed
         double delta = 0;
         // time in nanoseconds
@@ -246,7 +275,8 @@ public class Game extends JPanel implements Runnable{
 
         // back to main menu when esc pressed
         if (keyHand.esc) {
-            gameState = titelState;
+            switchTitle();
+
         }
         
         // ingame
@@ -350,7 +380,7 @@ public class Game extends JPanel implements Runnable{
         }
 
         // Title screen
-        if (gameState == titelState) {
+        if (gameState == titleState) {
             // title ui
             ui.drawTitle(g2);
         }
@@ -413,7 +443,7 @@ public class Game extends JPanel implements Runnable{
     }
 
     public int getTitleState() {
-        return titelState;
+        return titleState;
     }
 
     public int getIngameState() {
@@ -440,6 +470,10 @@ public class Game extends JPanel implements Runnable{
         return respawnState;
     }
 
+    public boolean getStartGame() {
+        return startedGame;
+    }
+
 
     // get tile at width height
     public int getTile(int width, int height) {
@@ -457,10 +491,9 @@ public class Game extends JPanel implements Runnable{
         return scale;
     }
 
-    // set methods
-    // game stages
+    // switch game stages
     public void switchTitle() {
-        gameState = titelState;
+        gameState = titleState;
     }
 
     public void switchIngame() {
@@ -468,6 +501,7 @@ public class Game extends JPanel implements Runnable{
     }
 
     public void switchPause() {
+        timer.pause();
         gameState = pauseState;
     }
 
@@ -493,9 +527,14 @@ public class Game extends JPanel implements Runnable{
         // create new array with a by 1 greater size than previously
         Collider[] newColliders = new Collider[newColLength];
         // add all current colliders to new array
+        System.arraycopy(colliders, 0, newColliders, 0, colliders.length);
+        /* equivalent to:
+
         for (int i = 0; i < colliders.length; i++) {
             newColliders[i] = colliders[i];
         }
+
+         */
         // add new collider at the back of the new array
         newColliders[newColLength - 1] = col;
         // assign the new collider array to the old one
@@ -547,19 +586,8 @@ public class Game extends JPanel implements Runnable{
             ghost.x = currentX;
             ghost.y = currentY;
 
-            ghost.step = (int) ghost.lastStep;
+            ghost.step = ghost.lastStep;
             ghost.exitPacManEmpowered();
         }
     }
-
-    // starts the game
-    public void startGame() {
-        gameState = ingameState;
-        // resets timer
-        timer.reset();
-        // start timer
-        timer.start();
-    }
-
-    
 }

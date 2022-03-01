@@ -36,6 +36,10 @@ public class Ui {
     public int levelSelectButtonX;
     public int levelSelectButtonY;
 
+    // resume button cords
+    public int resumeButtonX;
+    public int resumeButtonY;
+
     public int[] levelButtonX = new int[10];
     public int[] levelButtonY = new int[10];
     public String[] levelStrings = new String[10];
@@ -202,6 +206,23 @@ public class Ui {
 
         g2.setFont(defaultFont.deriveFont(fontSize));
         g2.drawString(str, mlX, mlY);
+
+        // resume button if game was started
+        str = "Resume";
+        fontSize = 40f;
+        int rX = getXForCenteredText(defaultFont.deriveFont(fontSize), str);
+        int rY = Math.round(game.getHeight() - game.getHeight() * 0.5f);
+        g2.setFont(defaultFont.deriveFont(fontSize));
+
+        resumeButtonX = rX;
+        resumeButtonY = rY;
+        if (game.getStartGame()) {
+            g2.setColor(Color.white);
+        } else {
+            g2.setColor(Color.gray);
+        }
+
+        g2.drawString(str, rX, rY);
 
     }
 
