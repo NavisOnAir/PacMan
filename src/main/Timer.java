@@ -2,8 +2,6 @@ package main;
 
 public class Timer {
     // time variables
-    private long nanoSeconds; // current time in nanoseconds
-    private double seconds; // current time in seconds
     private long startTime; // time when the timer was started
     private boolean isStopped;
     private long stoppedTime; // time when the timer was paused
