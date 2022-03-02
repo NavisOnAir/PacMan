@@ -100,11 +100,14 @@ public class Ui {
 
         // interface drawing
         int buttomMargin = 10;
-        g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 20));
-        g2.setColor(Color.white);
-        g2.drawString("TPS:" + Integer.toString(game.currentTPS), 10, 30);
+        // fps / tps counters
+        if (game.isDebugMode) {
+            g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 20));
+            g2.setColor(Color.white);
+            g2.drawString("TPS:" + Integer.toString(game.currentTPS), 10, 30);
 
-        g2.drawString("FPS:" + Integer.toString(game.currentFPS), 10, 55);
+            g2.drawString("FPS:" + Integer.toString(game.currentFPS), 10, 55);
+        }        
 
         // stop button
         String str = "Stop";
