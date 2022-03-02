@@ -49,8 +49,14 @@ public class Timer {
         isStopped = true;
     }
 
+    // get
     // return if timer is paused
     public boolean getStopped() {
         return isStopped;
     }
+
+    public long getNanoToSecondsConstant() {
+        return nanoToSecondsConstant;
+    }
+
 }

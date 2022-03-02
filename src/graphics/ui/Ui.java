@@ -121,7 +121,7 @@ public class Ui {
 
         // timer
         long currentTimePassed = game.timer.getTimeInNanoSeconds();
-        double currentSeconds = (double) currentTimePassed / 1000000000;
+        double currentSeconds = (double) currentTimePassed / game.timer.getNanoToSecondsConstant();
         DecimalFormat f = new DecimalFormat("##.00");
         String strTimer = "Time: " + f.format(currentSeconds);
         int tX = 50;
@@ -308,9 +308,12 @@ public class Ui {
         g2.setColor(Color.white);
         g2.drawString(str, dX, dY);
 
+        // format time
+        DecimalFormat f = new DecimalFormat("##.00");
+        double seconds = game.timer.getTimeInNanoSeconds() / game.timer.getNanoToSecondsConstant();
         // current points and time
         String points = "Your Points: " + Integer.toString(game.pointCounter);
-        String time = String.valueOf(game.timer.getTimeInSeconds()) + " s";
+        String time = String.valueOf(f.format(seconds)) + " s";
 
         // position of strings
         int pointsStrX = getXForCenteredText(defaultFont.deriveFont(fontSize), points);

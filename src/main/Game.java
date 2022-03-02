@@ -525,6 +525,7 @@ public class Game extends JPanel implements Runnable{
     public void switchLoose() {
         pacMan.dieEvent();
         gameState = looseState;
+        timer.pause();
 
     }
 
