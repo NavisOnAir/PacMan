@@ -47,7 +47,7 @@ public class Game extends JPanel implements Runnable{
     private final int respawnState = 6;
 
     // has started a game
-    private boolean startedGame;
+    private boolean isGameStarted;
 
     // create game tile array containing a encoded integer value for each tile in labyrinth
     public int[][] gameTiles;
@@ -110,7 +110,7 @@ public class Game extends JPanel implements Runnable{
         // default settings
         this.screenWidth = tileSize * col; // 1440
         this.screenHeight = tileSize * row; // 960
-        startedGame = false;
+        isGameStarted = false;
 
         // jpanel settings
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -133,7 +133,7 @@ public class Game extends JPanel implements Runnable{
         this.pointCounter = 0;
         timer.reset();
 
-        if (!startedGame) {
+        if (!isGameStarted) {
             resetGame();
         }
     }
@@ -147,7 +147,7 @@ public class Game extends JPanel implements Runnable{
         // start timer
         timer.start();
         // set game-started boolean to true to show a level is saved and can be loaded
-        startedGame = true;
+        isGameStarted = true;
     }
 
     // resume on the saved game, only one can be saved and will be deleted if game is started via start
@@ -275,6 +275,7 @@ public class Game extends JPanel implements Runnable{
 
         // back to main menu when esc pressed
         if (keyHand.esc) {
+            timer.pause();
             switchTitle();
 
         }
@@ -480,7 +481,7 @@ public class Game extends JPanel implements Runnable{
     }
 
     public boolean getStartGame() {
-        return startedGame;
+        return isGameStarted;
     }
 
 
@@ -526,6 +527,7 @@ public class Game extends JPanel implements Runnable{
         pacMan.dieEvent();
         gameState = looseState;
         timer.pause();
+        isGameStarted = false;
 
     }
 
