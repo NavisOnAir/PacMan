@@ -1,10 +1,17 @@
 PacMan
 
-Anforderungen:
-Java 9
+Funktionen:
+- PacMan kann mit WASD oder Pfeiltasten durch das Labyrinth gesteuert werden, er bewegt sich von alleine, die Richtung wird geändert
+- Esc als back to main menu Taste
+- Geister bewegen sich zufällig und können mit PacMan kollidieren und ihm Leben abziehen
+- Level können als .lvl Datei in einem "2d array" geladen werden (Auswahl von Leveln)
+- Die Geister sowie PacMan haben Animationen
+- PacMan kann eine Power Pille essen, um die Geister zurückzusetzen
+- Beim zurück gehen in das Hauptmenu wird das aktuelle Spiel gespeichert und kann über resume wieder geöffnet werden. Mit Start kann ein neues Spiel gestarted werden
+- Wenn man gewonnen oder verloren hat, wird die Punktzahl, sowie die Zeit angezeigt
+- Das Spiel kann über stop pausiert und dann über start fortgesetzt werden
 
 Klassenbeschreibungen
-
 ### Game
 Diese Klasse beinhaltet die Hauptfunktionen des Labyrinths und beinhaltet den Game loop. Sie bildet das Grundgerüst für alle Objekte, unter anderem Encodings für die tiles des Labyrinthes.
 
