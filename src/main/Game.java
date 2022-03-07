@@ -162,6 +162,9 @@ public class Game extends JPanel implements Runnable{
         // load level from path in levelSelected
         String levelString = utils.getFileAsString("levels/" + levelSelected);
 
+        // resets points counter
+        pointCounter = 0;
+
         // load level from path
             /*
             equivalent to levelString != utils.errorState
