@@ -14,10 +14,7 @@ import object.collision.Collider;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.File;
+import java.io.*;
 import java.util.Objects;
 
 // implements runnable as interface for the game thread
@@ -161,24 +158,31 @@ public class Game extends JPanel implements Runnable{
     public void resetGame() {
         // load field array
         // load level from path in levelSelected
-        String levelString;
+        String levelString = "ERROR";
         if (!new File("levels/").exists()) {
             // creates the directory for level files
             File dir = new File("levels/");
             dir.mkdir();
 
             // load a default level
-            LevelData data = new LevelData();
-            levelString = utils.getStringFrom2DArray(data.levelOne);
+            levelString = utils.getStringFrom2DArray(LevelData.levelOne);
 
             // create default level level-file
+            File outputFile;
+            outputFile = new File("levels/level1.lvl");
             try {
-                File levelFile = new File("levels/level1.lvl");
-                levelFile.createNewFile();
-                FileWriter writer = new FileWriter(levelFile, false);
-                writer.write(levelString);
+                outputFile.createNewFile();
             } catch (IOException e) {
                 e.printStackTrace();
+            }
+
+            try (FileWriter writer = new FileWriter("levels/level1.lvl")) {
+                System.out.println("Writing Level...");
+                writer.write(utils.getStringFrom2DArray(LevelData.levelOne));
+                writer.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+                System.out.println("Failed to write Level!");
             }
 
         } else {
