@@ -17,6 +17,7 @@ import java.awt.Graphics2D;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.File;
 import java.util.Objects;
 
 // implements runnable as interface for the game thread
@@ -160,7 +161,29 @@ public class Game extends JPanel implements Runnable{
     public void resetGame() {
         // load field array
         // load level from path in levelSelected
-        String levelString = utils.getFileAsString("levels/" + levelSelected);
+        String levelString;
+        if (!new File("levels/").exists()) {
+            // creates the directory for level files
+            File dir = new File("levels/");
+            dir.mkdir();
+
+            // load a default level
+            LevelData data = new LevelData();
+            levelString = utils.getStringFrom2DArray(data.levelOne);
+
+            // create default level level-file
+            try {
+                File levelFile = new File("levels/level1.lvl");
+                levelFile.createNewFile();
+                FileWriter writer = new FileWriter(levelFile, false);
+                writer.write(levelString);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        } else {
+            levelString = utils.getFileAsString("levels/" + levelSelected);
+        }
 
         // resets points counter
         pointCounter = 0;
